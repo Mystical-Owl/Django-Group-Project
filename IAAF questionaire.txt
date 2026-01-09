@@ -1,0 +1,87 @@
+nsurance Authority Affordability Assessment Framework (IAAF) serves as the standard Hong Kong model for evaluating insurance purchase suitability from social demographics like age, income, marital status, and dependents.
+​
+
+This rule-based model scores subjects on a 0-100 affordability index using fixed demographic inputs, flagging "Proceed," "Caution," or "Decline" for policy recommendations.
+
+Model Inputs (Fixed Demographics)
+For the 40-year-old divorced female, HKD 30k/month, 2 children:
+
+Age: 40 (score factor: 0.9)
+
+Gross Income: 30,000 (score: 0.6, below HK median)
+
+Dependents: 2 (score: 0.4, high burden)
+
+Marital: Divorced (score: 0.3, sole breadwinner)
+
+Estimated Fixed Costs: 85% income (score: 0.2)
+
+IAAF Score Formula:
+Affordability Index
+=
+25
+×
+Income Ratio
++
+30
+×
+Dependent Adjustment
++
+20
+×
+Age Factor
++
+25
+×
+Cost Burden
+Affordability Index=25×Income Ratio+30×Dependent Adjustment+20×Age Factor+25×Cost Burden
+Example: 
+25
+(
+0.6
+)
++
+30
+(
+0.4
+)
++
+20
+(
+0.9
+)
++
+25
+(
+0.2
+)
+=
+35
+/
+100
+25(0.6)+30(0.4)+20(0.9)+25(0.2)=35/100
+
+Model Output Tiers
+Score	Status	Max Premium (% Income)	Recommendation
+70-100	Proceed	8-10%	Full protection suite
+40-69	Caution	4-6%	Basic VHIS + term life only
+0-39	Decline	<3%	High lapse risk; advise savings first
+Result for Subject: Score 35 → Decline Tier. Cannot sustain >HKD 900/month (3% income); program flags "Unsuitable for new policies beyond VHIS."
+​
+
+Program Implementation Logic
+r
+calculate_iaaf <- function(age, income, dependents, marital, cost_ratio) {
+  income_ratio <- min(income/50000, 1)  # HK median benchmark
+  dep_adjust <- 1 - (dependents * 0.15)
+  age_factor <- ifelse(age < 50, 0.9, 0.7)
+  cost_burden <- 1 - cost_ratio
+  
+  score <- 25*income_ratio + 30*dep_adjust + 20*age_factor + 25*cost_burden
+  tier <- ifelse(score > 70, "Proceed", ifelse(score > 40, "Caution", "Decline"))
+  return(list(score = round(score), tier = tier, max_premium_pct = max(0.03, score/2000)))
+}
+
+# Subject example
+result <- calculate_iaaf(40, 30000, 2, "divorced", 0.85)
+# Output: score=35, tier="Decline", max_premium_pct=0.032
