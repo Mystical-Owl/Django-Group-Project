@@ -1,0 +1,36 @@
+
+
+created new database admin 
+for the new database 
+with new database table names
+
+steps:
+
+1. create a new db admin:
+
+sudo -u postgres createuser --createdb djdbadmin --pwprompt
+
+1.1. first enter the password for your local system os admin
+
+1.2. then enter a new password for the new database administrator, e.g. 0
+
+2. go into psql prompt
+
+sudo -u postgres psql
+
+3. inside psql prompt, create new database with new db admin as owner
+
+create database djgrpprojdb owner djdbadmin;
+
+4. inside psql prompt, add privileges
+
+GRANT ALL PRIVILEGES ON DATABASE djgrpprojdb TO djdbadmin;
+
+5. exit the psql prompt
+
+\q
+
+6. check with pgAdmin for the new database
+
+
+

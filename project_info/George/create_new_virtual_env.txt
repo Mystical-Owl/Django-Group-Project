@@ -1,0 +1,14 @@
+
+
+mkvirtualenv erb8p
+workon erb8p
+pip install asgiref==3.11.0
+pip install sqlparse==0.5.5
+pip install python-dotenv==1.2.1
+pip install Django==5.2
+pip install pillow==12.0.0
+pip install django-debug-toolbar==6.1.0
+pip install django-taggit==6.1.0
+pip install django-widget-tweaks==1.5.1
+pip install psycopg2==2.9.11
+
