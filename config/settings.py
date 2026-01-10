@@ -49,7 +49,7 @@ DJANGO_APPS = [
 ]
 
 APPLICATION_APPS = [
-
+    # project apps
 ]
 
 THIRD_PARTY_APPS = [
@@ -73,13 +73,13 @@ else:
 
 # Middleware definition
 
-THIRD_PARTY_MIDDLEWARE = [
+DEBUG_MIDDLEWARE = [
     # for django debug toolbar:
     # The order of MIDDLEWARE is important. You should include the Debug Toolbar middleware as early as possible in the list. However, it must come after any other middleware that encodes the response’s content, such as GZipMiddleware.
     "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
-DEBUG_MIDDLEWARE = [
+DJANGO_MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
