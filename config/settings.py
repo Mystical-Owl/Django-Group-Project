@@ -52,6 +52,7 @@ APPLICATION_APPS = [
     # project apps
     'questionaires.apps.QuestionairesConfig',
     'questionaire_answers.apps.QuestionaireAnswersConfig',
+    'investment_types.apps.InvestmentTypesConfig',
     'investment_choices.apps.InvestmentChoicesConfig',
     'investment_datas.apps.InvestmentDatasConfig',
     'user_investments.apps.UserInvestmentsConfig',

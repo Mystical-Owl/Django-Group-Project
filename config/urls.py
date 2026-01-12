@@ -19,14 +19,21 @@ from django.urls import path
 from django.urls import include
 from django.conf import settings # Import settings
 
+### add import for django debug toolbar
+from config.settings import IS_DEVELOPMENT
+from debug_toolbar.toolbar import debug_toolbar_urls
+
 urlpatterns = [
     path('admin/', admin.site.urls),
 ]
 
 
-if settings.DEBUG:
-    import debug_toolbar
-    urlpatterns += [
-        path('__debug__/', include(debug_toolbar.urls)),
-    ]
+if IS_DEVELOPMENT:
+    urlpatterns += debug_toolbar_urls()
+
+# if settings.DEBUG:
+#     import debug_toolbar
+#     urlpatterns += [
+#         path('__debug__/', include(debug_toolbar.urls)),
+#     ]
 
