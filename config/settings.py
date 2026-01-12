@@ -50,6 +50,12 @@ DJANGO_APPS = [
 
 APPLICATION_APPS = [
     # project apps
+    'questionaires.apps.QuestionairesConfig',
+    'questionaire_answers.apps.QuestionaireAnswersConfig',
+    'investment_choices.apps.InvestmentChoicesConfig',
+    'investment_datas.apps.InvestmentDatasConfig',
+    'user_investments.apps.UserInvestmentsConfig',
+    'user_questionaire_answers.apps.UserQuestionaireAnswersConfig',
 ]
 
 THIRD_PARTY_APPS = [
@@ -58,7 +64,7 @@ THIRD_PARTY_APPS = [
 ]
 
 DEBUG_APPS = [
-    "debug_toolbar",
+    # "debug_toolbar",
 ]
 
 if IS_DEVELOPMENT:
@@ -76,7 +82,7 @@ else:
 DEBUG_MIDDLEWARE = [
     # for django debug toolbar:
     # The order of MIDDLEWARE is important. You should include the Debug Toolbar middleware as early as possible in the list. However, it must come after any other middleware that encodes the response’s content, such as GZipMiddleware.
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
+    # "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 DJANGO_MIDDLEWARE = [
