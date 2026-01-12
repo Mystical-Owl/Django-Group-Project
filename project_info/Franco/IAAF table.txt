@@ -5,7 +5,7 @@
 
 ╔══════════════════════════════════════════════════════════════╗  ← Light blue box #1
 ║  LEFT SIDE (Question + Description)      │ RIGHT SIDE (Ticks) ║
-║                                          │                    ║
+║                                                                            │                    ║
 ║  1. Annual Income                        │  ☐ < HKD 300K      ║
 ║  What is your yearly salary before tax?  │  ☐ HKD 300K-800K    ║
 ║                                          │  ☑ HKD 800K-2M      ║  ← TICK SELECTED
