@@ -187,3 +187,4 @@ cython_debug/
 ## must include back __init__.py
 !**/migrations/__init__.py
 
+.DS_Store
