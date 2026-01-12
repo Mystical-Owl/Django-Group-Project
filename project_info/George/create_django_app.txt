@@ -1,0 +1,9 @@
+
+
+python manage.py startapp questionaires
+python manage.py startapp questionaire_answers
+python manage.py startapp investment_choices
+python manage.py startapp investment_datas
+python manage.py startapp user_investments
+python manage.py startapp user_questionaire_answers
+
