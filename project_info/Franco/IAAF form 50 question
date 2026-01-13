@@ -1,0 +1,54 @@
+Question_No,Question,Response,Score,Weight
+1,Q1. Annual Income (Before Tax),< HKD 300,000,0.2,0.10
+1,Q1. Annual Income (Before Tax),HKD 300K-799K,0.5,0.10
+1,Q1. Annual Income (Before Tax),HKD 800K-1.9M,0.8,0.10
+1,Q1. Annual Income (Before Tax),HKD 2M-5M,0.95,0.10
+1,Q1. Annual Income (Before Tax),> HKD 5M,1.0,0.10
+2,Q2. Income Stability,Employed >5 years,1.0,0.10
+2,Q2. Income Stability,Employed 2-5 years,0.7,0.10
+2,Q2. Income Stability,Self-employed,0.5,0.10
+2,Q2. Income Stability,Freelance/Contract,0.3,0.10
+2,Q2. Income Stability,Unemployed,0.0,0.10
+3,Q3. Bonus/Investment Income (% of total),0-10%,0.9,0.10
+3,Q3. Bonus/Investment Income (% of total),11-25%,0.7,0.10
+3,Q3. Bonus/Investment Income (% of total),26-50%,0.4,0.10
+3,Q3. Bonus/Investment Income (% of total),>50%,0.2,0.10
+4,Q4. MPF/Obligatory Contributions (% income),<5%,1.0,0.10
+4,Q4. MPF/Obligatory Contributions (% income),5-10%,0.9,0.10
+4,Q4. MPF/Obligatory Contributions (% income),11-15%,0.6,0.10
+4,Q4. MPF/Obligatory Contributions (% income),>15%,0.3,0.10
+5,Q5. Number of Dependents,0,1.0,0.0875
+5,Q5. Number of Dependents,1,0.8,0.0875
+5,Q5. Number of Dependents,2,0.5,0.0875
+5,Q5. Number of Dependents,3,0.3,0.0875
+5,Q5. Number of Dependents,4+,0.1,0.0875
+6,Q6. Age Group,<35,1.0,0.0875
+6,Q6. Age Group,35-50,0.9,0.0875
+6,Q6. Age Group,51-65,0.7,0.0875
+6,Q6. Age Group,66+,0.4,0.0875
+7,Q7. Marital Status,Single/no deps,0.7,0.0875
+7,Q7. Marital Status,Married/dual inc,0.9,0.0875
+7,Q7. Marital Status,Married/single inc,0.6,0.0875
+7,Q7. Marital Status,Divorced,0.4,0.0875
+7,Q7. Marital Status,Widowed,0.3,0.0875
+8,Q8. Caregiving Responsibilities,None,1.0,0.0875
+8,Q8. Caregiving Responsibilities,Elderly parents,0.7,0.0875
+8,Q8. Caregiving Responsibilities,Young children,0.5,0.0875
+8,Q8. Caregiving Responsibilities,Both,0.2,0.0875
+9,Q9. Monthly Fixed Expenses (% Income),<60%,1.0,0.0625
+9,Q9. Monthly Fixed Expenses (% Income),60-75%,0.8,0.0625
+9,Q9. Monthly Fixed Expenses (% Income),75-90%,0.4,0.0625
+9,Q9. Monthly Fixed Expenses (% Income),>90%,0.1,0.0625
+10,Q10. Liquid Assets (Cash/Deposits/Stocks),<HKD 300K,0.2,0.0625
+10,Q10. Liquid Assets (Cash/Deposits/Stocks),HKD 300K-1M,0.4,0.0625
+10,Q10. Liquid Assets (Cash/Deposits/Stocks),HKD 1M-3M,0.7,0.0625
+10,Q10. Liquid Assets (Cash/Deposits/Stocks),HKD 3M-6M,0.9,0.0625
+10,Q10. Liquid Assets (Cash/Deposits/Stocks),>HKD 6M,1.0,0.0625
+11,Q11. Debt Servicing Ratio,<20% of income,1.0,0.0625
+11,Q11. Debt Servicing Ratio,20-40%,0.6,0.0625
+11,Q11. Debt Servicing Ratio,40-60%,0.3,0.0625
+11,Q11. Debt Servicing Ratio,>60%,0.0,0.0625
+12,Q12. Existing Insurance Premiums (% Income),<5%,1.0,0.0625
+12,Q12. Existing Insurance Premiums (% Income),5-10%,0.6,0.0625
+12,Q12. Existing Insurance Premiums (% Income),10-15%,0.3,0.0625
+12,Q12. Existing Insurance Premiums (% Income),>15%,0.0,0.0625
