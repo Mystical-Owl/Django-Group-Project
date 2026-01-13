@@ -1,0 +1,49 @@
+
+How to put old projects into github:
+
+1. make sure the old project is inside its own folder, and not inside any other git folder
+
+2. go to your github account and create a new empty repository
+
+2.1. after creating the new repository, note the SSH key
+
+2.1.1. example SSH key:
+
+git@github.com:Mystical-Owl/Django-Group-Project.git
+
+3. cd into the old project folder
+
+4. start git by using these commands:
+
+git init
+
+git add .
+
+git commit -m 'init'
+
+5. copy the SSH key and link local git project to the github repository:
+
+git remote add origin git@github.com:some-account-name/repo-name.git
+
+6. push local files to github:
+
+git push -u origin master
+
+-------------------------------------------------------------------------
+
+How to change current github repository into a new github repository:
+
+1. do step 2 above
+
+2. do step 3 above
+
+3. remove the current link to the old github repository:
+
+git remote remove origin
+
+4. copy the new SSH key and link local git project to the new github repository:
+
+git remote add origin git@github.com:could-be-some-other-account-name/new-repo-name.git
+
+5. do step 6 above
+
