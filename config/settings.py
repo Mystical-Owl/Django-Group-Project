@@ -57,6 +57,7 @@ APPLICATION_APPS = [
     'investment_datas.apps.InvestmentDatasConfig',
     'user_investments.apps.UserInvestmentsConfig',
     'user_questionaire_answers.apps.UserQuestionaireAnswersConfig',
+    'pages.apps.PagesConfig',
 ]
 
 THIRD_PARTY_APPS = [
@@ -111,7 +112,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
