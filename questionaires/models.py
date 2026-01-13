@@ -7,6 +7,7 @@ from .choices import questionaire_types
 class Questionaire (models.Model) :
     questionaire_statement = models.CharField (max_length=1000)
     questionaire_type = models.CharField (max_length=20, choices=questionaire_types.items())
+    sort_order = models.IntegerField (blank=True, null=True)
 
     def __str__ (self) :
         return self.question_stmt
