@@ -1,6 +1,6 @@
 
 
-created new database admin 
+How to create new database admin 
 for the new database 
 with new database table names
 
@@ -13,6 +13,10 @@ sudo -u postgres createuser --createdb djdbadmin --pwprompt
 1.1. first enter the password for your local system os admin
 
 1.2. then enter a new password for the new database administrator, e.g. 0
+
+1.3. or create the new user inside psql prompt:
+
+CREATE USER djdbadmin WITH PASSWORD '0';
 
 2. go into psql prompt
 
