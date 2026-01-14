@@ -21,7 +21,7 @@
           <a class="nav-link" href={% url 'pages:about' %}>About</a>
         </li>
         <li {% if '/listings/' == request.path %} class="nav-item active mr-3" {% else %} class="nav-item mr-3" {% endif %}>
-          <a class="nav-link" href={% url 'listings:index' %}>
+          <a class="nav-link" href="#">
             Inpatient medical services
           </a>
         </li>
@@ -30,7 +30,7 @@
       <ul class="navbar-nav ml-auto">
         {% if user.is_authenticated %}
          <li {% if 'dashboard' in request.path %} class="nav-item mr-3 active" {% else %} class="nav-item mr-3" {% endif %}>
-          <a class="nav-link" href="{% url 'accounts:dashboard' %}">
+          <a class="nav-link" href="#">
             <i class="fas fa-user-plus"></i> Welcome {{ user.username }} (dashboard)</a
           >
         </li>
@@ -39,19 +39,19 @@
           <a href="javascript:{document.getElementById('logout').submit()}" class="nav-link">
             <i class="fas fa-sign-out-alt"></i>Logout
           </a>
-    <form action="{% url 'accounts:logout' %}" method="POST" id="logout">
+    <form action="#" method="POST" id="logout">
       {% csrf_token %}
       <input type="hidden"/>
     </form>
         </li>
         {% else %}
         <li {% if 'register' in request.path %} class="nav-item mr-3 active" {% else %} class="nav-item mr-3" {% endif %}>
-          <a class="nav-link" href="{% url 'accounts:register' %}">
+          <a class="nav-link" href="#">
             <i class="fas fa-user-plus"></i> Register</a
           >
         </li>
          <li {% if 'login' in request.path %} class="nav-item mr-3 active" {% else %} class="nav-item mr-3" {% endif %}>
-          <a class="nav-link" href="{% url 'accounts:login' %}">
+          <a class="nav-link" href="#">
             <i class="fas fa-sign-in-alt"></i>
 
             Login</a
