@@ -1,51 +1,52 @@
 Question_No,Question,Response,Score
+1,In uncertain times I usually expect the best.,0,0
+1,In uncertain times I usually expect the best.,1,1
+1,In uncertain times I usually expect the best.,2,2
 1,In uncertain times I usually expect the best.,3,3
 1,In uncertain times I usually expect the best.,4,4
-1,In uncertain times I usually expect the best.,2,2
-1,In uncertain times I usually expect the best.,1,1
-1,In uncertain times I usually expect the best.,4,4
-2,It's easy for me to relax.,2,0
-2,It's easy for me to relax.,1,0
-2,It's easy for me to relax.,3,0
-2,It's easy for me to relax.,4,0
 2,It's easy for me to relax.,0,0
+2,It's easy for me to relax.,1,1
+2,It's easy for me to relax.,2,2
+2,It's easy for me to relax.,3,3
+2,It's easy for me to relax.,4,4
+3,If something can go wrong for me it will.,0,4
 3,If something can go wrong for me it will.,1,3
-3,If something can go wrong for me it will.,0,4
 3,If something can go wrong for me it will.,2,2
+3,If something can go wrong for me it will.,3,1
 3,If something can go wrong for me it will.,4,0
-3,If something can go wrong for me it will.,0,4
-4,I'm always optimistic about my future.,4,4
-4,I'm always optimistic about my future.,3,3
-4,I'm always optimistic about my future.,2,2
+4,I'm always optimistic about my future.,0,0
 4,I'm always optimistic about my future.,1,1
+4,I'm always optimistic about my future.,2,2
+4,I'm always optimistic about my future.,3,3
 4,I'm always optimistic about my future.,4,4
-5,I enjoy my friends a lot.,4,0
-5,I enjoy my friends a lot.,3,0
-5,I enjoy my friends a lot.,1,0
-5,I enjoy my friends a lot.,2,0
-5,I enjoy my friends a lot.,4,0
-6,It's important for me to keep busy.,3,0
-6,It's important for me to keep busy.,2,0
-6,It's important for me to keep busy.,4,0
-6,It's important for me to keep busy.,1,0
-6,It's important for me to keep busy.,4,0
+5,I enjoy my friends a lot.,0,0
+5,I enjoy my friends a lot.,1,1
+5,I enjoy my friends a lot.,2,2
+5,I enjoy my friends a lot.,3,3
+5,I enjoy my friends a lot.,4,4
+6,It's important for me to keep busy.,0,0
+6,It's important for me to keep busy.,1,1
+6,It's important for me to keep busy.,2,2
+6,It's important for me to keep busy.,3,3
+6,It's important for me to keep busy.,4,4
 7,I hardly ever expect things to go my way.,0,4
 7,I hardly ever expect things to go my way.,1,3
+7,I hardly ever expect things to go my way.,2,2
 7,I hardly ever expect things to go my way.,3,1
 7,I hardly ever expect things to go my way.,4,0
-7,I hardly ever expect things to go my way.,0,4
-8,I don't get upset too easily.,2,0
-8,I don't get upset too easily.,4,0
-8,I don't get upset too easily.,1,0
-8,I don't get upset too easily.,3,0
-8,I don't get upset too easily.,2,0
+8,I don't get upset too easily.,0,0
+8,I don't get upset too easily.,1,1
+8,I don't get upset too easily.,2,2
+8,I don't get upset too easily.,3,3
+8,I don't get upset too easily.,4,4
+9,I rarely count on good things happening to me.,0,4
 9,I rarely count on good things happening to me.,1,3
 9,I rarely count on good things happening to me.,2,2
-9,I rarely count on good things happening to me.,0,4
 9,I rarely count on good things happening to me.,3,1
-9,I rarely count on good things happening to me.,0,4
+9,I rarely count on good things happening to me.,4,0
+10,Overall I expect more good things to happen to me than bad.,0,0
+10,Overall I expect more good things to happen to me than bad.,1,1
+10,Overall I expect more good things to happen to me than bad.,2,2
 10,Overall I expect more good things to happen to me than bad.,3,3
 10,Overall I expect more good things to happen to me than bad.,4,4
-10,Overall I expect more good things to happen to me than bad.,2,2
-10,Overall I expect more good things to happen to me than bad.,0,0
-10,Overall I expect more good things to happen to me than bad.,4,4
+
