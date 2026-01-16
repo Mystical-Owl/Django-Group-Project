@@ -8,6 +8,7 @@ class QuestionaireAnswer (models.Model) :
     questionaire = models.ForeignKey (Questionaire, on_delete=models.DO_NOTHING)
     questionaire_answer = models.CharField (max_length=50)
     answer_score = models.IntegerField ()
+    sort_order = models.IntegerField (blank=True, null=True)
 
     def __str__ (self) :
         return self.questionaire_answer

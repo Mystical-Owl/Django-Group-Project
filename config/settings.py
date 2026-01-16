@@ -57,6 +57,7 @@ APPLICATION_APPS = [
     'investment_datas.apps.InvestmentDatasConfig',
     'user_investments.apps.UserInvestmentsConfig',
     'user_questionaire_answers.apps.UserQuestionaireAnswersConfig',
+    'pages.apps.PagesConfig',
 ]
 
 THIRD_PARTY_APPS = [
@@ -111,7 +112,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -176,7 +177,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
+## after creating the 'static' folder under config,
+## add lines to define more paths.
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'config/static'),
+]
+
+## original line:
+# STATIC_URL = 'static/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

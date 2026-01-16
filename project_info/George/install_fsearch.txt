@@ -1,0 +1,10 @@
+
+
+7. ubuntu fsearch how to search inside hidden directory
+### sudo snap connect fsearch:removable-media
+7.1. fsearch from snap store cannot search inside hidden directory
+7.2. use terminal to install the "good" version:
+sudo add-apt-repository ppa:christian-boxdoerfer/fsearch-stable
+sudo apt update
+sudo apt -y install fsearch
+

@@ -17,13 +17,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls import include
-from django.conf import settings # Import settings
+# from django.conf import settings # Import settings
 
 ### add import for django debug toolbar
 from config.settings import IS_DEVELOPMENT
 from debug_toolbar.toolbar import debug_toolbar_urls
 
 urlpatterns = [
+    # dai yat chi fun lau
+    path('', include('pages.urls', namespace='pages')),
     path('admin/', admin.site.urls),
 ]
 
