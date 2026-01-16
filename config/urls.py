@@ -27,6 +27,8 @@ urlpatterns = [
     # dai yat chi fun lau
     path('', include('pages.urls', namespace='pages')),
     path('admin/', admin.site.urls),
+    # path('', include('pages.urls', namespace='pages')),
+    # path('questionaire_answers/', admin.site.urls),
 ]
 
 
@@ -38,4 +40,10 @@ if IS_DEVELOPMENT:
 #     urlpatterns += [
 #         path('__debug__/', include(debug_toolbar.urls)),
 #     ]
+
+
+### change title words in django admin pages
+admin.site.site_header = "Wealth Administration"
+admin.site.site_title = "Wealth Admin Portal"
+admin.site.index_title = "Welcome to Wealth Portal"
 

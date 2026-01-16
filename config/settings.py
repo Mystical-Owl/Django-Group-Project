@@ -201,6 +201,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 
+## add a location for default data files
+DEFAULT_DATA_ROOT = os.path.join(BASE_DIR, 'default_data')
+
+
 ### The Debug Toolbar is shown only if your IP address is listed in Django’s INTERNAL_IPS setting. This means that for local development, you must add "127.0.0.1" to INTERNAL_IPS. You’ll need to create this setting if it doesn’t already exist in your settings module:
 INTERNAL_IPS = [
     "127.0.0.1",

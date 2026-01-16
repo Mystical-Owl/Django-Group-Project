@@ -5,9 +5,9 @@ from django.contrib import admin
 from .models import Questionaire
 
 class QuestionaireAdmin (admin.ModelAdmin) :
-    list_display = ('questionaire_statement', 'questionaire_type')
+    list_display = ('questionaire_statement', 'questionaire_type', 'sort_order')
     list_display_links = ('questionaire_statement', )
-    list_editable = ('questionaire_type', )
+    list_editable = ('questionaire_type', 'sort_order')
     search_fields = ('questionaire_statement', 'questionaire_type')
     list_per_page = 25
 
