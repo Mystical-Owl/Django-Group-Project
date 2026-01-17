@@ -11,4 +11,5 @@ pip install django-debug-toolbar==6.1.0
 pip install django-taggit==6.1.0
 pip install django-widget-tweaks==1.5.1
 pip install psycopg2==2.9.11
+pip install numpy
 

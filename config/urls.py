@@ -27,8 +27,7 @@ urlpatterns = [
     # dai yat chi fun lau
     path('', include('pages.urls', namespace='pages')),
     path('admin/', admin.site.urls),
-    # path('', include('pages.urls', namespace='pages')),
-    # path('questionaire_answers/', admin.site.urls),
+    path('import_data/', include('djapp_import_data.urls', namespace='app_import_data')),
 ]
 
 

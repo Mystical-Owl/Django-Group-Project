@@ -8,3 +8,7 @@ python manage.py startapp investment_datas
 python manage.py startapp user_investments
 python manage.py startapp user_questionaire_answers
 
+### This app is not directly related to any other project app.
+### This is a utility app.
+python manage.py startapp djapp_import_data
+

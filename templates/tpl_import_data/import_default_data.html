@@ -1,0 +1,21 @@
+<html>
+
+<head>
+  <title>Import Default Data</title>
+</head>
+
+<body>
+  {% if user.is_authenticated and user.username == 'admin' %}
+    <form action="{% url 'app_import_data:djep_import_default_data' %}" method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn">Import Default Data</button>
+      {{  user.username }}
+    </form>
+  {% else %}
+    <script>
+      window.location.replace('/');
+    </script>
+  {% endif %}
+</body>
+
+</html>
