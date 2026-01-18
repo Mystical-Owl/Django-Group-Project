@@ -1,5 +1,5 @@
 Question_No,Question,Response,Score,Weight
-1,Q1. Annual Income (Before Tax),< HKD 300,000,0.2,0.10
+1,Q1. Annual Income (Before Tax),"< HKD 300,000",0.2,0.10
 1,Q1. Annual Income (Before Tax),HKD 300K-799K,0.5,0.10
 1,Q1. Annual Income (Before Tax),HKD 800K-1.9M,0.8,0.10
 1,Q1. Annual Income (Before Tax),HKD 2M-5M,0.95,0.10

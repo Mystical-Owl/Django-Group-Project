@@ -1,0 +1,158 @@
+
+<!-- after using the collectstatic command -->
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- https://getbootstrap.com/docs/4.6/getting-started/introduction/#css -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+      integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
+      crossorigin="anonymous"
+    />
+
+  <title>Import Default Data</title>
+</head>
+
+<body>
+  <!-- for displaying alert messages in some html such as register and login -->
+
+  {% if messages %}
+  <!-- prettier-ignore -->
+  {% for message in messages %}
+
+  <div class="container" id="djmessage{{ forloop.counter }}">
+    <div
+      class="alert alert-{{ message.tags }} alert-dismissible text-center"
+      role="alert"
+    >
+      <button type="button" class="close" data-dismiss="alert">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <strong>
+        <!-- prettier-ignore -->
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+          Error:
+        {% else %}
+          {{ message.tags | title }}
+        {% endif %}
+      </strong>
+      {{ message }}
+    </div>
+  </div>
+
+  {% endfor %}
+  <!-- prettier-ignore -->
+  {% endif %}
+
+  <!-- main content -->
+  <br><br>
+  <!-- add alert message here -->
+  <div class="container">
+    {% if user.is_authenticated and user.username == 'admin' %}
+      <!-- form for import data -->
+      <form action="{% url 'app_import_data:djep_import_default_data' %}" method="post">
+        {% csrf_token %}
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary mb-3">Import Default Data</button>
+        </div>
+      </form>
+      <!-- form for delete data -->
+      <form action="{% url 'app_import_data:djep_delete_default_data' %}" method="post">
+        {% csrf_token %}
+        <div class="text-center">
+          <button type="submit" class="btn btn-danger mb-3">Delete Default Data</button>
+        </div>
+      </form>
+    {% else %}
+      <script>
+        window.location.replace('/');
+      </script>
+    {% endif %}
+  </div>
+  <!-- end main content -->
+
+  <!-- https://getbootstrap.com/docs/4.6/getting-started/introduction/#separate -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"
+    integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+"
+    crossorigin="anonymous"
+  ></script>
+
+  <script src={% static "js/jquery-3.3.1.min.js" %}></script>
+
+  <!-- modal.js -->
+  <script>
+    $(document).ready(function () {
+      $("#confirmDeleteModal").on("shown.bs.modal", function (event) {
+        // Get the anchor element that triggered the modal
+        var button = $(event.relatedTarget);
+
+        // in case we need contact id
+        const contactId = button.data("id");
+        // $("#modal-contact-id").val(contactId);
+        $("#modal-contact-id").text(contactId);
+
+        // Extract the value from the 'data-url' attribute of the trigger button
+        var urlValue = button.data("url");
+
+        // Find the specific link within the modal and update its 'href' attribute
+        // var modalLink = $(this).find('#modal-dynamic-link');
+        // modalLink.attr("href", urlValue);
+
+        $("#deleteConfirmBtn").attr("href", urlValue);
+      });
+
+      $("#deleteConfirmBtn").click(function (event) {
+        $("#confirmDeleteModal").modal("hide");
+        setTimeout(function () {
+          window.location.href = $("#deleteConfirmBtn").attr("href");
+        }, 500); // Delay of 500 milliseconds
+      });
+    });
+  </script>
+
+  <!-- message fadeout js script -->
+  <script>
+    // set message to fade out after 3 to 10 seconds
+    // need to collectstatic after making changes to static files
+    // python manage.py collectstatic
+    // runserver will serve static files in development mode
+    // in production, need to configure web server to serve static files
+    // for example, using nginx or apache
+    // also need to set STATIC_URL and STATIC_ROOT in settings.py
+    // STATIC_URL = '/static/'
+    // STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    // then run collectstatic to collect static files into STATIC_ROOT
+    // finally, configure web server to serve files from STATIC_ROOT at STATIC_URL
+    setTimeout(() => {
+      $("#djmessage").fadeOut("slow");
+    }, 3000);
+    setTimeout(function () {
+      $("#djmessage1").fadeOut("slow");
+    }, 6000);
+    setTimeout(function () {
+      $("#djmessage2").fadeOut("slow");
+    }, 8000);
+    setTimeout(function () {
+      $("#djmessage3").fadeOut("slow");
+    }, 10000);
+  </script>
+</body>
+
+</html>
