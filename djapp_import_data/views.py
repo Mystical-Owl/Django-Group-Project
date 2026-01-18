@@ -17,7 +17,7 @@ def func_import_index (request) :
     else:
         return redirect('/')
 
-def func_import_default_data (request):
+def func_import_default_questionaire_data (request):
 
     if request.user.is_authenticated and request.user.username == 'admin':
         if request.method == 'POST':
@@ -27,9 +27,9 @@ def func_import_default_data (request):
             messages.success(request, 'Default data imported successfully.')
 
     return redirect('app_import_data:djep_import_index')
-# end def func_import_default_data()
+# end def func_import_default_questionaire_data()
 
-def func_delete_default_data (request):
+def func_delete_default_questionaire_data (request):
 
     if request.user.is_authenticated and request.user.username == 'admin':
         if request.method == 'POST':
@@ -48,6 +48,8 @@ def func_delete_default_data (request):
                 messages.success(request, 'Default questions deleted successfully.')
             else:
                 messages.info(request, 'No data deleted.')
+        else:
+            messages.info(request, 'No data deleted.')
 
     return redirect('app_import_data:djep_import_index')
-# end def func_delete_default_data()
+# end def func_delete_default_questionaire_data()

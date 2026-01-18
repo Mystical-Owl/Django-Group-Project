@@ -20,6 +20,8 @@
 </head>
 
 <body>
+  <!-- main content -->
+  <!-- add alert message here -->
   <!-- for displaying alert messages in some html such as register and login -->
 
   {% if messages %}
@@ -50,25 +52,29 @@
   <!-- prettier-ignore -->
   {% endif %}
 
-  <!-- main content -->
   <br><br>
-  <!-- add alert message here -->
   <div class="container">
     {% if user.is_authenticated and user.username == 'admin' %}
       <!-- form for import data -->
-      <form action="{% url 'app_import_data:djep_import_default_data' %}" method="post">
+      <form action="{% url 'app_import_data:djep_import_default_questionaire_data' %}" method="post">
         {% csrf_token %}
         <div class="text-center">
-          <button type="submit" class="btn btn-primary mb-3">Import Default Data</button>
+          <button type="submit" class="btn btn-primary mb-3">Import Default Questionaire Data</button>
         </div>
       </form>
       <!-- form for delete data -->
-      <form action="{% url 'app_import_data:djep_delete_default_data' %}" method="post">
-        {% csrf_token %}
+      <!-- <form action="{% url 'app_import_data:djep_delete_default_questionaire_data' %}" method="post">
+        {% csrf_token %} -->
         <div class="text-center">
-          <button type="submit" class="btn btn-danger mb-3">Delete Default Data</button>
+          <button
+            class="btn btn-danger mb-3"
+            data-url="{% url 'app_import_data:djep_delete_default_questionaire_data' %}"
+            data-toggle="modal"
+            data-target="#confirmDeleteFormModal"
+            data-id="0"
+          >Delete Default Questionaire Data</button>
         </div>
-      </form>
+      <!-- </form> -->
     {% else %}
       <script>
         window.location.replace('/');
@@ -95,18 +101,19 @@
   ></script>
 
   <script src={% static "js/jquery-3.3.1.min.js" %}></script>
+  <script src={% static "js/bootstrap.bundle.min.js" %}></script>
 
   <!-- modal.js -->
   <script>
     $(document).ready(function () {
-      $("#confirmDeleteModal").on("shown.bs.modal", function (event) {
+      $("#confirmDeleteFormModal").on("shown.bs.modal", function (event) {
         // Get the anchor element that triggered the modal
         var button = $(event.relatedTarget);
 
         // in case we need contact id
-        const contactId = button.data("id");
+        // const contactId = button.data("id");
         // $("#modal-contact-id").val(contactId);
-        $("#modal-contact-id").text(contactId);
+        // $("#modal-contact-id").text(contactId);
 
         // Extract the value from the 'data-url' attribute of the trigger button
         var urlValue = button.data("url");
@@ -115,17 +122,61 @@
         // var modalLink = $(this).find('#modal-dynamic-link');
         // modalLink.attr("href", urlValue);
 
-        $("#deleteConfirmBtn").attr("href", urlValue);
+        // $("#confirmDeleteFormBtn").attr("href", urlValue);
+        $("#confirmDeleteFormForm").attr("action", urlValue);
       });
 
-      $("#deleteConfirmBtn").click(function (event) {
-        $("#confirmDeleteModal").modal("hide");
-        setTimeout(function () {
-          window.location.href = $("#deleteConfirmBtn").attr("href");
-        }, 500); // Delay of 500 milliseconds
-      });
+      // $("#confirmDeleteFormBtn").click(function (event) {
+      //   $("#confirmDeleteFormModal").modal("hide");
+      //   setTimeout(function () {
+      //     // window.location.href = $("#confirmDeleteFormBtn").attr("href");
+      //     $("#confirmDeleteFormBtn").submit();
+      //   }, 500); // Delay of 500 milliseconds
+      // });
     });
   </script>
+
+  <!-- delete modal -->
+  <div
+    class="modal fade"
+    id="confirmDeleteFormModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="confirmDeleteFormModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="confirmDeleteFormModalLabel">
+            Confirm Deletion
+          </h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to delete?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            Cancel
+          </button>
+          <form action="#" method="post" id="confirmDeleteFormForm">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </form>
+          <!-- <a href="#" class="btn btn-danger" id="confirmDeleteFormBtn">Delete</a> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end delete modal -->
 
   <!-- message fadeout js script -->
   <script>
