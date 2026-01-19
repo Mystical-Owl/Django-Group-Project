@@ -26,6 +26,7 @@ from debug_toolbar.toolbar import debug_toolbar_urls
 urlpatterns = [
     # dai yat chi fun lau
     path('', include('pages.urls', namespace='pages')),
+    path('questionaires/', include('questionaires.urls', namespace='questionaires')),
     path('admin/', admin.site.urls),
     path('import_data/', include('djapp_import_data.urls', namespace='app_import_data')),
 ]
@@ -42,7 +43,7 @@ if IS_DEVELOPMENT:
 
 
 ### change title words in django admin pages
-admin.site.site_header = "Wealth Administration"
-admin.site.site_title = "Wealth Admin Portal"
-admin.site.index_title = "Welcome to Wealth Portal"
+admin.site.site_header = "WealthHub Administration"
+admin.site.site_title = "WealthHub Admin Portal"
+admin.site.index_title = "Welcome to WealthHub Portal"
 
