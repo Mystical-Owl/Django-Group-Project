@@ -11,7 +11,7 @@ class InvestmentData (models.Model) :
     investment_price = models.FloatField()
 
     def __str__ (self) :
-        return str(self.inv_price)
+        return str(self.investment_price)
 
     
 

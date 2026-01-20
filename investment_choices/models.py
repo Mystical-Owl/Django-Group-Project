@@ -10,6 +10,6 @@ class InvestmentChoice (models.Model) :
     investment_description = models.CharField (max_length=500, blank=True, null=True)
 
     def __str__ (self) :
-        return self.fund_name
+        return self.investment_name
 
 
