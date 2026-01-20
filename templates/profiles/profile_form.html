@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static widget_tweaks %}
+
+{% block title %}{{ action }} Profile{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10">
+
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-primary text-white">
+          <h4 class="mb-0">
+            <i class="fas fa-user-edit mr-2"></i>
+            {{ action }} Your Profile
+          </h4>
+        </div>
+
+        <div class="card-body">
+          <form method="post" novalidate>
+            {% csrf_token %}
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="{{ form.age.id_for_label }}">
+                    <i class="fas fa-birthday-cake text-muted mr-2"></i>Age
+                  </label>
+                  {{ form.age|add_class:"form-control" }}
+                  {% if form.age.errors %}<small class="text-danger">{{ form.age.errors|join:", " }}</small>{% endif %}
+                </div>
+
+                <div class="form-group">
+                  <label for="{{ form.gender.id_for_label }}">
+                    <i class="fas fa-venus-mars text-muted mr-2"></i>Gender
+                  </label>
+                  {{ form.gender|add_class:"form-control" }}
+                  {% if form.gender.errors %}<small class="text-danger">{{ form.gender.errors|join:", " }}</small>{% endif %}
+                </div>
+
+                <div class="form-group">
+                  <label for="{{ form.telephone.id_for_label }}">
+                    <i class="fas fa-phone-alt text-muted mr-2"></i>Telephone
+                  </label>
+                  {{ form.telephone|add_class:"form-control" }}
+                  {% if form.telephone.errors %}<small class="text-danger">{{ form.telephone.errors|join:", " }}</small>{% endif %}
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="{{ form.occupation.id_for_label }}">
+                    <i class="fas fa-briefcase text-muted mr-2"></i>Occupation
+                  </label>
+                  {{ form.occupation|add_class:"form-control" }}
+                  {% if form.occupation.errors %}<small class="text-danger">{{ form.occupation.errors|join:", " }}</small>{% endif %}
+                </div>
+
+                <div class="form-group">
+                  <label for="{{ form.address.id_for_label }}">
+                    <i class="fas fa-map-marker-alt text-muted mr-2"></i>Address
+                  </label>
+                  {{ form.address|add_class:"form-control"|attr:"rows:4" }}
+                  {% if form.address.errors %}<small class="text-danger">{{ form.address.errors|join:", " }}</small>{% endif %}
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group mt-4 text-center">
+              <button type="submit" class="btn btn-primary btn-lg px-5">
+                <i class="fas fa-save mr-2"></i> Save Profile
+              </button>
+              <a href="{% url 'profile_view' %}" class="btn btn-outline-secondary btn-lg ml-3">
+                Cancel
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

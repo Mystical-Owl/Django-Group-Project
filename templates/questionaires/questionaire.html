@@ -18,7 +18,7 @@
       crossorigin="anonymous"
     />
 
-    <title>Import Default Data</title>
+    <title>Questionaire</title>
   </head>
 
   <body>
@@ -55,41 +55,53 @@
     {% endif %}
 
     <br /><br />
+    {% if user.is_authenticated %}
     <div class="container">
-      {% if user.is_authenticated and user.username == 'admin' %}
-      <!-- form for import data -->
-      <form
-        action="{% url 'app_import_data:djep_import_default_questionaire_data' %}"
-        method="post"
-      >
-        {% csrf_token %}
-        <div class="text-center">
-          <button type="submit" class="btn btn-primary mb-3">
-            Import Default Questionaire Data
-          </button>
-        </div>
-      </form>
-      <!-- form for delete data -->
-      <!-- <form action="{% url 'app_import_data:djep_delete_default_questionaire_data' %}" method="post">
-        {% csrf_token %} -->
+      {% for questionaire_type in questionaire_types %}
+      <!-- prettier-ignore -->
       <div class="text-center">
-        <button
-          class="btn btn-danger mb-3"
-          data-url="{% url 'app_import_data:djep_delete_default_questionaire_data' %}"
-          data-toggle="modal"
-          data-target="#confirmDeleteFormModal"
-          data-id="0"
-        >
-          Delete Default Questionaire Data
-        </button>
+        <a href="{% url 'questionaires:questionaire' questionaire_type %}" class="btn btn-primary mb-3">
+          {{ questionaire_type }}
+        </a>
       </div>
-      <!-- </form> -->
-      {% else %}
-      <script>
-        window.location.replace("/");
-      </script>
-      {% endif %}
+      <!-- prettier-ignore -->
+      {% endfor %}
+
+      <form action="{% url 'questionaires:save' %}" method="post">
+        {% csrf_token %}
+        <!-- prettier-ignore -->
+        {% for questionaire_and_answer in questionaire_and_answers %}
+        <!-- prettier-ignore -->
+        Q{{ forloop.counter }}.
+        {{ questionaire_and_answer.questionaire.questionaire_statement }}
+        <br /><br />
+        <!-- prettier-ignore -->
+        {% for questionaire_answer in questionaire_and_answer.questionaire_answers %}
+        <!-- prettier-ignore -->
+        <input 
+          type="radio" 
+          name="{{ questionaire_and_answer.questionaire.id }}"
+          value="{{ questionaire_answer.id }}"
+        >
+        {{ questionaire_answer.questionaire_answer }}
+        <br /><br />
+        <!-- prettier-ignore -->
+        {% endfor %}
+        <br /><br />
+        <br /><br />
+        <!-- prettier-ignore -->
+        {% endfor %}
+
+        <button type="submit" class="btn btn-primary">Save</button>
+      </form>
     </div>
+
+    {% else %}
+    <script>
+      window.location.replace("/");
+    </script>
+    {% endif %}
+
     <!-- end main content -->
 
     <!-- https://getbootstrap.com/docs/4.6/getting-started/introduction/#separate -->

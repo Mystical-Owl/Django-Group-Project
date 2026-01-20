@@ -1,0 +1,7 @@
+
+
+mkvirtualenv erb8p
+workon erb8p
+
+pip install plotly pandas
+
