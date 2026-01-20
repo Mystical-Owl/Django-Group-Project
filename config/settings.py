@@ -48,8 +48,55 @@ DJANGO_APPS = [
     'django.contrib.humanize',
 ]
 
-APPLICATION_APPS = [
-    # project apps
+APPLICATION_APPS_A = [
+    # line 52; Andrew
+    'pages.apps.PagesConfig',
+
+
+
+
+
+
+
+
+
+    # line 63; Andrew
+]
+
+APPLICATION_APPS_F = [
+    # line 67; Franco
+
+
+
+
+
+
+
+
+
+
+    
+    # line 79; Franco
+]
+
+APPLICATION_APPS_H = [
+    # line 83; Howard
+
+
+
+
+
+
+
+
+
+
+    
+    # line 95; Howard    
+]
+
+APPLICATION_APPS_G = [
+    # line 99; George
     'questionaires.apps.QuestionairesConfig',
     'questionaire_answers.apps.QuestionaireAnswersConfig',
     'investment_types.apps.InvestmentTypesConfig',
@@ -57,8 +104,17 @@ APPLICATION_APPS = [
     'investment_datas.apps.InvestmentDatasConfig',
     'user_investments.apps.UserInvestmentsConfig',
     'user_questionaire_answers.apps.UserQuestionaireAnswersConfig',
-    'pages.apps.PagesConfig',
+    
+
+
+
+
+
+    # line 113; George
 ]
+
+# project apps
+APPLICATION_APPS = APPLICATION_APPS_A + APPLICATION_APPS_F + APPLICATION_APPS_H + APPLICATION_APPS_G
 
 THIRD_PARTY_APPS = [
     'widget_tweaks',
