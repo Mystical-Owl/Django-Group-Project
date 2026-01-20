@@ -7,6 +7,6 @@ app_name = 'questionaires'
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('save_uqa/', views.save_uqa, name='save_uqa'),
     path('<str:questionaire_type>/', views.questionaire, name='questionaire'),
-    path('save/', views.save, name='save'),
 ]

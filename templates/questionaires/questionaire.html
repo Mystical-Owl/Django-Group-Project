@@ -67,7 +67,7 @@
       <!-- prettier-ignore -->
       {% endfor %}
 
-      <form action="{% url 'questionaires:save' %}" method="post">
+      <form action="{% url 'questionaires:save_uqa' %}" method="post">
         {% csrf_token %}
         <!-- prettier-ignore -->
         {% for questionaire_and_answer in questionaire_and_answers %}

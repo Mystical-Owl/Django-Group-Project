@@ -104,7 +104,7 @@ APPLICATION_APPS_G = [
     'investment_datas.apps.InvestmentDatasConfig',
     'user_investments.apps.UserInvestmentsConfig',
     'user_questionaire_answers.apps.UserQuestionaireAnswersConfig',
-    
+    'djapp_import_data.apps.DjappImportDataConfig',
 
 
 

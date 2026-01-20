@@ -13,5 +13,5 @@ class UserQuestionaireAnswer (models.Model) :
     questionaire_answer = models.ForeignKey (QuestionaireAnswer, on_delete=models.DO_NOTHING)
 
     def __str__ (self) :
-        return str(user_id)
+        return str(self.user.id) + ' ' + str(self.questionaire_answer.id)
 
