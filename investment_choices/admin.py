@@ -5,10 +5,10 @@ from django.contrib import admin
 from .models import InvestmentChoice
 
 class InvestmentChoiceAdmin (admin.ModelAdmin) :
-    list_display = ('fund_name', 'fund_type', 'fund_description')
-    list_display_links = ('fund_name', )
-    list_editable = ('fund_type', 'fund_description')
-    search_fields = ('fund_name', 'fund_type', 'fund_description')
+    list_display = ('investment_name', 'investment_type', 'investment_description')
+    list_display_links = ('investment_name', )
+    list_editable = ('investment_type', 'investment_description')
+    search_fields = ('investment_name', 'investment_type', 'investment_description')
     list_per_page = 25
 
 
