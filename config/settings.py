@@ -82,7 +82,7 @@ APPLICATION_APPS_F = [
 APPLICATION_APPS_H = [
     # line 83; Howard
 
-
+    'profiles.apps.ProfilesConfig',  # Profile , i.e. users' profile
 
 
 

@@ -29,6 +29,8 @@ urlpatterns = [
     path('questionaires/', include('questionaires.urls', namespace='questionaires')),
     path('admin/', admin.site.urls),
     path('import_data/', include('djapp_import_data.urls', namespace='app_import_data')),
+    # by Howard, becasue profiles.urls.py was created
+    path('profile/', include('profiles.urls')), 
 ]
 
 

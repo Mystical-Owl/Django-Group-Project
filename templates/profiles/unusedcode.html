@@ -1,0 +1,40 @@
+<!--  NOT USED  template/profiles/profile
+
+{% extends 'base.html' %} 
+
+{% block content %}
+<h2>Your Profile</h2>
+<p><strong>Full Name:</strong> {{ profile.user.first_name }} {{ profile.user.last_name }}</p>
+<p><strong>Email:</strong> {{ profile.user.email }}</p>
+<p><strong>Age:</strong> {{ profile.age|default:"Not set" }}</p>
+<p><strong>Address:</strong> {{ profile.address|default:"Not set" }}</p>
+<p><strong>Telephone:</strong> {{ profile.telephone|default:"Not set" }}</p>
+<p><strong>Gender:</strong> {{ profile.get_gender_display|default:"Not set" }}</p>
+<p><strong>Occupation:</strong> {{ profile.occupation|default:"Not set" }}</p>
+<a href="{% url 'profile_update' %}">Update Profile</a> |
+<a href="{% url 'profile_delete' %}">Delete Profile</a>
+{% endblock %}
+
+
+NOT USED -->
+
+
+
+
+<!--- NOT USED   template/profiles/profile_form
+{% extends 'base.html' %}
+{% block content %}
+<h2>Your Profile</h2>
+<p><strong>Full Name:</strong> {{ profile.user.first_name }} {{ profile.user.last_name }}</p>
+<p><strong>Email:</strong> {{ profile.user.email }}</p>
+<p><strong>Age:</strong> {{ profile.age|default:"Not set" }}</p>
+<p><strong>Address:</strong> {{ profile.address|default:"Not set" }}</p>
+<p><strong>Telephone:</strong> {{ profile.telephone|default:"Not set" }}</p>
+<p><strong>Gender:</strong> {{ profile.get_gender_display|default:"Not set" }}</p>
+<p><strong>Occupation:</strong> {{ profile.occupation|default:"Not set" }}</p>
+<a href="{% url 'profile_update' %}">Update Profile</a> |
+<a href="{% url 'profile_delete' %}">Delete Profile</a>
+{% endblock %}
+
+
+ NOT USED-->
