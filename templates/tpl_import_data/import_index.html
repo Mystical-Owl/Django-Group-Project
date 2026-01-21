@@ -59,9 +59,7 @@
       </button>
     </div>
   </form>
-  <!-- form for delete data -->
-  <!-- <form action="{% url 'app_import_data:djep_delete_default_questionaire_data' %}" method="post">
-    {% csrf_token %} -->
+  <!-- form moved to modal for delete data -->
   <div class="text-center">
     <button
       class="btn btn-danger mb-3"
@@ -73,7 +71,32 @@
       Delete Default Questionaire Data
     </button>
   </div>
-  <!-- </form> -->
+  <!-- end form moved to modal for delete data -->
+  <!-- form for import data -->
+  <form
+    action="{% url 'app_import_data:djep_import_default_investment_datas' %}"
+    method="post"
+  >
+    {% csrf_token %}
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary mb-3">
+        Import Default Investment Data
+      </button>
+    </div>
+  </form>
+  <!-- form moved to modal for delete data -->
+  <div class="text-center">
+    <button
+      class="btn btn-danger mb-3"
+      data-url="{% url 'app_import_data:djep_delete_default_investment_datas' %}"
+      data-toggle="modal"
+      data-target="#confirmDeleteFormModal"
+      data-id="0"
+    >
+      Delete Default Investment Data
+    </button>
+  </div>
+  <!-- end form moved to modal for delete data -->
   {% else %}
   <script>
     window.location.replace("/");

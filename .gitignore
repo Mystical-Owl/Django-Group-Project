@@ -190,3 +190,6 @@ cython_debug/
 ### for temp files created by MacOS
 .DS_Store
 
+### local program lock files
+.~lock.*
+
