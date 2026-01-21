@@ -1,95 +1,152 @@
 {% extends 'base.html' %}
 {% load static %}
-<!--load humanize-->
 {% load humanize %}
-<!-- about title-->
 {% block title %} | About{% endblock %}
-<!-- about main content-->
+
+<style>
+  /* FORCE LIGHT ORANGE THEME - OVERRIDES EVERYTHING */
+  body { 
+    background-color: #FFF8F0 !important; 
+    min-height: 100vh !important; 
+  }
+  
+  .top-bar {
+    background-color: #FFA07A !important;  /* Light orange */
+    padding: 25px !important;
+    border-radius: 0 0 25px 25px !important;
+    box-shadow: 0 6px 20px rgba(255,160,122,0.4) !important;
+    margin-bottom: 2rem !important;
+  }
+  
+  .top-bar h1 { 
+    color: #fff !important; 
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.4) !important;
+    font-weight: 700 !important;
+  }
+  
+  .top-bar h2 { 
+    color: #FF8C00 !important;  /* Darker orange */
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.4) !important;
+    font-weight: 500 !important;
+  }
+
+  /* Orange overlays for sections */
+  #showcase .overlay,
+  #services::before,
+  #showcase-inner::before {
+    background: rgba(255, 160, 122, 0.85) !important;
+  }
+
+  /* Work section - Orange instead of dark */
+  #work {
+    background: linear-gradient(135deg, #FFA07A 0%, #FF8C00 100%) !important;
+    color: white !important;
+  }
+</style>
+
 {% block content %}
-<section id="showcase-inner" class="py-5 text-white">
-  <div class="container">
+<!-- ORANGE TOP BAR -->
+<section class="top-bar">
+  <div class="container" style="background-color: #FFA07A;">
     <div class="row text-center">
       <div class="col-md-12">
-        <h1 class="display-4">About BC Health Care</h1>
-        <p class="lead">
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sunt,
-          pariatur!
+        <h1 class="display-3">WealthHub</h1>
+        <h2>Be Your Own Financial Planner</h2>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- MAIN CONTENT -->
+<section id="about" class="py-5" style="background-color: #FFF8F0;">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <h2 class="display-4 text-dark mb-4" style="font-size: 2.5rem;">WealthHub empowers you to build your financial future without expensive advisors.</h2> <!-- Main slogan -->
+        
+        <div class="text-center mb-5" style="font-size: 1.5rem;"> <!-- Smaller size for numbering -->
+          <ol class="list-unstyled">
+            <li>1. Skip the fees.</li>
+            <li>2. Master Your Wealth.</li>
+            <li>3. Take Control.</li>
+          </ol>
+        </div>
+
+        <div class="position-relative mb-5 shadow-lg rounded">
+          <img src="{% static 'img/money.png' %}" alt="About WealthHub" class="img-fluid rounded" style="height: 400px; object-fit: cover;" />
+          <div class="position-absolute top-50 start-50 translate-middle text-center p-5" 
+               style="color: white; text-shadow: 3px 3px 8px rgba(0,0,0,0.8); max-width: 80%;">
+            <h3 class="display-4 fw-bold mb-3">Skip the fees.</h3>
+            <h4 class="lead">Master your wealth. Take control.</h4>
+          </div>
+        </div>
+
+        <h2 class="display-4 text-dark mb-4">The WealthHub Revolution</h2>
+        <p class="lead mb-5">
+          Tired of private bankers and insurance agents chasing commissions instead of your welfare? WealthHub changes everything.
+        </p>
+        
+        <p class="fs-4 mb-5">
+          You're smarter than you think. With our cutting-edge AI platform, you become your own financial planner - analyzing your unique profile to build the portfolio that fits you, not their sales quotas.
+        </p>
+        
+        <p class="fs-4">
+          Professional tools. Transparent pricing. Your financial independence.
         </p>
       </div>
     </div>
   </div>
 </section>
 
-<section id="bc" class="mt-3">
-  <div class="container">
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-          <a href={% url 'pages:index' %}> <i class="fas fa-home"></i> Home</a>
-        </li>
-        <li class="breadcrumb-item active">About</li>
-      </ol>
-    </nav>
-  </div>
-</section>
+        <!-- HERO IMAGE WITH OVERLAY -->
+        <div class="position-relative mb-5 shadow-lg rounded overflow-hidden">
+          <img src="{% static 'img/money.png' %}" alt="About WealthHub" class="img-fluid w-100" style="height: 450px; object-fit: cover;" />
+          <div class="position-absolute top-50 start-50 translate-middle text-center px-4 py-5" 
+               style="color: white; text-shadow: 2px 2px 8px rgba(0,0,0,0.9); max-width: 90%;">
+            <h2 class="display-3 fw-bold mb-3 lh-sm">Skip the fees.</h2>
+            <h3 class="display-5 fw-normal">Master your wealth. Take control.</h3>
+          </div>
+        </div>
 
-<section id="about" class="py-4">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-8">
-        <h2>
-          We Search For The Your health, your home – we help you find the right
-          clinic.
-        </h2>
-        <p class="lead">
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sunt,
-          pariatur!
-        </p>
-
-        <img src={% static 'img/about.jpg' %} alt="" />
-        <p class="mt-4">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis
-          esse officia repudiandae ad saepe ex, amet neque quod accusamus rem
-          quia magnam magni dolorum facilis ullam minima perferendis?
-          Exercitationem at quaerat commodi id libero eveniet harum perferendis
-          laborum molestias quia.
-        </p>
-      </div>
-      <div class="col-md-4">
-        {% if mvp_doctors %}
-        {% for mvp_doctor in mvp_doctors %}
-        <div class="card">
-          <img
-            class="card-img-top"
-            src="{{mvp_doctor.photo.url}}"
-            alt="Top Doctor of the month"
-          />
-          <div class="card-body">
-            <h5 class="card-title">{{ forloop.counter | ordinal }} Top Doctor</h5>
-            <h6 class="text-secondary">{{ mvp_doctor.name }}</h6>
-            <p class="card-text">
-             {{ mvp_doctor.description }}
+        <!-- REVOLUTION SECTION -->
+        <div class="row mb-5">
+          <div class="col-lg-10">
+            <h2 class="display-4 fw-bold text-dark mb-4">The WealthHub Revolution</h2>
+            <p class="lead fs-2 mb-4 text-muted">
+              Tired of private bankers and insurance agents chasing commissions instead of your welfare?
+            </p>
+            <p class="fs-3 mb-4">
+              You're smarter than you think. With our cutting-edge AI platform, you become your own financial planner—analyzing your unique profile to build the portfolio that fits <em>you</em>, not their sales quotas.
+            </p>
+            <p class="fs-3 fw-semibold text-dark">
+              Professional tools. Transparent pricing. Your financial independence.
             </p>
           </div>
         </div>
-        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+      
+      <!-- MVP DOCTORS -->
+      <div class="col-md-4">
+        {% if mvp_doctors %}
+          {% for mvp_doctor in mvp_doctors %}
+            <div class="card mb-4">
+              <img class="card-img-top" src="{{ mvp_doctor.photo.url }}" alt="Top Doctor of the Month" />
+              <div class="card-body">
+                <h5 class="card-title">{{ forloop.counter | ordinal }} Top Doctor</h5>
+                <h6 class="text-secondary">{{ mvp_doctor.name }}</h6>
+                <p class="card-text">{{ mvp_doctor.description }}</p>
+              </div>
+            </div>
+          {% endfor %}
         {% endif %}
       </div>
     </div>
   </div>
-</section>
-
-<section id="work" class="bg-dark text-white text-center">
-  <h2 class="display-4">We Work For You</h2>
-  <h4>
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem velit
-    aperiam, unde aliquid at similique!
-  </h4>
-  <hr />
-  <a href="#" class="btn btn-secondary text-white btn-lg"
-  {% comment %}  <a href="{% url 'listings:index' %}" class="btn btn-secondary text-white btn-lg" {% endcomment %}
-    >View Our Featured Listings</a
-  >
 </section>
 
 <!-- Team -->
@@ -100,16 +157,9 @@
     <div class="row text-center">
       {% for doctor in doctors %}
       <div class="col-md-4">
-        <img
-          src="{{ doctor.photo.url }}"
-          alt=""
-          class="rounded-circle mb-3 img-fluid"
-          style="object-fit: cover; width: 300px; height: 300px"
-        />
+        <img src="{{ doctor.photo.url }}" alt="" class="rounded-circle mb-3 img-fluid" style="object-fit: cover; width: 300px; height: 300px" />
         <h4>{{ doctor.name }}</h4>
-        <p class="text-success">
-          <i class="fas fa-award text-success"></i> Doctor
-        </p>
+        <p class="text-success"><i class="fas fa-award text-success"></i> Doctor</p>
         <hr />
         <p><i class="fas fa-phone"></i> {{ doctor.phone }}</p>
         <p><i class="fas fa-envelope-open"></i> {{ doctor.email }}</p>
