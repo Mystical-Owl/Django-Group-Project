@@ -1,8 +1,8 @@
 {% load static %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
   <div class="container">
-    <a class="navbar-brand" href={% url 'pages:index' %}>
-      <img src={% static "img/logo.jpg" %} class="logo" alt="" />
+    <a class="navbar-brand" href="{% url 'pages:index' %}">
+      <img src="{% static 'img/logo.jpg' %}" class="logo" alt="" />
     </a>
     <button
       class="navbar-toggler"
@@ -14,43 +14,126 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <ul class="navbar-nav">
-        <li {% if 'about' in request.path %} class="nav-item active mr-3" {% else %} class="nav-item mr-3" {% endif %}>
-          <a class="nav-link" href={% url 'pages:about' %}>About</a>
+        {% if 'about' in request.path %}
+        <li class="nav-item mr-3 active">
+          <a class="nav-link" href="{% url 'pages:about' %}">About</a>
         </li>
+        {% else %}
+        <li class="nav-item mr-3">
+          <a class="nav-link" href="{% url 'pages:about' %}">About</a>
+        </li>
+        {% endif %}
+        <!-- questionaires -->
+        {% if user.is_authenticated %}
+        <!-- prettier-ignore -->
+        {% if 'questionaires' in request.path %}
+        <li class="nav-item mr-3 active">
+          <a class="nav-link" href="{% url 'questionaires:index' %}">
+            <i class="fas fa-light fa-question"></i>
+            <i class="fas fa-light fa-circle-question"></i>
+            Questionaires</a
+          >
+        </li>
+        {% else %}
+        <li class="nav-item mr-3">
+          <a class="nav-link" href="{% url 'questionaires:index' %}">
+            <i class="fas fa-regular fa-question"></i> Questionaires</a
+          >
+        </li>
+        {% endif %}
+        <!-- prettier-ignore -->
+        {% endif %}
       </ul>
 
       <ul class="navbar-nav ml-auto">
         {% if user.is_authenticated %}
-         <li {% if 'dashboard' in request.path %} class="nav-item mr-3 active" {% else %} class="nav-item mr-3" {% endif %}>
-          <a class="nav-link" href="#">
-            <i class="fas fa-user-plus"></i> Welcome {{ user.username }} (dashboard)</a
+        <!-- import_data -->
+        <!-- prettier-ignore -->
+        {% if user.username == 'admin' %}
+        <!-- prettier-ignore -->
+        {% if 'import_data' in request.path %}
+        <li class="nav-item mr-3 active">
+          <a
+            class="nav-link"
+            href="{% url 'app_import_data:djep_import_index' %}"
+          >
+            <i class="fas fa-file-import"></i> Import Data</a
           >
         </li>
-        <!-- logout--> 
+        {% else %}
         <li class="nav-item mr-3">
-          <a href="javascript:{document.getElementById('logout').submit()}" class="nav-link">
-            <i class="fas fa-sign-out-alt"></i>Logout
-          </a>
-    <form action="#" method="POST" id="logout">
-      {% csrf_token %}
-      <input type="hidden"/>
-    </form>
+          <a
+            class="nav-link"
+            href="{% url 'app_import_data:djep_import_index' %}"
+          >
+            <i class="fas fa-file-import"></i> Import Data</a
+          >
+        </li>
+        {% endif %}
+        <!-- prettier-ignore -->
+        {% endif %}
+        <!-- dashboard link -->
+        <!-- prettier-ignore -->
+        {% if 'dashboard' in request.path %}
+        <li class="nav-item mr-3 active">
+          <a class="nav-link" href="#">
+            <i class="fas fa-user-plus"></i> Welcome {{ user.username }}
+            (dashboard)</a
+          >
         </li>
         {% else %}
-        <li {% if 'register' in request.path %} class="nav-item mr-3 active" {% else %} class="nav-item mr-3" {% endif %}>
+        <li class="nav-item mr-3">
           <a class="nav-link" href="#">
-            {% comment %}  <a class="nav-link" href="{% url 'accounts:register' %}"> {% endcomment %}
+            <i class="fas fa-user-plus"></i> Welcome {{ user.username }}
+            (dashboard)</a
+          >
+        </li>
+        {% endif %}
+        <!-- logout link -->
+        <li class="nav-item mr-3">
+          <a
+            href="javascript:{document.getElementById('logout').submit();}"
+            class="nav-link"
+          >
+            <i class="fas fa-sign-out-alt"></i>Logout
+          </a>
+          <form action="#" method="POST" id="logout">
+            {% csrf_token %}
+            <input type="hidden" />
+          </form>
+        </li>
+        {% else %}
+        <!-- register link -->
+        <!-- prettier-ignore -->
+        {% if 'register' in request.path %}
+        <li class="nav-item mr-3 active">
+          <a class="nav-link" href="#">
             <i class="fas fa-user-plus"></i> Register</a
           >
         </li>
-         <li {% if 'login' in request.path %} class="nav-item mr-3 active" {% else %} class="nav-item mr-3" {% endif %}>
+        {% else %}
+        <li class="nav-item mr-3">
           <a class="nav-link" href="#">
-            {% comment %} <a class="nav-link" href="{% url 'accounts:login' %}"> {% endcomment %}
-            <i class="fas fa-sign-in-alt"></i>
-
-            Login</a
+            <i class="fas fa-user-plus"></i> Register</a
           >
         </li>
+        {% endif %}
+        <!-- login link -->
+        <!-- prettier-ignore -->
+        {% if 'login' in request.path %}
+        <li class="nav-item mr-3 active">
+          <a class="nav-link" href="#">
+            <i class="fas fa-sign-in-alt"></i> Login</a
+          >
+        </li>
+        {% else %}
+        <li class="nav-item mr-3">
+          <a class="nav-link" href="#">
+            <i class="fas fa-sign-in-alt"></i> Login</a
+          >
+        </li>
+        {% endif %}
+        <!-- prettier-ignore -->
         {% endif %}
       </ul>
     </div>
