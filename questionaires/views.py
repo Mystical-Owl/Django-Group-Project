@@ -31,7 +31,7 @@ def questionaire (request, questionaire_type) :
 
     context = {
         'questionaire_types'        : questionaire_types,
-        'questionaire_and_answers'  : questionaire_and_answers[:2],
+        'questionaire_and_answers'  : questionaire_and_answers,
     }
     return render(request, 'questionaires/questionaire.html', context)
 # end def questionaire()
