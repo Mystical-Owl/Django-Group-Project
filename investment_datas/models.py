@@ -6,9 +6,9 @@ from investment_choices.models import InvestmentChoice
 
 class InvestmentData (models.Model) :
 
-    investment_choice = models.ForeignKey (InvestmentChoice, on_delete=models.CASCADE)
-    investment_date = models.DateTimeField()
-    investment_price = models.FloatField()
+    investment_choice = models.ForeignKey (InvestmentChoice, on_delete=models.CASCADE, blank=True, null=True)
+    investment_date = models.DateTimeField(blank=True, null=True)
+    investment_price = models.FloatField(blank=True, null=True)
 
     def __str__ (self) :
         return str(self.investment_price)
