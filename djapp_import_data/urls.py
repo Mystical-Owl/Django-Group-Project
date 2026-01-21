@@ -8,13 +8,23 @@ app_name = 'app_import_data'
 urlpatterns = [
     path('', views.func_import_index, name='djep_import_index'),
     path(
-        'urlep_import_default_questionaire_data/', 
-        views.func_import_default_questionaire_data, 
+        'urlep_import_default_questionaire_data/',
+        views.func_import_default_questionaire_data,
         name='djep_import_default_questionaire_data'
     ),
     path(
-        'urlep_delete_default_questionaire_data/', 
-        views.func_delete_default_questionaire_data, 
+        'urlep_delete_default_questionaire_data/',
+        views.func_delete_default_questionaire_data,
         name='djep_delete_default_questionaire_data'
+    ),
+    path(
+        'urlep_import_default_investment_datas/',
+        views.func_import_default_investment_datas,
+        name='djep_import_default_investment_datas'
+    ),
+    path(
+        'urlep_delete_default_investment_datas/',
+        views.func_delete_default_investment_datas,
+        name='djep_delete_default_investment_datas'
     ),
 ]

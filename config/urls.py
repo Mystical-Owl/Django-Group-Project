@@ -24,13 +24,17 @@ from config.settings import IS_DEVELOPMENT
 from debug_toolbar.toolbar import debug_toolbar_urls
 
 urlpatterns = [
-    # dai yat chi fun lau
+    # by Andrew, pages
+    # modified by Franco
     path('', include('pages.urls', namespace='pages')),
+    # by Howard, becasue profiles.urls.py was created
+    path('profile/', include('profiles.urls')),
+    # by George
     path('questionaires/', include('questionaires.urls', namespace='questionaires')),
     path('admin/', admin.site.urls),
+    # by George
+    # only need to import data with new a database
     path('import_data/', include('djapp_import_data.urls', namespace='app_import_data')),
-    # by Howard, becasue profiles.urls.py was created
-    path('profile/', include('profiles.urls')), 
 ]
 
 

@@ -47,13 +47,15 @@
 <br /><br />
 {% if user.is_authenticated %}
 <div class="container">
-  {% for questionaire_type in questionaire_types %}
   <!-- prettier-ignore -->
+  {% for questionaire_type in questionaire_types %}
   <div class="text-center">
-<a href="{% url 'questionaires:questionaire' questionaire_type %}" class="btn btn-primary mb-3">
-  {{ questionaire_type }}
-</a>
-</div>
+    <!-- prettier-ignore -->
+    <a href="{% url 'questionaires:questionaire' questionaire_type %}" class="btn btn-primary mb-3">
+      <!-- prettier-ignore --> 
+      {{ questionaire_type }}
+    </a>
+  </div>
   <!-- prettier-ignore -->
   {% endfor %}
 </div>

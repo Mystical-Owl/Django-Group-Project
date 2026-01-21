@@ -5,6 +5,10 @@ from .utils import import_default_users
 from .utils import import_questionaire_answers
 from .utils import clear_questionaire_answers
 from .utils import clear_questionaires
+from .utils import import_investment_datas
+from .utils import clear_investment_datas
+from .utils import clear_investment_choices
+from .utils import clear_investment_types
 
 ### import to use django messages framework
 from django.contrib import messages
@@ -32,7 +36,7 @@ def func_import_default_questionaire_data (request):
         import_default_users()
         import_questionaire_answers()
         ## add alert message
-        messages.success(request, 'Default data imported successfully.')
+        messages.success(request, 'Default questionaire data imported successfully.')
 
     return redirect('app_import_data:djep_import_index')
 # end def func_import_default_questionaire_data()
@@ -49,7 +53,7 @@ def func_delete_default_questionaire_data (request):
         del_cnt = clear_questionaire_answers()
         if del_cnt > 0:
             ## add alert message
-            messages.success(request, 'Default answers deleted successfully.')
+            messages.success(request, 'Default questionaire answers deleted successfully.')
         else:
             messages.info(request, 'No data deleted.')
 
@@ -57,7 +61,7 @@ def func_delete_default_questionaire_data (request):
         del_cnt = clear_questionaires()
         if del_cnt > 0:
             ## add alert message
-            messages.success(request, 'Default questions deleted successfully.')
+            messages.success(request, 'Default questionaire questions deleted successfully.')
         else:
             messages.info(request, 'No data deleted.')
     else:
@@ -65,3 +69,57 @@ def func_delete_default_questionaire_data (request):
 
     return redirect('app_import_data:djep_import_index')
 # end def func_delete_default_questionaire_data()
+
+def func_import_default_investment_datas (request):
+    ### 30688
+    if not request.user.is_authenticated:
+        return redirect('/')
+
+    if not request.user.username == 'admin':
+        return redirect('/')
+
+    if request.method == 'POST':
+        import_investment_datas()
+        ## add alert message
+        messages.success(request, 'Default investment data imported successfully.')
+
+    return redirect('app_import_data:djep_import_index')
+# end def func_import_default_investment_datas()
+
+def func_delete_default_investment_datas (request):
+    if not request.user.is_authenticated:
+        return redirect('/')
+
+    if not request.user.username == 'admin':
+        return redirect('/')
+
+    if request.method == 'POST':
+        # first delete datas
+        del_cnt = clear_investment_datas()
+        if del_cnt > 0:
+            ## add alert message
+            messages.success(request, 'Default investment datas deleted successfully.')
+        else:
+            messages.info(request, 'No data deleted.')
+
+        # then delete choices
+        del_cnt = clear_investment_choices()
+        if del_cnt > 0:
+            ## add alert message
+            messages.success(request, 'Default investment choices deleted successfully.')
+        else:
+            messages.info(request, 'No data deleted.')
+
+        # then delete types
+        del_cnt = clear_investment_types()
+        if del_cnt > 0:
+            ## add alert message
+            messages.success(request, 'Default investment types deleted successfully.')
+        else:
+            messages.info(request, 'No data deleted.')
+    else:
+        messages.info(request, 'No data deleted.')
+
+    return redirect('app_import_data:djep_import_index')
+# end def func_delete_default_questionaire_data()
+

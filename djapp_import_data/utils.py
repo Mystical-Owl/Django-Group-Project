@@ -12,6 +12,10 @@ from config.settings import DEFAULT_DATA_ROOT
 from questionaires.models import Questionaire
 from questionaire_answers.models import QuestionaireAnswer
 
+from investment_types.models import InvestmentType
+from investment_choices.models import InvestmentChoice
+from investment_datas.models import InvestmentData
+
 def clear_questionaire_answers ():
     '''
     Clear table questionaire_answers.
@@ -36,7 +40,7 @@ def clear_questionaires ():
     except Exception as e:
         print(e)
         return 0
-# end def clear_questionaire_answers()
+# end def clear_questionaires()
 
 def import_questionaire_answers ():
     '''
@@ -143,3 +147,97 @@ def import_default_users () :
     create_one_user(usernames)
 # end def import_default_users()
 
+def clear_investment_datas ():
+    '''
+    Clear table investment_datas.
+    Returns deleted record count.
+    '''
+    try:
+        del_cnt, _ = InvestmentData.objects.all().delete()
+        return del_cnt
+    except Exception as e:
+        print(e)
+        return 0
+# end def clear_investment_datas()
+
+def clear_investment_choices ():
+    '''
+    Clear table investment_choices.
+    Returns deleted record count.
+    '''
+    try:
+        del_cnt, _ = InvestmentChoice.objects.all().delete()
+        return del_cnt
+    except Exception as e:
+        print(e)
+        return 0
+# end def clear_investment_choices()
+
+def clear_investment_types ():
+    '''
+    Clear table investment_types.
+    Returns deleted record count.
+    '''
+    try:
+        del_cnt, _ = InvestmentType.objects.all().delete()
+        return del_cnt
+    except Exception as e:
+        print(e)
+        return 0
+# end def clear_investment_types()
+
+def import_investment_datas ():
+    '''
+    Import predefined questionaires and answers.
+    '''
+    # function to import investment_types, investment_choices and investment_datas
+    ### predefined files:
+    ###     funds_name_type_desc.csv
+    ###     funds_daily_2015_to_2036.csv
+
+    with open(
+        DEFAULT_DATA_ROOT + '/' + 'funds_name_type_desc.csv',
+        mode='r', 
+        newline='', 
+        encoding='utf-8'
+    ) as csvfile:
+        csv_reader = DictReader(csvfile)
+
+        for row in csv_reader:
+            i_type, _ = InvestmentType.objects.get_or_create(
+                investment_type = row['type']
+            )
+
+            i_choice, _ = InvestmentChoice.objects.get_or_create(
+                investment_name = row['name'],
+                investment_type = i_type,
+                investment_description = row['desc']
+            )
+    
+    i_choice_A, _ = InvestmentChoice.objects.get_or_create(investment_name = 'Fund_A')
+    i_choice_B, _ = InvestmentChoice.objects.get_or_create(investment_name = 'Fund_B')
+    i_choice_C, _ = InvestmentChoice.objects.get_or_create(investment_name = 'Fund_C')
+    i_choice_D, _ = InvestmentChoice.objects.get_or_create(investment_name = 'Fund_D')
+
+    def create_one_investment_data (invesment_name, investment_choice, csv_row) :
+        i_data, _ = InvestmentData.objects.get_or_create(
+            investment_choice = investment_choice,
+            investment_date = csv_row['Date'],
+            investment_price = csv_row[invesment_name]
+        )
+
+
+    with open(
+        DEFAULT_DATA_ROOT + '/' + 'funds_daily_2015_to_2036.csv',
+        mode='r', 
+        newline='', 
+        encoding='utf-8'
+    ) as csvfile:
+        csv_reader = DictReader(csvfile)
+
+        for row in csv_reader:
+            create_one_investment_data('Fund_A', i_choice_A, row)
+            create_one_investment_data('Fund_B', i_choice_B, row)
+            create_one_investment_data('Fund_C', i_choice_C, row)
+            create_one_investment_data('Fund_D', i_choice_D, row)
+# end def import_investment_datas()
