@@ -54,5 +54,5 @@ def profile_delete(request):
     if request.method == 'POST':
         profile.delete()
         messages.success(request, 'Profile deleted successfully!')
-        return redirect('profile_view')  # Redirects to create prompt
+        return redirect('profile_create')  # Redirects to create prompt
     return render(request, 'profiles/profile_confirm_delete.html', {'profile': profile})

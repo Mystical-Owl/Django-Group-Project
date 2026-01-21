@@ -14,12 +14,12 @@
 
 <!-- main content -->
 <!-- add alert message here -->
-<!-- for displaying alert messages in some html such as register and login -->
 
+<!-- display messages -->
+<!-- for displaying alert messages in some html such as register and login -->
 {% if messages %}
 <!-- prettier-ignore -->
 {% for message in messages %}
-
 <div class="container" id="djmessage{{ forloop.counter }}">
   <div
     class="alert alert-{{ message.tags }} alert-dismissible text-center"
@@ -31,18 +31,18 @@
     <strong>
       <!-- prettier-ignore -->
       {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-  Error:
-{% else %}
-  {{ message.tags | title }}
-{% endif %}
+        Error:
+      {% else %}
+        {{ message.tags | title }}
+      {% endif %}
     </strong>
     {{ message }}
   </div>
 </div>
-
 {% endfor %}
 <!-- prettier-ignore -->
 {% endif %}
+<!-- end display messages -->
 
 <br /><br />
 {% if user.is_authenticated %}
@@ -185,7 +185,15 @@
   }, 8000);
   setTimeout(function () {
     $("#djmessage3").fadeOut("slow");
+    $("#djmessage4").fadeOut("slow");
+    $("#djmessage5").fadeOut("slow");
+    $("#djmessage6").fadeOut("slow");
+    $("#djmessage7").fadeOut("slow");
+    $("#djmessage8").fadeOut("slow");
+    $("#djmessage9").fadeOut("slow");
+    $("#djmessage10").fadeOut("slow");
   }, 10000);
 </script>
+<!-- end message fadeout js script -->
 
 {% endblock %}

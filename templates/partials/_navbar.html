@@ -23,8 +23,25 @@
           <a class="nav-link" href="{% url 'pages:about' %}">About</a>
         </li>
         {% endif %}
-        <!-- questionaires -->
+        <!-- prettier-ignore -->
         {% if user.is_authenticated %}
+        <!-- user profile -->
+        <!-- prettier-ignore -->
+        {% if 'profile' in request.path %}
+        <li class="nav-item mr-3 active">
+          <a class="nav-link" href="{% url 'profile_view' %}">
+            <i class="fas fa-regular fa-address-card"></i>
+            Profile</a
+          >
+        </li>
+        {% else %}
+        <li class="nav-item mr-3">
+          <a class="nav-link" href="{% url 'profile_view' %}">
+            <i class="fas fa-regular fa-address-card"></i> Profile</a
+          >
+        </li>
+        {% endif %}
+        <!-- questionaires -->
         <!-- prettier-ignore -->
         {% if 'questionaires' in request.path %}
         <li class="nav-item mr-3 active">
