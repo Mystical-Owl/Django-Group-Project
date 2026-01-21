@@ -6,7 +6,7 @@ from investment_choices.models import InvestmentChoice
 
 class InvestmentData (models.Model) :
 
-    investment_choice = models.ForeignKey (InvestmentChoice, on_delete=models.DO_NOTHING)
+    investment_choice = models.ForeignKey (InvestmentChoice, on_delete=models.CASCADE)
     investment_date = models.DateTimeField()
     investment_price = models.FloatField()
 

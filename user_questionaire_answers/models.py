@@ -9,8 +9,8 @@ from questionaire_answers.models import QuestionaireAnswer
 class UserQuestionaireAnswer (models.Model) :
     # user_id = models.IntegerField(blank=True, null=True)
     # user = models.OneToOneField (User, on_delete=models.DO_NOTHING, blank=True, null=True)
-    user = models.ForeignKey (User, on_delete=models.DO_NOTHING, blank=True, null=True)
-    questionaire_answer = models.ForeignKey (QuestionaireAnswer, on_delete=models.DO_NOTHING)
+    user = models.ForeignKey (User, on_delete=models.CASCADE, blank=True, null=True)
+    questionaire_answer = models.ForeignKey (QuestionaireAnswer, on_delete=models.CASCADE)
 
     def __str__ (self) :
         return str(self.user.id) + ' ' + str(self.questionaire_answer.id)

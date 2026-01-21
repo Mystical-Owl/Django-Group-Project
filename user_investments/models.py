@@ -9,8 +9,8 @@ from investment_choices.models import InvestmentChoice
 class UserInvestment (models.Model) :
     # user_id = models.IntegerField(blank=True, null=True)
     # user = models.OneToOneField (User, on_delete=models.DO_NOTHING, blank=True, null=True)
-    user = models.ForeignKey (User, on_delete=models.DO_NOTHING, blank=True, null=True)
-    investment_choice = models.ForeignKey (InvestmentChoice, on_delete=models.DO_NOTHING)
+    user = models.ForeignKey (User, on_delete=models.CASCADE, blank=True, null=True)
+    investment_choice = models.ForeignKey (InvestmentChoice, on_delete=models.CASCADE)
     begin_date = models.DateTimeField(auto_now_add=True)
     end_date = models.DateTimeField(blank=True, null=True)
     investment_amount = models.FloatField()
