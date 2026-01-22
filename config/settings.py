@@ -49,10 +49,10 @@ DJANGO_APPS = [
 ]
 
 APPLICATION_APPS_A = [
-    # line 52; Andrew
+    # line 52/53/54/55; Andrew
     'pages.apps.PagesConfig',
-
-
+    #'contacts.apps.ContactsConfig',  # Future Messge Boxes
+    'accounts.apps.AccountsConfig',  #Register/Login/Logout/Dashboard
 
 
 
