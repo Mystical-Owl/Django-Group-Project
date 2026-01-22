@@ -46,10 +46,36 @@
 
 <br /><br />
 <div class="container">
+  <!-- prettier-ignore -->
+  {% for inv_name in inv_names %}
+  <!-- prettier-ignore -->
+  inv_name{{ forloop.counter }} = {{ inv_name }}<br />
+  <!-- prettier-ignore -->
+  {% endfor %}
+  <!-- prettier-ignore -->
+  {% for inv_value in inv_values %}
+  <!-- prettier-ignore -->
+  inv_value{{ forloop.counter }} = {{ inv_value }}<br />
+  <!-- prettier-ignore -->
+  {% endfor %}
+  <!-- prettier-ignore -->
   {% if user.is_authenticated %}
   <!-- form for investment choices -->
   <form action="{% url 'user_investments:save' %}" method="post">
     {% csrf_token %}
+
+    <!-- This section is for demo only. Remove for production. -->
+    For demo purposes only, input a date:
+    <input
+      type="text"
+      name="choose_date"
+      value="{{ choose_date }}"
+    /><br /><br />
+    <!-- end This section is for demo only. Remove for production. -->
+
+    <!-- investment amount -->
+    Investment Amount: <input type="text" name="amount" value="{{ amount }}" />
+    <br /><br />
     <!-- display investment choices -->
     <!-- prettier-ignore -->
     {% for investment_choice in investment_choices %}

@@ -80,7 +80,7 @@ def save_uqa (request) :
                 questionaire_answer = questionaire_answer
             )
 
-            print(u, c)
+            print(u.pk, u, c)
 
     print('after for questionaire in questionaires:')
 

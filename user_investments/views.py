@@ -3,6 +3,10 @@ from django.shortcuts import redirect
 
 from investment_choices.models import InvestmentChoice
 
+### import to use django messages framework
+from django.contrib import messages
+
+from datetime import date
 
 # Create your views here.
 
@@ -20,11 +24,14 @@ def choices (request) :
     '''
     investment_choices = InvestmentChoice.objects.all()
 
+    choose_date = date.today().strftime("%Y-%m-%d")
+
     context = {
         'investment_choices' : investment_choices,
+        'choose_date' : choose_date,
     }
 
-    return render(request, 'user_investments/choices.html', context)
+    return render(request, 'user_investments/save.html', context)
 # end def choices()
 
 def save (request) :
@@ -33,15 +40,43 @@ def save (request) :
     if request.method != "POST":
         return redirect('user_investment:index')
 
+    choose_date = request.POST.get('choose_date')
+
+    if not choose_date:
+        choose_date = date.today().strftime("%Y-%m-%d")
+
+    amount = request.POST.get('amount')
+
+    # no amount input
+    if not amount:
+        ## add alert message
+        messages.error(request, 'Please input correct amount.')
+    else:
+        try:
+            # if user input is not a number, goto exception
+            amount = float(amount)
+        except Exception as e:
+            messages.error(request, 'Please input correct amount.')
+
     investment_choices = InvestmentChoice.objects.all()
+
+    inv_names = []
+    inv_values = []
 
     for investment_choice in investment_choices:
         inv_name = investment_choice.investment_name
-
         inv_value = request.POST.get(inv_name)
 
-    context = {
+        inv_names.append(inv_name)
+        inv_values.append(inv_value)
 
+    context = {
+        'investment_choices' : investment_choices,
+        'amount' : amount,
+        'inv_names' : inv_names,
+        'inv_values' : inv_values,
+        'choose_date' : choose_date,
     }
+
     return render(request, 'user_investments/save.html', context)
 # end def save()
