@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.shortcuts import redirect
 
 from investment_choices.models import InvestmentChoice
 
@@ -8,6 +9,9 @@ from investment_choices.models import InvestmentChoice
 def index (request) :
     '''
     '''
+    context = {
+        
+    }
     return render(request, 'user_investments/index.html', context)
 # end def index()
 
@@ -26,5 +30,18 @@ def choices (request) :
 def save (request) :
     '''
     '''
-    return render(request, 'user_investments/index.html', context)
+    if request.method != "POST":
+        return redirect('user_investment:index')
+
+    investment_choices = InvestmentChoice.objects.all()
+
+    for investment_choice in investment_choices:
+        inv_name = investment_choice.investment_name
+
+        inv_value = request.POST.get(inv_name)
+
+    context = {
+
+    }
+    return render(request, 'user_investments/save.html', context)
 # end def save()

@@ -50,8 +50,6 @@
   <!-- form for investment choices -->
   <form action="{% url 'user_investments:save' %}" method="post">
     {% csrf_token %}
-    <!-- investment amount -->
-    Investment Amount: <input type="text" name="amount" /> <br /><br />
     <!-- display investment choices -->
     <!-- prettier-ignore -->
     {% for investment_choice in investment_choices %}
