@@ -16,6 +16,9 @@ from investment_types.models import InvestmentType
 from investment_choices.models import InvestmentChoice
 from investment_datas.models import InvestmentData
 
+from datetime import datetime
+from django.utils import timezone
+
 def clear_questionaire_answers ():
     '''
     Clear table questionaire_answers.
@@ -220,9 +223,18 @@ def import_investment_datas ():
     i_choice_D, _ = InvestmentChoice.objects.get_or_create(investment_name = 'Fund_D')
 
     def create_one_investment_data (invesment_name, investment_choice, csv_row) :
+        # Django expects all datetimes to have an associated timezone 
+        # when USE_TZ is active to maintain consistency and prevent 
+        # issues with time calculations.
+        date_string = csv_row['Date']
+        format_string = '%Y-%m-%d'
+        # Convert the string to a datetime object
+        naive_datetime_object = datetime.strptime(date_string, format_string)
+        # Make the datetime timezone-aware before assigning it
+        aware_datetime = timezone.make_aware(naive_datetime_object)
         i_data, _ = InvestmentData.objects.get_or_create(
             investment_choice = investment_choice,
-            investment_date = csv_row['Date'],
+            investment_date = aware_datetime,
             investment_price = csv_row[invesment_name]
         )
 
