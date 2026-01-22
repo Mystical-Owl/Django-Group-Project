@@ -225,7 +225,8 @@ def import_investment_datas ():
     def create_one_investment_data (invesment_name, investment_choice, csv_row) :
         # Django expects all datetimes to have an associated timezone 
         # when USE_TZ is active to maintain consistency and prevent 
-        # issues with time calculations.
+        # issues with time calculations.  Otherwise, there will be a
+        # DateTimeField naive datetime RuntimeWarning.
         date_string = csv_row['Date']
         format_string = '%Y-%m-%d'
         # Convert the string to a datetime object
