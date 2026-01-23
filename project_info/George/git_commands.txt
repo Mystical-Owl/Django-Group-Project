@@ -1,0 +1,17 @@
+
+
+git switch master
+git merge george
+git push -u origin master
+git switch george
+
+
+
+git switch master
+git pull origin andrew
+git pull origin franco
+git pull origin howard
+git pull origin george
+git push -u origin master
+git switch george
+

@@ -1,11 +1,16 @@
+<!-- prettier-ignore -->
 {% extends 'base.html' %}
 
+<!-- prettier-ignore -->
 {% block content %}
+
 <h2>Delete Profile</h2>
 <p>Are you sure you want to delete your profile? This cannot be undone.</p>
 <form method="post">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Yes, Delete</button>
-    <a href="{% url 'profile_view' %}" class="btn btn-secondary">Cancel</a>
+  {% csrf_token %}
+  <button type="submit" class="btn btn-danger">Yes, Delete</button>
+  <a href="{% url 'profile_view' %}" class="btn btn-secondary">Cancel</a>
 </form>
+
+<!-- prettier-ignore -->
 {% endblock %}

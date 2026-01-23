@@ -1,13 +1,44 @@
+<!-- prettier-ignore -->
 {% extends 'base.html' %}
+<!-- prettier-ignore -->
 {% load static %}
-
+<!-- prettier-ignore -->
 {% block title %}My Profile{% endblock %}
-
+<!-- prettier-ignore -->
 {% block content %}
+
+<!-- display messages -->
+<!-- for displaying alert messages in some html such as register and login -->
+{% if messages %}
+<!-- prettier-ignore -->
+{% for message in messages %}
+<div class="container" id="djmessage{{ forloop.counter }}">
+  <div
+    class="alert alert-{{ message.tags }} alert-dismissible text-center"
+    role="alert"
+  >
+    <button type="button" class="close" data-dismiss="alert">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <strong>
+      <!-- prettier-ignore -->
+      {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+        Error:
+      {% else %}
+        {{ message.tags | title }}
+      {% endif %}
+    </strong>
+    {{ message }}
+  </div>
+</div>
+{% endfor %}
+<!-- prettier-ignore -->
+{% endif %}
+<!-- end display messages -->
+
 <div class="container my-5">
   <div class="row justify-content-center">
     <div class="col-lg-8 col-md-10">
-
       {% if profile %}
       <div class="card shadow-sm border-0">
         <div class="card-header bg-info text-white">
@@ -19,8 +50,18 @@
 
         <div class="card-body">
           <div class="text-center mb-4">
-            <div class="avatar-circle bg-light border mx-auto mb-3" 
-                 style="width:120px; height:120px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:3.5rem;">
+            <div
+              class="avatar-circle bg-light border mx-auto mb-3"
+              style="
+                width: 120px;
+                height: 120px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 3.5rem;
+              "
+            >
               <i class="fas fa-user text-muted"></i>
             </div>
           </div>
@@ -37,42 +78,63 @@
 
           <div class="row">
             <div class="col-sm-6 mb-3">
-              <strong><i class="fas fa-birthday-cake mr-2 text-primary"></i>Age:</strong>
+              <strong
+                ><i class="fas fa-birthday-cake mr-2 text-primary"></i
+                >Age:</strong
+              >
               <span>{{ profile.age|default:"Not set" }}</span>
             </div>
             <div class="col-sm-6 mb-3">
-              <strong><i class="fas fa-venus-mars mr-2 text-primary"></i>Gender:</strong>
+              <strong
+                ><i class="fas fa-venus-mars mr-2 text-primary"></i
+                >Gender:</strong
+              >
               <span>
                 {% if profile.gender == 'male' %}
-                  <i class="fas fa-mars text-primary mr-1"></i> Male
-                {% elif profile.gender == 'female' %}
-                  <i class="fas fa-venus text-primary mr-1"></i> Female
-                {% elif profile.gender == 'other' %}
-                  <i class="fas fa-genderless text-primary mr-1"></i> Other
-                {% else %}
-                  Not set
-                {% endif %}
+                <i class="fas fa-mars text-primary mr-1"></i> Male {% elif
+                profile.gender == 'female' %}
+                <i class="fas fa-venus text-primary mr-1"></i> Female {% elif
+                profile.gender == 'other' %}
+                <i class="fas fa-genderless text-primary mr-1"></i> Other {%
+                else %} Not set {% endif %}
               </span>
             </div>
             <div class="col-sm-6 mb-3">
-              <strong><i class="fas fa-phone-alt mr-2 text-primary"></i>Telephone:</strong>
+              <strong
+                ><i class="fas fa-phone-alt mr-2 text-primary"></i
+                >Telephone:</strong
+              >
               <span>{{ profile.telephone|default:"Not set" }}</span>
             </div>
             <div class="col-sm-6 mb-3">
-              <strong><i class="fas fa-briefcase mr-2 text-primary"></i>Occupation:</strong>
+              <strong
+                ><i class="fas fa-briefcase mr-2 text-primary"></i
+                >Occupation:</strong
+              >
               <span>{{ profile.occupation|default:"Not set" }}</span>
             </div>
             <div class="col-12 mb-3">
-              <strong><i class="fas fa-map-marker-alt mr-2 text-primary"></i>Address:</strong>
-              <p class="mb-0">{{ profile.address|linebreaks|default:"Not set" }}</p>
+              <strong
+                ><i class="fas fa-map-marker-alt mr-2 text-primary"></i
+                >Address:</strong
+              >
+              <p class="mb-0">
+                {{ profile.address|linebreaks|default:"Not set" }}
+              </p>
             </div>
           </div>
 
           <div class="text-center mt-5">
-            <a href="{% url 'profile_update' %}" class="btn btn-primary btn-lg px-4 mr-3">
+            <a
+              href="{% url 'profile_update' %}"
+              class="btn btn-primary btn-lg px-4 mr-3"
+            >
               <i class="fas fa-edit mr-2"></i> Update Profile
             </a>
-            <a href="{% url 'profile_delete' %}" class="btn btn-outline-danger btn-lg px-4">
+            <a
+              href="{% url 'profile_delete' %}"
+              class="btn btn-outline-danger btn-lg px-4"
+            >
               <i class="fas fa-trash-alt mr-2"></i> Delete Profile
             </a>
           </div>
@@ -81,14 +143,56 @@
 
       {% else %}
       <div class="alert alert-info text-center py-5">
-        <h4><i class="fas fa-user-plus mr-2"></i>You haven't created a profile yet.</h4>
-        <a href="{% url 'profile_create' %}" class="btn btn-primary btn-lg mt-3">
+        <h4>
+          <i class="fas fa-user-plus mr-2"></i>You haven't created a profile
+          yet.
+        </h4>
+        <a
+          href="{% url 'profile_create' %}"
+          class="btn btn-primary btn-lg mt-3"
+        >
           Create Profile Now
         </a>
       </div>
       {% endif %}
-
     </div>
   </div>
 </div>
+
+<!-- message fadeout js script -->
+<script>
+  // set message to fade out after 3 to 10 seconds
+  // need to collectstatic after making changes to static files
+  // python manage.py collectstatic
+  // runserver will serve static files in development mode
+  // in production, need to configure web server to serve static files
+  // for example, using nginx or apache
+  // also need to set STATIC_URL and STATIC_ROOT in settings.py
+  // STATIC_URL = '/static/'
+  // STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+  // then run collectstatic to collect static files into STATIC_ROOT
+  // finally, configure web server to serve files from STATIC_ROOT at STATIC_URL
+  setTimeout(() => {
+    $("#djmessage").fadeOut("slow");
+  }, 3000);
+  setTimeout(function () {
+    $("#djmessage1").fadeOut("slow");
+  }, 6000);
+  setTimeout(function () {
+    $("#djmessage2").fadeOut("slow");
+  }, 8000);
+  setTimeout(function () {
+    $("#djmessage3").fadeOut("slow");
+    $("#djmessage4").fadeOut("slow");
+    $("#djmessage5").fadeOut("slow");
+    $("#djmessage6").fadeOut("slow");
+    $("#djmessage7").fadeOut("slow");
+    $("#djmessage8").fadeOut("slow");
+    $("#djmessage9").fadeOut("slow");
+    $("#djmessage10").fadeOut("slow");
+  }, 10000);
+</script>
+<!-- end message fadeout js script -->
+
+<!-- prettier-ignore -->
 {% endblock %}
