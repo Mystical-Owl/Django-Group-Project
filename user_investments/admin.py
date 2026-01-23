@@ -11,10 +11,10 @@ class UserInvestmentAdmin (admin.ModelAdmin) :
     # search_fields = ('user_id', 'investment_choice', 'begin_date', 'end_date', 'investment_amount')
     # list_per_page = 25
 
-    list_display = ('user', 'investment_choice', 'begin_date', 'end_date', 'investment_amount')
+    list_display = ('user', 'investment_choice', 'user_investment_name', 'begin_date', 'end_date', 'investment_amount')
     list_display_links = ('user', )
     list_editable = ('investment_choice', 'end_date', 'investment_amount')
-    search_fields = ('user', 'investment_choice', 'begin_date', 'end_date', 'investment_amount')
+    search_fields = ('user', 'investment_choice', 'user_investment_name', 'begin_date', 'end_date', 'investment_amount')
     list_per_page = 25
 
 
