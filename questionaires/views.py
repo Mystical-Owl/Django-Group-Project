@@ -13,12 +13,14 @@ from .utils import get_questionaire_and_answers
 
 def index (request) :
     print('def index (request) :')
+    
     if not request.user.is_authenticated:
         return redirect('/')
 
     context = {
         'questionaire_types' : questionaire_types,
     }
+
     return render(request, 'questionaires/index.html', context)
 # end def index()
 
@@ -33,11 +35,17 @@ def questionaire (request, questionaire_type) :
         'questionaire_types'        : questionaire_types,
         'questionaire_and_answers'  : questionaire_and_answers,
     }
+
     return render(request, 'questionaires/questionaire.html', context)
 # end def questionaire()
 
 def save_uqa (request) :
-    print('inside def save_uqa (request) ')
+    '''
+    '''
+    DEBUG_FUNCTION = False
+
+    if DEBUG_FUNCTION:
+        print('inside def save_uqa (request) ')
 
     if not request.user.is_authenticated:
         return redirect('/')
@@ -51,14 +59,17 @@ def save_uqa (request) :
 
     user = request.user
 
-    print(f"{user.id = }")
+    if DEBUG_FUNCTION:
+        print(f"{user.id = }")
 
     questionaires = Questionaire.objects.all()
 
-    print('before for questionaire in questionaires:')
+    if DEBUG_FUNCTION:
+        print('before for questionaire in questionaires:')
 
     for questionaire in questionaires:
         questionaire_answer_id = request.POST.get(str(questionaire.id))
+
         if questionaire_answer_id:
             # first delete other answers
             UserQuestionaireAnswer.objects.filter(
@@ -79,13 +90,16 @@ def save_uqa (request) :
                 questionaire        = questionaire,
                 questionaire_answer = questionaire_answer
             )
+            
+            if DEBUG_FUNCTION:
+                print(u.pk, u, c)
 
-            print(u.pk, u, c)
-
-    print('after for questionaire in questionaires:')
+    if DEBUG_FUNCTION:
+        print('after for questionaire in questionaires:')
 
     context = {
         'questionaire_types' : questionaire_types,
     }
+
     return redirect('questionaires:index')
 # end def save()

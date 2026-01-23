@@ -79,6 +79,26 @@
   <!-- prettier-ignore -->
   {% endif %}
   <!-- prettier-ignore -->
+  {% if is_user_finished_all_questionaires %}
+  <form action="" method="POST">
+    {% csrf_token %}
+    <button class="btn btn-primary" type="submit">
+      AI Suggested Investment Choices
+    </button>
+  </form>
+  <br /><br />
+  <!-- prettier-ignore -->
+  {% else %}
+  <form action="{% url 'questionaires:index' %}" method="get">
+    <button class="btn btn-primary">
+      Finish Questionaires for AI Suggested Investment Choices
+    </button>
+  </form>
+  <br /><br />
+
+  <!-- prettier-ignore -->
+  {% endif %}
+  <!-- prettier-ignore -->
   {% else %}
   <script>
     window.location.replace("/");

@@ -16,6 +16,8 @@ from django.contrib import messages
 from datetime import date
 from config.settings import DATE_STRING_FORMAT
 
+from user_questionaire_answers.utils import is_user_finished_all_questionaires
+
 # Create your views here.
 
 def index (request) :
@@ -31,7 +33,8 @@ def index (request) :
     ).distinct().order_by('user_investment_name')
 
     context = {
-        'user_investment_names' : user_investment_names
+        'user_investment_names' : user_investment_names,
+        'is_user_finished_all_questionaires' : is_user_finished_all_questionaires(request.user),
     }
     return render(request, 'user_investments/index.html', context)
 # end def index()
@@ -39,6 +42,7 @@ def index (request) :
 def show (request) :
     '''
     '''
+    DEBUG_FUNCTION = False
     
     if not request.user.is_authenticated:
         return redirect('/')
@@ -48,7 +52,8 @@ def show (request) :
     
     user_investment_name = request.POST.get('user_investment_name')
 
-    print(f"{user_investment_name = }")
+    if DEBUG_FUNCTION:
+        print(f"{user_investment_name = }")
 
     user_investments = UserInvestment.objects.filter(
         user_investment_name = user_investment_name
@@ -83,6 +88,7 @@ def choices (request) :
 def save (request) :
     '''
     '''
+    DEBUG_FUNCTION = False
     
     if not request.user.is_authenticated:
         return redirect('/')
@@ -108,7 +114,7 @@ def save (request) :
         except Exception as e:
             messages.error(request, 'Please input correct amount.')
             if request.user.username == 'admin':
-                messages.error(request, 'e = ' + str(e))
+                messages.error(request, 'Exception == ' + str(e))
 
 
     investment_choices = InvestmentChoice.objects.all()
@@ -166,7 +172,8 @@ def save (request) :
             end_date_str            = '',
         )
 
-    # print (f"{inv_name_val_dict = }")
+    if DEBUG_FUNCTION:
+        print (f"{inv_name_val_dict = }")
 
     messages.success(request, 'Investment choices saved successfully.')
 
