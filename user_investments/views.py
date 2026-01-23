@@ -13,10 +13,12 @@ from datetime import date
 def index (request) :
     '''
     '''
-    context = {
+    return choices(request)
+
+    # context = {
         
-    }
-    return render(request, 'user_investments/index.html', context)
+    # }
+    # return render(request, 'user_investments/index.html', context)
 # end def index()
 
 def choices (request) :
@@ -31,14 +33,14 @@ def choices (request) :
         'choose_date' : choose_date,
     }
 
-    return render(request, 'user_investments/save.html', context)
+    return render(request, 'user_investments/choices.html', context)
 # end def choices()
 
 def save (request) :
     '''
     '''
     if request.method != "POST":
-        return redirect('user_investment:index')
+        return choices(request)
 
     choose_date = request.POST.get('choose_date')
 
@@ -62,6 +64,7 @@ def save (request) :
 
     inv_names = []
     inv_values = []
+    inv_name_val_dict = {}
 
     for investment_choice in investment_choices:
         inv_name = investment_choice.investment_name
@@ -69,14 +72,19 @@ def save (request) :
 
         inv_names.append(inv_name)
         inv_values.append(inv_value)
+        inv_name_val_dict[inv_name] = inv_value
+
+
+    print (f"{inv_name_val_dict = }")
 
     context = {
         'investment_choices' : investment_choices,
         'amount' : amount,
         'inv_names' : inv_names,
         'inv_values' : inv_values,
+        'inv_name_val_dict' : inv_name_val_dict,
         'choose_date' : choose_date,
     }
 
-    return render(request, 'user_investments/save.html', context)
+    return render(request, 'user_investments/choices.html', context)
 # end def save()
