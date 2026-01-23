@@ -30,6 +30,7 @@ urlpatterns = [
     # by Howard, becasue profiles.urls.py was created
     path('profile/', include('profiles.urls')),
     # by George
+    path('user_investments/', include('user_investments.urls', namespace='user_investments')),
     path('questionaires/', include('questionaires.urls', namespace='questionaires')),
     path('admin/', admin.site.urls),
     # by George

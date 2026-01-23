@@ -60,10 +60,24 @@ def save_uqa (request) :
     for questionaire in questionaires:
         questionaire_answer_id = request.POST.get(str(questionaire.id))
         if questionaire_answer_id:
+            # first delete other answers
+            UserQuestionaireAnswer.objects.filter(
+                user                = user,
+                questionaire        = questionaire
+            ).delete()
+
+            UserQuestionaireAnswer.objects.filter(
+                user                    = user,
+                questionaire__isnull    = True
+            ).delete()
+
+            # save current answer
             questionaire_answer = QuestionaireAnswer.objects.filter(pk=questionaire_answer_id)[0]
+
             u, c = UserQuestionaireAnswer.objects.get_or_create(
-                user=user,
-                questionaire_answer=questionaire_answer
+                user                = user,
+                questionaire        = questionaire,
+                questionaire_answer = questionaire_answer
             )
 
             print(u, c)

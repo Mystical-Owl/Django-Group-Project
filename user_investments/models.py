@@ -11,7 +11,7 @@ class UserInvestment (models.Model) :
     # user = models.OneToOneField (User, on_delete=models.DO_NOTHING, blank=True, null=True)
     user = models.ForeignKey (User, on_delete=models.CASCADE, blank=True, null=True)
     investment_choice = models.ForeignKey (InvestmentChoice, on_delete=models.CASCADE)
-    begin_date = models.DateTimeField(auto_now_add=True)
+    begin_date = models.DateTimeField(blank=True, null=True)
     end_date = models.DateTimeField(blank=True, null=True)
     investment_amount = models.FloatField()
 

@@ -16,6 +16,9 @@ from investment_types.models import InvestmentType
 from investment_choices.models import InvestmentChoice
 from investment_datas.models import InvestmentData
 
+from datetime import datetime
+from django.utils import timezone
+
 def clear_questionaire_answers ():
     '''
     Clear table questionaire_answers.
@@ -213,6 +216,8 @@ def import_investment_datas ():
                 investment_type = i_type,
                 investment_description = row['desc']
             )
+        # end for
+    # end with open()
     
     i_choice_A, _ = InvestmentChoice.objects.get_or_create(investment_name = 'Fund_A')
     i_choice_B, _ = InvestmentChoice.objects.get_or_create(investment_name = 'Fund_B')
@@ -220,11 +225,23 @@ def import_investment_datas ():
     i_choice_D, _ = InvestmentChoice.objects.get_or_create(investment_name = 'Fund_D')
 
     def create_one_investment_data (invesment_name, investment_choice, csv_row) :
-        i_data, _ = InvestmentData.objects.get_or_create(
+        # Django expects all datetimes to have an associated timezone 
+        # when USE_TZ is active to maintain consistency and prevent 
+        # issues with time calculations.  Otherwise, there will be a
+        # DateTimeField naive datetime RuntimeWarning.
+        date_string = csv_row['Date']
+        format_string = '%Y-%m-%d'
+        # Convert the string to a datetime object
+        naive_datetime_object = datetime.strptime(date_string, format_string)
+        # Make the datetime timezone-aware before assigning it
+        aware_datetime = timezone.make_aware(naive_datetime_object)
+        i_data, created = InvestmentData.objects.get_or_create(
             investment_choice = investment_choice,
-            investment_date = csv_row['Date'],
+            investment_date = aware_datetime,
             investment_price = csv_row[invesment_name]
         )
+        return i_data, created
+    # end def create_one_investment_data()
 
 
     with open(
@@ -240,4 +257,6 @@ def import_investment_datas ():
             create_one_investment_data('Fund_B', i_choice_B, row)
             create_one_investment_data('Fund_C', i_choice_C, row)
             create_one_investment_data('Fund_D', i_choice_D, row)
+        # end for
+    # end with open()
 # end def import_investment_datas()
