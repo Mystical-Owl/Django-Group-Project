@@ -44,40 +44,41 @@
 {% endif %}
 <!-- end display messages -->
 
+<br /><br />
 <div class="container">
   <!-- prettier-ignore -->
   {% if user.is_authenticated %}
 
   <!-- prettier-ignore -->
-  {% if user_investment_names %}
-  <br /><br />
-  <!-- prettier-ignore -->
-  {% for user_investment_name in user_investment_names %}
+  {% for user_investment in user_investments %}
 
-  <form action="{% url 'user_investments:show' %}" method="POST">
-    {% csrf_token %}
-    <input
-      type="hidden"
-      name="user_investment_name"
-      value="{{ user_investment_name }}"
-    />
-    <button type="submit" class="btn btn-primary m-1">
-      {{ user_investment_name }}
-    </button>
-  </form>
+  <table border="0">
+    <tr>
+      <td align="right">Investment Name:&nbsp;</td>
+      <td align="left">
+        {{ user_investment.investment_choice.investment_name }}
+      </td>
+    </tr>
+    <tr>
+      <td align="right">Begin Date:&nbsp;</td>
+      <td align="left">{{ user_investment.begin_date_str }}</td>
+    </tr>
+    <tr>
+      <td align="right">End Date:&nbsp;</td>
+      <td align="left">{{ user_investment.end_date_str }}&nbsp;</td>
+    </tr>
+    <tr>
+      <td align="right">Investment Amount:&nbsp;</td>
+      <td align="left">{{ user_investment.investment_amount }}</td>
+    </tr>
+  </table>
+  <br />
 
   <!-- prettier-ignore -->
   {% endfor %}
-  <br /><br />&nbsp;
-
-  <!-- prettier-ignore -->
-  {% else %}
-  <br /><br />
-  <h4>There are no investments.</h4>
-  <br /><br />
-
-  <!-- prettier-ignore -->
-  {% endif %}
+  <br />
+  <br />
+  &nbsp;
   <!-- prettier-ignore -->
   {% else %}
   <script>

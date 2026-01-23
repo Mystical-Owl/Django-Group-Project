@@ -14,6 +14,8 @@ class UserInvestment (models.Model) :
     end_date = models.DateTimeField(blank=True, null=True)
     investment_amount = models.FloatField(blank=True, null=True)
     investment_total_amount = models.FloatField(blank=True, null=True)
+    begin_date_str = models.CharField (max_length=50, blank=True, null=True)
+    end_date_str = models.CharField (max_length=50, blank=True, null=True)
 
     def __str__ (self) :
         return str(self.investment_amount)
