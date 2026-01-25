@@ -366,7 +366,7 @@ input[type="submit"], button {
         max-height: 300px;
     }
 
-    .olMap + .clear_features {
+    .olMap + .delete_features {
         display: block;
         margin-top: 10px;
     }

@@ -23,7 +23,6 @@ from user_questionaire_answers.utils import is_user_finished_all_questionaires
 def index (request) :
     '''
     '''
-    
     if not request.user.is_authenticated:
         return redirect('/')
 
@@ -68,8 +67,8 @@ def show (request) :
 
 def choices (request) :
     '''
+    List all choices.
     '''
-
     if not request.user.is_authenticated:
         return redirect('/')
 
@@ -87,6 +86,7 @@ def choices (request) :
 
 def save (request) :
     '''
+    Save and go back to choices with saved values.
     '''
     DEBUG_FUNCTION = False
     
@@ -173,18 +173,123 @@ def save (request) :
         )
 
     if DEBUG_FUNCTION:
-        print (f"{inv_name_val_dict = }")
+        print (f"user_investments.views.save() {inv_name_val_dict = }")
 
     messages.success(request, 'Investment choices saved successfully.')
 
     context = {
-        'investment_choices' : investment_choices,
-        'total_amount' : total_amount,
-        'inv_names' : inv_names,
-        'inv_values' : inv_values,
-        'inv_name_val_dict' : inv_name_val_dict,
-        'choose_date' : choose_date,
+        'investment_choices'    : investment_choices,
+        'total_amount'          : total_amount,
+        'inv_names'             : inv_names,
+        'inv_values'            : inv_values,
+        'inv_name_val_dict'     : inv_name_val_dict,
+        'choose_date'           : choose_date,
     }
 
     return render(request, 'user_investments/choices.html', context)
+# end def save()
+
+def ai_investment_choices (request) :
+    '''
+    User must complete questionnaires before coming here.
+    '''
+    # DEBUG_FUNCTION = False
+    
+    # if not request.user.is_authenticated:
+    #     return redirect('/')
+
+    # if request.method != "POST":
+    #     return choices(request)
+
+    # choose_date = request.POST.get('choose_date')
+
+    # if not choose_date:
+    #     choose_date = date.today().strftime(DATE_STRING_FORMAT)
+
+    # total_amount = request.POST.get('total_amount')
+
+    # # no amount input
+    # if not total_amount:
+    #     ## add alert message
+    #     messages.error(request, 'Please input correct amount.')
+    # else:
+    #     try:
+    #         # if user input is not a number, goto exception
+    #         total_amount = float(total_amount)
+    #     except Exception as e:
+    #         messages.error(request, 'Please input correct amount.')
+    #         if request.user.username == 'admin':
+    #             messages.error(request, 'Exception == ' + str(e))
+
+
+    # investment_choices = InvestmentChoice.objects.all()
+
+    # inv_names = []
+    # inv_values = []
+    # inv_name_val_dict = {}
+
+    # for investment_choice in investment_choices:
+    #     inv_name = investment_choice.investment_name
+
+    #     # default to 0% if not chosen from html
+    #     inv_value = request.POST.get(inv_name, '0')
+
+    #     # store values for context
+    #     inv_names.append(inv_name)
+    #     inv_values.append(inv_value)
+    #     inv_name_val_dict[inv_name] = inv_value
+
+    #     # inv_value is percentage
+    #     investment_amount = float(total_amount) * float(inv_value) / 100
+
+    #     db_choose_date = make_aware_datetime(choose_date)
+
+    #     db_end_date = db_choose_date
+    #     db_end_date_str = db_end_date.strftime(DATE_STRING_FORMAT)
+
+    #     # check if user has previous investments
+    #     updated_row_count = UserInvestment.objects.filter(
+    #         user = request.user,
+    #         investment_choice = investment_choice
+    #     ).update(
+    #         end_date = db_end_date,
+    #         end_date_str = db_end_date_str
+    #     )
+
+    #     if updated_row_count == 0:
+    #         db_start_date = db_choose_date
+    #     else:
+    #         db_start_date = make_aware_the_next_day(choose_date)
+
+    #     db_start_date_str = db_start_date.strftime(DATE_STRING_FORMAT)
+
+    #     user_investment_name = db_start_date.strftime(DATE_STRING_FORMAT)
+
+    #     # save to database
+    #     UserInvestment.objects.get_or_create(
+    #         user                    = request.user,
+    #         investment_choice       = investment_choice,
+    #         user_investment_name    = user_investment_name,  # string
+    #         begin_date              = db_start_date,
+    #         investment_amount       = investment_amount,
+    #         investment_total_amount = float(total_amount),
+    #         begin_date_str          = db_start_date_str,
+    #         end_date_str            = '',
+    #     )
+
+    # if DEBUG_FUNCTION:
+    #     print (f"user_investments.views.save() {inv_name_val_dict = }")
+
+    # messages.success(request, 'Investment choices saved successfully.')
+
+    # context = {
+    #     'investment_choices'    : investment_choices,
+    #     'total_amount'          : total_amount,
+    #     'inv_names'             : inv_names,
+    #     'inv_values'            : inv_values,
+    #     'inv_name_val_dict'     : inv_name_val_dict,
+    #     'choose_date'           : choose_date,
+    # }
+
+    # return render(request, 'user_investments/choices.html', context)
 # end def save()

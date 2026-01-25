@@ -47,7 +47,7 @@
 {% endif %}
 <!-- end display messages -->
 
-<br /><br />
+<br />
 <div class="container">
   <!-- prettier-ignore -->
   {% if user.is_authenticated %}
@@ -65,7 +65,7 @@
     <!-- end This section is for demo only. Remove for production. -->
 
     <!-- investment amount -->
-    Investment Amount:
+    Investment Amount: &nbsp;
     <input type="text" name="total_amount" value="{{ total_amount }}" />
     <br /><br />
     <!-- display investment choices -->

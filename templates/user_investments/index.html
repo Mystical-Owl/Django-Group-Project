@@ -50,7 +50,7 @@
 
   <!-- prettier-ignore -->
   {% if user_investment_names %}
-  <br /><br />
+  <br />
   <!-- prettier-ignore -->
   {% for user_investment_name in user_investment_names %}
 
@@ -61,7 +61,7 @@
       name="user_investment_name"
       value="{{ user_investment_name }}"
     />
-    <button type="submit" class="btn btn-primary m-1">
+    <button type="submit" class="btn btn-info m-1">
       {{ user_investment_name }}
     </button>
   </form>
@@ -80,24 +80,31 @@
   {% endif %}
   <!-- prettier-ignore -->
   {% if is_user_finished_all_questionaires %}
-  <form action="" method="POST">
+  <form action="{% url 'user_investments:ai_investment_choices' %}" method="POST">
     {% csrf_token %}
     <button class="btn btn-primary" type="submit">
       AI Suggested Investment Choices
     </button>
   </form>
-  <br /><br />
+  <br />
   <!-- prettier-ignore -->
   {% else %}
   <form action="{% url 'questionaires:index' %}" method="get">
-    <button class="btn btn-primary">
-      Finish Questionaires for AI Suggested Investment Choices
+    <button class="btn btn-dark">
+      Finish Questionnaires for AI Suggested Investment Choices
     </button>
   </form>
-  <br /><br />
+  <br />
 
   <!-- prettier-ignore -->
   {% endif %}
+  <!-- present choice for self determined investment choices -->
+  <form action="{% url 'user_investments:choices' %}" method="get">
+    <button class="btn btn-warning">
+      Self Determined Investment Choices
+    </button>
+  </form>
+  <br>
   <!-- prettier-ignore -->
   {% else %}
   <script>

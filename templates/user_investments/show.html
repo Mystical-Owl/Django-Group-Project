@@ -44,7 +44,7 @@
 {% endif %}
 <!-- end display messages -->
 
-<br /><br />
+<br />
 <div class="container">
   <!-- prettier-ignore -->
   {% if user.is_authenticated %}
@@ -54,21 +54,21 @@
 
   <table border="0">
     <tr>
-      <td align="right">Investment Name:&nbsp;</td>
+      <td align="right">Investment Name:&nbsp;&nbsp;</td>
       <td align="left">
         {{ user_investment.investment_choice.investment_name }}
       </td>
     </tr>
     <tr>
-      <td align="right">Begin Date:&nbsp;</td>
+      <td align="right">Begin Date:&nbsp;&nbsp;</td>
       <td align="left">{{ user_investment.begin_date_str }}</td>
     </tr>
     <tr>
-      <td align="right">End Date:&nbsp;</td>
+      <td align="right">End Date:&nbsp;&nbsp;</td>
       <td align="left">{{ user_investment.end_date_str }}&nbsp;</td>
     </tr>
     <tr>
-      <td align="right">Investment Amount:&nbsp;</td>
+      <td align="right">Investment Amount:&nbsp;&nbsp;</td>
       <td align="left">{{ user_investment.investment_amount }}</td>
     </tr>
   </table>
