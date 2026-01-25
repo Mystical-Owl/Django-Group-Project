@@ -5,7 +5,7 @@ from questionaires.choices import questionaire_types
 
 def is_user_finished_questionaire (user, questionaire_type) :
     '''
-    Returns 1 if user has finished all questions in
+    Returns True if user has finished all questions in
     the given questionaire_type.
     '''
     questionaire_count = Questionaire.objects.filter(
@@ -18,9 +18,9 @@ def is_user_finished_questionaire (user, questionaire_type) :
     ).count()
 
     if questionaire_count == user_questionaire_count :
-        return 1
+        return True
     else:
-        return 0
+        return False
 # end def is_user_finished_questionaire ()
 
 def is_user_finished_all_questionaires (user) :
