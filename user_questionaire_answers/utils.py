@@ -54,3 +54,19 @@ def is_user_finished_all_questionaires (user) :
 
     return user_finished_questionaire_count == len(questionaire_types)
 # end def is_user_finished_questionaires ()
+
+def user_questionaire_score (user):
+    '''
+    '''
+    total_score = 0
+
+    user_questionaire_answers = UserQuestionaireAnswer.objects.filter(
+        user = user
+    )
+
+    for user_questionaire_answer in user_questionaire_answers:
+        total_score += user_questionaire_answer.questionaire_answer.answer_score * \
+            user_questionaire_answer.questionaire_answer.answer_weight
+    
+    return total_score
+# end def user_questionaire_score()

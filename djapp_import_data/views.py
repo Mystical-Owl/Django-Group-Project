@@ -13,6 +13,8 @@ from .utils import delete_investment_types
 ### import to use django messages framework
 from django.contrib import messages
 
+from questionaires.utils import update_all_questionaires_min_max_score
+
 # Create your views here.
 
 def func_import_index (request) :
@@ -40,6 +42,19 @@ def func_import_default_questionaire_data (request):
 
     return redirect('app_import_data:djep_import_index')
 # end def func_import_default_questionaire_data()
+
+def func_update_questionaires_min_max_score (request) :
+    '''
+    '''
+    count = update_all_questionaires_min_max_score()
+    if count:
+        ## add alert message
+        messages.success(request, 'Questionaires min / max scores updated successfully.')
+    else:
+        messages.error(request, 'Questionaires min / max scores not updated.')
+
+    return redirect('app_import_data:djep_import_index')
+# end def func_update_questionaires_min_max_score()
 
 def func_delete_default_questionaire_data (request):
     if not request.user.is_authenticated:

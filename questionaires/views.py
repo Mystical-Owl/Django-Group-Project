@@ -7,7 +7,7 @@ from questionaires.models import Questionaire
 from questionaire_answers.models import QuestionaireAnswer
 from user_questionaire_answers.models import UserQuestionaireAnswer
 
-from .utils import get_questionaire_and_answers
+from .utils import get_questionaires_and_questionaire_answers
 
 # Create your views here.
 
@@ -29,11 +29,11 @@ def questionaire (request, questionaire_type) :
     if not request.user.is_authenticated:
         return redirect('/')
 
-    questionaire_and_answers = get_questionaire_and_answers(questionaire_type)
+    questionaires_and_questionaire_answers = get_questionaires_and_questionaire_answers(questionaire_type)
 
     context = {
         'questionaire_types'        : questionaire_types,
-        'questionaire_and_answers'  : questionaire_and_answers,
+        'questionaires_and_questionaire_answers'  : questionaires_and_questionaire_answers,
     }
 
     return render(request, 'questionaires/questionaire.html', context)

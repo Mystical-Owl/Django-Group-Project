@@ -4,6 +4,7 @@ from datetime import date
 from datetime import timedelta
 from config.settings import DATE_STRING_FORMAT
 
+
 def make_aware_datetime (date_string) :
     '''
     Django expects all datetimes to have an associated timezone 

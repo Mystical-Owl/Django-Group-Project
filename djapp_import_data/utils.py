@@ -19,6 +19,7 @@ from investment_datas.models import InvestmentData
 from datetime import datetime
 from django.utils import timezone
 
+
 def delete_questionaire_answers ():
     '''
     Clear table questionaire_answers.
