@@ -6,6 +6,9 @@
 <!-- load humanize -->
 {% load humanize %}
 
+<!-- load dict_extras -->
+{% load dict_extras %}
+
 <!-- webpage tab title -->
 {% block title %} | Investment{% endblock %}
 
@@ -51,6 +54,8 @@
 
   <!-- prettier-ignore -->
   {% for user_investment in user_investments %}
+  <!-- prettier-ignore -->
+  {% if user_investment.investment_amount %}
 
   <table border="0">
     <tr>
@@ -68,15 +73,30 @@
       <td align="left">{{ user_investment.end_date_str }}&nbsp;</td>
     </tr>
     <tr>
-      <td align="right">Investment Amount:&nbsp;&nbsp;</td>
+      <td align="right">Investment Amount at Begin Date:&nbsp;&nbsp;</td>
       <td align="left">{{ user_investment.investment_amount }}</td>
+    </tr>
+    <tr>
+      <td align="right">Investment Amount at End:&nbsp;&nbsp;</td>
+      <td align="left">
+        {{ end_inv_amount_dict|dict_get:user_investment.id }}
+      </td>
+    </tr>
+    <tr>
+      <td align="right">Investment Return:&nbsp;&nbsp;</td>
+      <td align="left">
+        {{ inv_return_percent_dict|dict_get:user_investment.id }}%
+      </td>
     </tr>
   </table>
   <br />
 
   <!-- prettier-ignore -->
+  {% endif %}
+  <!-- prettier-ignore -->
   {% endfor %}
   <br />
+  <h4>Total Return: {{ total_inv_return_percent }}%</h4>
   <br />
   &nbsp;
   <!-- prettier-ignore -->

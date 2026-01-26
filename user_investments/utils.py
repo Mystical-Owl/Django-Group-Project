@@ -4,6 +4,8 @@ from datetime import date
 from datetime import timedelta
 from config.settings import DATE_STRING_FORMAT
 
+from investment_datas.models import InvestmentData
+
 
 def make_aware_datetime (date_string) :
     '''
@@ -56,3 +58,45 @@ def make_aware_the_next_day (date_string) :
     return the_next_day
 # end def make_aware_tomorrow()
 
+def calc_end_inv_amount (user_investment, end_date=None):
+    '''
+    Returns amount at user_investment.end_date
+    or param end_date
+    or system current date
+    '''
+
+    begin_date = user_investment.begin_date
+
+    begin_investment_data = InvestmentData.objects.filter(
+        investment_choice   = user_investment.investment_choice,
+        investment_date     = begin_date
+    )[0]
+
+    begin_inv_price = begin_investment_data.investment_price
+
+    inv_end_date = user_investment.end_date
+
+    if not inv_end_date:
+        inv_end_date = end_date
+
+    if not inv_end_date:
+        inv_end_date = date.today()
+
+    end_investment_datas = InvestmentData.objects.filter(
+        investment_choice   = user_investment.investment_choice,
+        investment_date     = inv_end_date
+    )
+
+    if end_investment_datas.count():
+        end_investment_data = end_investment_datas[0]
+
+        end_inv_price = end_investment_data.investment_price
+
+        begin_inv_amount = user_investment.investment_amount
+
+        end_inv_amount = begin_inv_amount * begin_inv_price / end_inv_price
+    else:
+        end_inv_amount = 0
+
+    return end_inv_amount
+# end def calc_end_amount()

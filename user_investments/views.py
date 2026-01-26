@@ -10,6 +10,7 @@ from user_investments.utils import make_aware_datetime
 from user_investments.utils import make_aware_the_next_day
 from user_investments.utils import make_aware_today
 from user_investments.utils import make_aware_tomorrow
+from user_investments.utils import calc_end_inv_amount
 
 ### import to use django messages framework
 from django.contrib import messages
@@ -69,12 +70,50 @@ def show (request) :
         user_investment_name = user_investment_name
     )
 
+    total_begin_inv_amount = 0
+    total_end_inv_amount = 0
+    end_inv_amount_dict = {}
+    inv_return_percent_dict = {}
+    total_inv_return_percent = 0
+
+    for user_investment in user_investments:
+        begin_inv_amount = user_investment.investment_amount
+        end_inv_amount = calc_end_inv_amount(user_investment)
+
+        total_begin_inv_amount += begin_inv_amount
+        total_end_inv_amount += end_inv_amount
+
+        end_inv_amount_dict[user_investment.id] = f"{end_inv_amount:.2f}"
+
+        if begin_inv_amount == 0:
+            inv_return = 0
+        else:
+            inv_return = 100 * (end_inv_amount - begin_inv_amount) / begin_inv_amount
+
+        inv_return_percent_dict[user_investment.id] = f"{inv_return:.1f}"
+
+        if DEBUG_FUNCTION:
+            print(f"{user_investment.id = }")
+            print(f"{end_inv_amount = }")
+
+    # calculate with total
+    if total_begin_inv_amount == 0:
+        total_inv_return_percent = 0
+    else:
+        total_inv_return_percent = 100 * (total_end_inv_amount - total_begin_inv_amount) / total_begin_inv_amount
+
+    if DEBUG_FUNCTION:
+        print(f"{end_inv_amount_dict = }")
+
     context = {
-        'user_investments' : user_investments
+        'user_investments'          : user_investments,
+        'end_inv_amount_dict'       : end_inv_amount_dict,
+        'inv_return_percent_dict'   : inv_return_percent_dict,
+        'total_inv_return_percent'  : f"{total_inv_return_percent:.1f}",
     }
 
     return render(request, 'user_investments/show.html', context)
-# end def index()
+# end def show()
 
 def choices (request) :
     '''
@@ -156,7 +195,8 @@ def save (request) :
         # check if user has previous investments
         updated_row_count = UserInvestment.objects.filter(
             user = request.user,
-            investment_choice = investment_choice
+            investment_choice = investment_choice,
+            end_date__isnull = True,
         ).update(
             end_date = db_end_date,
             end_date_str = db_end_date_str
