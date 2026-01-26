@@ -67,7 +67,8 @@
         </li>
         {% endif %}
         <!-- prettier-ignore -->
-        {% endif %} <!-- if user.is_authenticated -->
+        {% endif %}
+        <!-- endif user.is_authenticated -->
       </ul>
 
       <ul class="navbar-nav ml-auto">
@@ -101,13 +102,13 @@
         <!-- prettier-ignore -->
         {% if 'dashboard' in request.path %}
         <li class="nav-item mr-3 active">
-          <a class="nav-link" href="#">
+          <a class="nav-link" href="{% url 'app_accounts:djep_dashboard' %}">
             <i class="fas fa-user-plus"></i> Welcome {{ user.username }}</a
           >
         </li>
         {% else %}
         <li class="nav-item mr-3">
-          <a class="nav-link" href="#">
+          <a class="nav-link" href="{% url 'app_accounts:djep_dashboard' %}">
             <i class="fas fa-user-plus"></i> Welcome {{ user.username }}</a
           >
         </li>
@@ -120,7 +121,11 @@
           >
             <i class="fas fa-sign-out-alt"></i> Logout
           </a>
-             <form action="{% url 'accounts:logout' %}" method="POST" id="logout">
+          <form
+            action="{% url 'app_accounts:djep_logout' %}"
+            method="POST"
+            id="logout"
+          >
             {% csrf_token %}
             <input type="hidden" />
           </form>
@@ -130,13 +135,13 @@
         <!-- prettier-ignore -->
         {% if 'register' in request.path %}
         <li class="nav-item mr-3 active">
-           <a class="nav-link" href="{% url 'accounts:register' %}">
+          <a class="nav-link" href="{% url 'app_accounts:djep_register' %}">
             <i class="fas fa-user-plus"></i> Register</a
           >
         </li>
         {% else %}
         <li class="nav-item mr-3">
-           <a class="nav-link" href="{% url 'accounts:register' %}">
+          <a class="nav-link" href="{% url 'app_accounts:djep_register' %}">
             <i class="fas fa-user-plus"></i> Register</a
           >
         </li>
@@ -146,13 +151,13 @@
         <!-- prettier-ignore -->
         {% if 'login' in request.path %}
         <li class="nav-item mr-3 active">
-            <a class="nav-link" href="{% url 'accounts:login' %}">
+          <a class="nav-link" href="{% url 'app_accounts:djep_login' %}">
             <i class="fas fa-sign-in-alt"></i> Login</a
           >
         </li>
         {% else %}
         <li class="nav-item mr-3">
-            <a class="nav-link" href="{% url 'accounts:login' %}">
+          <a class="nav-link" href="{% url 'app_accounts:djep_login' %}">
             <i class="fas fa-sign-in-alt"></i> Login</a
           >
         </li>

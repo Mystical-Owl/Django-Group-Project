@@ -1,77 +1,160 @@
-from django.shortcuts import render, redirect
-from django.contrib import messages,auth
+from django.shortcuts import render
+
+### import for redirect
+from django.shortcuts import redirect
+
+### import to use django messages framework
+from django.contrib import messages
+
+### import to use django auth framework
 from django.contrib.auth.models import User
-#from contacts.models import Contact
 
+### auth from both paths works
+# from django.contrib import auth
+from django.contrib.auth.models import auth
 
+# from djapp_contacts.models import Contact
 
 # Create your views here.
-def login(request):
-    if request.method == 'POST' : 
-        username = request.POST['username']
-        password = request.POST['password']
-        user = auth.authenticate(username=username, password=password)
-        if user is not None:
-            auth.login(request,user)
-            messages.success(request, 'You are now logged-in') 
-            return redirect('accounts:dashboard')
-             # go to endpoint 
 
+## new import for self defined functions
+# from django.http import HttpResponse
 
-        else:
-            messages.error(request,'Invalid credentials')
-            return redirect('accounts:login')
-                # go to endpoint 
+## using template:
 
-    else:
-        return render(request,'accounts/login.html')
-                # 需要自己打网頁html page
-
-
-def logout(request): 
-    if request.method == 'POST' : 
-        auth.logout(request)
-        #return render('pages:index')
-        return redirect('pages:index')
-
-
-def register(request):
+def func_login (request):
     if request.method == 'POST':
-    #Hhadle  registration logic here 
-        first_name = request.POST['first_name']
-        last_name= request.POST['last_name']
-        username = request.POST['username']
-        email = request.POST['email']
-        password =request.POST['password']
-        password2=request.POST['password2']
+        # process form data here
+        username = request.POST.get('username')
+        password = request.POST.get('password')
 
-        if password == password2:
-           if User.objects.filter(username=username).exists():
-               messages.error(request,'Username already exists')
-               return redirect("accounts:register")
-           
-          
-           else:
-                if User.objects.filter(email=email).exists():
-                    messages.error(request, 'Email already exixts')
-                    return redirect("accounts:register")
-        
-                else:
-                    user= User.objects.create_user(username=username,password=password,email=email, first_name=first_name, last_name=last_name)
-                    user.save()
-                    messages.success(request,'You are now registered and can log in')
-                    return redirect("accounts:login")
+        user = auth.authenticate(username=username, password=password)
+
+        if user is not None:
+            auth.login(request, user)
+            messages.success(request, 'You are now logged in.')
+            return redirect('app_accounts:djep_dashboard')
         else:
-            messages.error(request,'Passwords do not match')
-            return redirect("accounts:register")
+            messages.error(request, 'Invalid login credentials')
+            return redirect('app_accounts:djep_login')
+    else:
+        return render(request, 'tpl_accounts/login.html')
 
-    else: 
-        return render(request,'accounts/register.html')
+def func_logout (request):
+    if request.method == 'POST':
+        auth.logout(request)
+        messages.success(request, 'You are now logged out.')
+        return redirect('app_accounts:djep_login')
+        # return redirect('app_pages:djep_index')
+    else:
+        return render(request, 'tpl_accounts/login.html')
+
+### check fields in register all at the same time
+def func_register (request):
+    if request.method == 'POST':
+        # process form data here
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        password2 = request.POST.get('password2')
+
+        b_invalid_form_data_flag = False
     
+        if User.objects.filter(username=username).exists():
+            b_invalid_form_data_flag = True
+            messages.error(request, 'Username already taken')
 
-def dashboard(request):
-     return render(request,'accounts/dashboard.html')
- #   user_contacts=Contact.objects.all().filter(user_id=request.user.id).order_by('-contact_date')
-#  context={"contacts": user_contacts}
- 
-    #return render(request,'accounts/dashboard.html',context)
+        if User.objects.filter(email=email).exists():
+            b_invalid_form_data_flag = True
+            messages.error(request, 'Email already registered')
+
+        if password != password2:
+            b_invalid_form_data_flag = True
+            messages.error(request, 'Passwords do not match')
+
+        if b_invalid_form_data_flag:
+            form_values = {
+                'first_name' : first_name,
+                'last_name' : last_name,
+                'username' : username,
+                'email' : email,
+            }
+            context = {
+                'form_values' : form_values,
+            }
+            return render(request, 'tpl_accounts/register.html', context)
+        else:
+            # valid form data
+            # create user
+            user = User.objects.create_user(
+                username=username,
+                password=password,
+                email=email,
+                first_name=first_name,
+                last_name=last_name
+            )
+            user.save()
+            messages.success(request, 'Registration successful. You can now log in.')
+            return render(request, 'tpl_accounts/login.html')
+    else:  
+        # not form post action
+        ### default registration page display
+        return render(request, 'tpl_accounts/register.html')
+
+### check fields in register one at a time
+# def func_register (request):
+#     if request.method == 'POST':
+#         # process form data here
+#         first_name = request.POST.get('first_name')
+#         last_name = request.POST.get('last_name')
+#         username = request.POST.get('username')
+#         email = request.POST.get('email')
+#         password = request.POST.get('password')
+#         password2 = request.POST.get('password2')
+#         #
+#         if password == password2:
+#             if User.objects.filter(username=username).exists():
+#                 messages.error(request, 'Username already taken')
+#                 return render(request, 'tpl_accounts/register.html')
+#             else:
+#                 if User.objects.filter(email=email).exists():
+#                     messages.error(request, 'Email already registered')
+#                     return render(request, 'tpl_accounts/register.html')
+#                 else:
+#                     # create user
+#                     user = User.objects.create_user(
+#                         username=username,
+#                         password=password,
+#                         email=email,
+#                         first_name=first_name,
+#                         last_name=last_name
+#                     )
+#                     user.save()
+#                     messages.success(request, 'Registration successful. You can now log in.')
+#                     return render(request, 'tpl_accounts/login.html')
+#         else:
+#             messages.error(request, 'Passwords do not match')
+#             return redirect('app_accounts:djep_register')
+#         #
+#     else:
+#         ### default registration page display
+#         return render(request, 'tpl_accounts/register.html')
+
+
+def func_dashboard (request):
+    # contacts = Contact.objects.all().order_by('-contact_date')
+    # user_contacts = Contact.objects.all(
+    # ).order_by(
+    #     '-contact_date'
+    # ).filter(
+    #     user_id=request.user.id,
+    #     user_id__isnull=False
+    # )
+
+    context = {
+        # 'contacts' : user_contacts,
+    }
+
+    return render(request, 'tpl_accounts/dashboard.html', context=context)

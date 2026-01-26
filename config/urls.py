@@ -30,7 +30,7 @@ urlpatterns = [
     path('', include('pages.urls', namespace='pages')),
 
     # by Andrew, contacts -> Message Boxed 
-   # path('contacts/',include('contacts.urls',namespace='contacts')),
+    # path('contacts/',include('contacts.urls',namespace='contacts')),
 
     #by Andrew, accounts --> Register/ Login/ Logout / Dashboard
     path('accounts/',include('accounts.urls',namespace='accounts')),

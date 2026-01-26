@@ -1,26 +1,15 @@
-from django.urls import path 
-from. import views
+## must add this file for every new django app
 
-app_name='accounts'
-    #config-> URLS
-    #by Andrew, accounts --> Register/ Login/ Logout / Dashboard
-    #path('accounts/',include('accounts.urls',namespace='accounts')),
+from django.urls import path
+from . import views
 
+# same as namespace in config/urls.py
+app_name = 'app_accounts'
 
-
-urlspatterns = [ 
-    path('login/',views.login, name='login'),
-    path('logout/',views.logout,name='logout'),
-    path('register/',views.register,name='register'),
-    path('dashboard',views.dashboard,name='dashboard'),
-
-]
-
-
+### urlpatterns is a hook from django
 urlpatterns = [
-        path('login/', views.login, name='login'),
-        path('logout/', views.logout, name='logout'),
-        path('register/', views.register, name='register'),
-        #path('dashboard',views.dashboard, name='dashboard'),
-
+    path('login/', views.func_login, name='djep_login'),
+    path('logout/', views.func_logout, name='djep_logout'),
+    path('register/', views.func_register, name='djep_register'),
+    path('dashboard/', views.func_dashboard, name='djep_dashboard'),
 ]
