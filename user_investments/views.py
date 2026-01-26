@@ -44,6 +44,7 @@ def index (request) :
         'user_investment_names' : user_investment_names,
         'is_user_finished_all_questionaires' : is_user_finished_all_questionaires(request.user),
     }
+    
     return render(request, 'user_investments/index.html', context)
 # end def index()
 
@@ -64,6 +65,7 @@ def show (request) :
         print(f"{user_investment_name = }")
 
     user_investments = UserInvestment.objects.filter(
+        user = request.user,
         user_investment_name = user_investment_name
     )
 
