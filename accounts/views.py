@@ -14,7 +14,7 @@ def login(request):
         if user is not None:
             auth.login(request,user)
             messages.success(request, 'You are now logged-in') 
-            return redirect('aacounts:dashboard')
+            return redirect('accounts:dashboard')
              # go to endpoint 
 
 
@@ -63,13 +63,15 @@ def register(request):
                     return redirect("accounts:login")
         else:
             messages.error(request,'Passwords do not match')
-            return redirect("aacounts:register")
+            return redirect("accounts:register")
 
     else: 
         return render(request,'accounts/register.html')
     
 
-#def dashboard(request):
+def dashboard(request):
+     return render(request,'accounts/dashboard.html')
  #   user_contacts=Contact.objects.all().filter(user_id=request.user.id).order_by('-contact_date')
 #  context={"contacts": user_contacts}
-#    return render(request,'accounts/dashboard.html',context)
+ 
+    #return render(request,'accounts/dashboard.html',context)
