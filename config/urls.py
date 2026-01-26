@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls import include
+#from django.conf.urls.static import static
 # from django.conf import settings # Import settings
 
 ### add import for django debug toolbar
@@ -27,6 +28,13 @@ urlpatterns = [
     # by Andrew, pages
     # modified by Franco
     path('', include('pages.urls', namespace='pages')),
+
+    # by Andrew, contacts -> Message Boxed 
+   # path('contacts/',include('contacts.urls',namespace='contacts')),
+
+    #by Andrew, accounts --> Register/ Login/ Logout / Dashboard
+    path('accounts/',include('accounts.urls',namespace='accounts')),
+
     # by Howard, becasue profiles.urls.py was created
     path('profile/', include('profiles.urls')),
     # by George
