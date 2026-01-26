@@ -27,8 +27,10 @@ urlpatterns = [
     # by Andrew, pages
     # modified by Franco
     path('', include('pages.urls', namespace='pages')),
-    # by Howard, becasue profiles.urls.py was created
+    # by Howard, becasue profiles/urls.py was created
     path('profile/', include('profiles.urls')),
+    # by Howard, becasues invest_reviews/urls.py was created
+    path('invest_reviews/', include('invest_reviews.urls')),
     # by George
     path('user_investments/', include('user_investments.urls', namespace='user_investments')),
     path('questionaires/', include('questionaires.urls', namespace='questionaires')),

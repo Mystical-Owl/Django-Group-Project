@@ -1,18 +1,17 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django import forms
 from datetime import datetime, timedelta
 import pandas as pd
 import plotly.graph_objects as go
 import plotly.express as px
+import os
+from django.conf import settings
+from django.urls import reverse
+from django.http import HttpResponse
 
 # Import fund briefs
 from .fundbriefing import fund_briefs
-
-# Load data (CSV in app folder)
-df = pd.read_csv("funds_daily_2015_to_2036.csv")
-df['Date'] = pd.to_datetime(df['Date'])
-df = df.set_index('Date').sort_index()
 
 # Fund mappings
 short_names = {
@@ -31,109 +30,55 @@ long_names = {
 
 fund_map = {'A': 'Fund_A', 'B': 'Fund_B', 'C': 'Fund_C', 'D': 'Fund_D'}
 
+# Lazy load function for fund data
+def get_fund_data():
+    csv_path = os.path.join(settings.BASE_DIR, 'default_data', 'funds_daily_2015_to_2036.csv')
+    df = pd.read_csv(csv_path)
+    df['Date'] = pd.to_datetime(df['Date'])
+    df = df.set_index('Date').sort_index()
+    return df
+
 # Helper functions
 def calculate_pct_change(start_val, end_val):
     return ((end_val - start_val) / start_val) * 100 if start_val != 0 else 0
 
-def get_start_date(current_date, choice):
-    if choice == "Past_3_months":
-        return current_date - timedelta(days=91)
-    elif choice == "Past_12_months":
-        return current_date - timedelta(days=365)
-    elif choice == "Past_36_months":
-        return current_date - timedelta(days=1095)
-    elif choice == "Past_60_months":
-        return current_date - timedelta(days=1826)
-    elif choice == "Past_since_2016":
-        return datetime(2015, 12, 31)
-    elif choice == "Past_since_this_year":
-        return datetime(current_date.year - 1, 12, 31)
-    else:
-        raise ValueError("Invalid choice for start_date")
-
 def create_l_chart(data, fund_cols, title, start_date, current_date, is_combined=False):
     fig = go.Figure()
-    
     pct_text = ''
-    
     if is_combined:
         for col in fund_cols:
             short_name = short_names.get(col, col)
-            fig.add_trace(go.Scatter(
-                x=data.index, 
-                y=data[col], 
-                mode='lines', 
-                name=short_name
-            ))
-        
+            fig.add_trace(go.Scatter(x=data.index, y=data[col], mode='lines', name=short_name))
         pct_text = '<br>'.join([f"{short_names.get(col, col)}: {calculate_pct_change(data[col].iloc[0], data[col].iloc[-1]):.2f}%" for col in fund_cols])
-        
         legend_text = "<b>Fund Mapping:</b><br>" + "<br>".join([f"{long_names[col]}" for col in fund_cols])
-        
-        fig.update_layout(
-            title=title,
-            xaxis_title='Year',
-            yaxis_title='Value',
-            yaxis=dict(range=[0, None]),
-            legend=dict(x=0, y=1.1, orientation='h')
-        )
-        
-        fig.add_annotation(
-            x=0.02, y=0.95,
-            text=legend_text,
-            showarrow=False,
-            xref='paper', yref='paper',
-            align='left',
-            bgcolor='rgba(255,255,255,0.8)',
-            bordercolor='black',
-            borderwidth=1,
-            font=dict(size=11)
-        )
+        fig.update_layout(title=title, xaxis_title='Year', yaxis_title='Value', yaxis=dict(range=[0, None]), legend=dict(x=0, y=1.1, orientation='h'))
+        fig.add_annotation(x=0.02, y=0.95, text=legend_text, showarrow=False, xref='paper', yref='paper', align='left', bgcolor='rgba(255,255,255,0.8)', bordercolor='black', borderwidth=1, font=dict(size=11))
     else:
         col = fund_cols[0]
         long_name = long_names.get(col, col)
         fig.add_trace(go.Scatter(x=data.index, y=data[col], mode='lines', name=long_name))
         pct_change = calculate_pct_change(data[col].iloc[0], data[col].iloc[-1])
         pct_text = f"Percentage Change: {pct_change:.2f}%"
-        
         if col == 'Fund_D':
             min_val = data[col].min()
             max_val = data[col].max()
             buffer = (max_val - min_val) * 0.05
             y_min = max(80, min_val * 0.98)
             y_max = max_val + buffer
-            fig.update_layout(
-                title=title,
-                xaxis_title='Year',
-                yaxis_title='Value',
-                yaxis=dict(range=[y_min, y_max])
-            )
+            fig.update_layout(title=title, xaxis_title='Year', yaxis_title='Value', yaxis=dict(range=[y_min, y_max]))
         else:
-            fig.update_layout(
-                title=title,
-                xaxis_title='Year',
-                yaxis_title='Value',
-                yaxis=dict(range=[0, None])
-            )
-    
+            fig.update_layout(title=title, xaxis_title='Year', yaxis_title='Value', yaxis=dict(range=[0, None]))
     days_diff = (current_date - start_date).days
     if days_diff > 365:
         fig.update_xaxes(dtick='M12', tickformat='%Y', showline=True, linewidth=1.5, linecolor='black', gridcolor='lightgray')
     else:
         fig.update_xaxes(dtick='M3', tickformat='%Y %b', showline=True, linewidth=1.5, linecolor='black', gridcolor='lightgray')
-    
     fig.update_xaxes(zeroline=False)
-    
-    fig.add_annotation(
-        x=1.05, y=0.5, text=pct_text, showarrow=False,
-        xref='paper', yref='paper', align='left', font=dict(size=12)
-    )
-    
+    fig.add_annotation(x=1.05, y=0.5, text=pct_text, showarrow=False, xref='paper', yref='paper', align='left', font=dict(size=12))
     fig.update_layout(width=900, height=600, margin=dict(l=220, r=220))
-    
     return fig
 
-def calculate_portfolio_value(start_date, current_date, invested_amount, weights):
+def calculate_portfolio_value(df, start_date, current_date, invested_amount, weights):
     start_row = df.loc[start_date]
     current_row = df.loc[current_date]
     port_start = invested_amount
@@ -167,7 +112,14 @@ class PortfolioForm(forms.Form):
             raise forms.ValidationError("Percentages must sum to 100%.")
         return cleaned_data
 
-# Views
+# Back URL helper
+def get_back_url(request):
+    referer = request.META.get('HTTP_REFERER')
+    if referer and 'invest_reviews' in referer:
+        return referer
+    return reverse('invest_reviews:main')  # This will now work after app_name is set
+
+# Main page (your existing one, with placeholders)
 @login_required
 def invest_reviews_view(request):
     chart_folder = 'FundCharts_Store'
@@ -175,15 +127,19 @@ def invest_reviews_view(request):
     context = {
         'main_chart': main_chart,
         'fund_briefs': fund_briefs,
+        'back_url': request.META.get('HTTP_REFERER','/'),
     }
     return render(request, 'invest_reviews/invest_reviews.html', context)
 
+# Portfolio view (your existing one)
 @login_required
 def portfolio_view(request):
+    df = get_fund_data()
+    
     if request.method == 'POST':
         form = PortfolioForm(request.POST)
         if form.is_valid():
-            current_date = form.cleaned_data['current_date']
+            current_date = pd.to_datetime(form.cleaned_data['current_date'])
             invested_amount = form.cleaned_data['invested_amount']
             weights = {
                 'Fund_A': form.cleaned_data['pct_A'] / 100.0,
@@ -191,11 +147,44 @@ def portfolio_view(request):
                 'Fund_C': form.cleaned_data['pct_C'] / 100.0,
                 'Fund_D': form.cleaned_data['pct_D'] / 100.0
             }
-            start_date = form.cleaned_data['start_date']
+            requested_start_date = form.cleaned_data['start_date']
+            start_date_dt = pd.to_datetime(requested_start_date)
+            
+            # Debug prints
+            print("Index sample:", df.index[:5])
+            print("Requested start (converted):", start_date_dt)
+            print("In index (start)?", start_date_dt in df.index)
+            print("Requested current (converted):", current_date)
+            print("In index (current)?", current_date in df.index)
+            
+            # Start date handling
+            if start_date_dt not in df.index:
+                available_start = df.index[df.index >= start_date_dt]
+                if available_start.empty:
+                    messages.error(request, "No data available after requested start date.")
+                    return render(request, 'invest_reviews/portfolio.html', {'form': form})
+                start_date = available_start.min()
+                messages.warning(request, f"Using nearest start date: {start_date.date()}")
+            else:
+                start_date = start_date_dt
+            
+            # Current date handling
+            if current_date not in df.index:
+                available_end = df.index[df.index <= current_date]
+                if available_end.empty:
+                    messages.error(request, "No data available before requested current date.")
+                    return render(request, 'invest_reviews/portfolio.html', {'form': form})
+                current_date = available_end.max()
+                messages.warning(request, f"Using nearest current date: {current_date.date()}")
+            else:
+                current_date = current_date
+            
+            start_date_str = start_date.strftime('%Y-%m-%d')
+            current_date_str = current_date.strftime('%Y-%m-%d')
             
             active_funds = [f for f, w in weights.items() if w > 0]
             port_start, port_current, gain, return_pct, current_holdings, current_alloc_pct = calculate_portfolio_value(
-                start_date, current_date, invested_amount, weights
+                df, start_date, current_date, invested_amount, weights
             )
             
             dates = df.loc[start_date:current_date].index
@@ -224,8 +213,9 @@ def portfolio_view(request):
             min_port = min(portfolio_values)
             y_min = min(0, min_port * 0.95) if min_port < invested_amount else 0
             fig_port.update_layout(
-                title=f"Your Portfolio Value Change from {start_date} to {current_date}",
-                xaxis_title="Date", yaxis_title="Portfolio Value (USD)",
+                title=f"Your Portfolio Value Change from {start_date_str} to {current_date_str}",
+                xaxis_title="Date",
+                yaxis_title="Portfolio Value (USD)",
                 yaxis=dict(range=[y_min, max(portfolio_values) * 1.05]),
                 legend=dict(x=0, y=1.1, orientation='h'),
                 margin=dict(l=250, r=200, t=120),
@@ -242,15 +232,92 @@ def portfolio_view(request):
             pie_values = [current_holdings[fund_col] for fund_col in fund_map.values() if weights[fund_col] > 0]
             pie_hover = [f"{long_names[fund_col]}<br>${current_holdings[fund_col]:,.2f}<br>{current_alloc_pct[fund_col]:.2f}%" for fund_col in fund_map.values() if weights[fund_col] > 0]
             
-            fig_pie = px.pie(names=pie_labels, values=pie_values, title="Current Portfolio Holdings by Value")
+            fig_pie = px.pie(names=pie_labels, values=pie_values, title="Current Portfolio Holdings Value")
             fig_pie.update_traces(textinfo='label+percent', textposition='inside', hovertemplate="%{customdata}<extra></extra>", customdata=pie_hover)
             
             pie_div = fig_pie.to_html(full_html=False, include_plotlyjs='cdn')
             
-            return render(request, 'invest_reviews/portfolio.html', {'form': form, 'port_div': port_div, 'pie_div': pie_div})
+            return render(request, 'invest_reviews/portfolio.html', {'form': form, 'port_div': port_div, 'pie_div': pie_div, 'back_url': request.META.get('HTTP_REFERER', reverse('invest_reviews:main')),})
     else:
         form = PortfolioForm()
     
-    return render(request, 'invest_reviews/portfolio.html', {'form': form})from django.shortcuts import render
+    return render(request, 'invest_reviews/portfolio.html', {'form': form})
 
-# Create your views here.
+# Placeholder views (minimal to stop import errors)
+@login_required
+def fund_descriptions_view(request):
+    return render(request, 'invest_reviews/fund_descriptions.html', {
+        'fund_briefs': fund_briefs,
+        'back_url': request.META.get('HTTP_REFERER', reverse('invest_reviews:main')),
+    })
+
+@login_required
+def fund_detail_view(request, fund_key):
+    brief = fund_briefs.get(fund_key, {'short': 'Not found', 'long': 'No description'})
+    chart_file = f"{fund_key}_Since_2016_to_2025-12-31.html"
+    return render(request, 'invest_reviews/fund_detail.html', {
+        'fund_key': fund_key,
+        'short': brief['short'],
+        'long': brief['long'],
+        'chart_path': f"FundCharts_Store/{chart_file}",
+        'back_url': request.META.get('HTTP_REFERER', reverse('invest_reviews:main')),
+    })
+
+@login_required
+def performance_since_founded_view(request):
+    chart_file = "Combined_All_Funds_Since_2016_to_2025-12-31.html"
+    return render(request, 'invest_reviews/performance_since_founded.html', {
+        'chart_path': f"FundCharts_Store/{chart_file}",
+        'back_url': request.META.get('HTTP_REFERER', reverse('invest_reviews:main')),
+    })
+
+@login_required
+def fund_individual_since_founded_view(request, fund_key):
+    chart_file = f"{fund_key}_Since_2016_to_2025-12-31.html"
+    return render(request, 'invest_reviews/fund_individual.html', {
+        'fund_key': fund_key,
+        'chart_path': f"FundCharts_Store/{chart_file}",
+        'back_url': request.META.get('HTTP_REFERER', reverse('invest_reviews:main')),
+    })
+
+
+@login_required
+def fund_detail_view(request, fund_key):
+    if fund_key not in fund_briefs:
+        return redirect('invest_reviews:fund_descriptions')
+    
+    brief = fund_briefs[fund_key]
+    chart_file = f"{fund_key}_Since_2016_to_2025-12-31.html"  # Adjust if your filenames differ
+    
+    context = {
+        'fund_key': fund_key,
+        'short': brief['short'],
+        'long': brief['long'],
+        'chart_path': f"FundCharts_Store/{chart_file}",
+        'back_url': get_back_url(request),  
+    }
+    return render(request, 'invest_reviews/fund_detail.html', context)
+@login_required
+def performance_since_founded_view(request):
+    return render(request, 'invest_reviews/performance_since_founded.html', {
+        'back_url': request.META.get('HTTP_REFERER', reverse('invest_reviews:main')),
+    })
+
+@login_required
+def fund_individual_since_founded_view(request, fund_key):
+    return render(request, 'invest_reviews/fund_individual.html', {
+        'fund_key': fund_key,
+        'back_url': request.META.get('HTTP_REFERER', reverse('invest_reviews:main')),
+    })
+
+@login_required
+def this_year_performance_view(request):
+    return render(request, 'invest_reviews/this_year_performance.html', {
+        'back_url': request.META.get('HTTP_REFERER', reverse('invest_reviews:main')),
+    })
+
+@login_required
+def more_to_see_view(request):
+    return render(request, 'invest_reviews/more_to_see.html', {
+        'back_url': request.META.get('HTTP_REFERER', reverse('invest_reviews:main')),
+    })

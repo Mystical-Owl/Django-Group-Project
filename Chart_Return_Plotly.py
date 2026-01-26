@@ -8,9 +8,9 @@ import os
 # CREATE OUTPUT FOLDER
 # ───────────────────────────────────────────────────────────────
 
-OUTPUT_FOLDER = "FundCharts_Store"
+OUTPUT_FOLDER = os.path.join("static", "FundCharts_Store")
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
-print(f"All charts will be saved to: ./{OUTPUT_FOLDER}/\n")
+print(f"All charts will be saved to: {OUTPUT_FOLDER}/\n")
 
 # ───────────────────────────────────────────────────────────────
 # IMPROVED DATA LOADING
@@ -19,7 +19,8 @@ print(f"All charts will be saved to: ./{OUTPUT_FOLDER}/\n")
 print("=== Loading and validating data ===")
 
 try:
-    df = pd.read_csv("funds_daily_2015_to_2036.csv")
+    csv_path = os.path.join('default_data', 'funds_daily_2015_to_2036.csv')
+    df = pd.read_csv(csv_path)
     df['Date'] = pd.to_datetime(df['Date'], format='%Y-%m-%d', errors='coerce')
     df['Date'] = df['Date'].dt.tz_localize(None)
     df = df.dropna(subset=['Date'])
@@ -88,6 +89,17 @@ def get_start_date(current_date, choice):
         return datetime(current_date.year - 1, 12, 31)
     else:
         raise ValueError("Invalid choice for start_date")
+
+def format_choice(choice):
+    """Convert choice string to readable title"""
+    if choice.startswith("Past_"):
+        part = choice.replace("Past_", "").replace("_", " ")
+        return f"Past {part}"
+    elif choice == "Past_since_2016":
+        return "Since 2016"
+    elif choice == "Past_since_this_year":
+        return "Since this year"
+    return choice.replace("_", " ")
 
 def create_l_chart(data, fund_cols, title, start_date, current_date, is_combined=False):
     fig = go.Figure()
@@ -210,16 +222,18 @@ def past_return(fund_input, current_date_str, choice):
     current_date = pd.to_datetime(current_date_str)
     start_date = get_start_date(current_date, choice)
     
+    choice_display = format_choice(choice)
+    
     if fund_input.upper() == "ALL":
         fund_cols = ['Fund_A', 'Fund_B', 'Fund_C', 'Fund_D']
-        title = f"All Funds {choice} to {current_date_str}"
+        title = f"All Funds {choice_display} to {current_date_str}"
         fig = create_l_chart(df.loc[start_date:current_date], fund_cols, title, start_date, current_date, is_combined=True)
         filename = os.path.join(OUTPUT_FOLDER, f"All_Funds_{choice}_to_{current_date_str}.html")
     else:
         fund_col = fund_map[fund_input.upper()]
-        display_name = long_names[fund_col]
+        short_name = short_names[fund_col]
+        title = f"{short_name} {choice_display} to {current_date_str}"
         data = df.loc[start_date:current_date, [fund_col]]
-        title = f"{display_name} {choice} to {current_date_str}"
         fig = create_l_chart(data, [fund_col], title, start_date, current_date)
         filename = os.path.join(OUTPUT_FOLDER, f"{fund_input.upper()}_{choice}_to_{current_date_str}.html")
     
@@ -242,8 +256,9 @@ def illustrate_return():
         data = df.loc[start_date:current_date]
         for fund in funds:
             fund_col = fund_map[fund]
-            display_name = long_names[fund_col]
-            title = f"{display_name} {choice} to {current_date_str}"
+            short_name = short_names[fund_col]
+            choice_display = format_choice(choice)
+            title = f"{short_name} {choice_display} to {current_date_str}"
             fig = create_l_chart(data, [fund_col], title, start_date, current_date)
             filename = os.path.join(OUTPUT_FOLDER, f"{fund}_{choice}_to_{current_date_str}.html")
             fig.write_html(filename, include_plotlyjs='cdn', auto_open=False)
@@ -251,17 +266,17 @@ def illustrate_return():
     
     # Combined L-charts and Bar charts - four fixed periods with Dec 31 start
     combined_periods = [
-        ("Past_since_2016", datetime(2015, 12, 31), "Since_2016"),
-        ("Since_2020", datetime(2019, 12, 31), "Since_2020"),
-        ("Since_2023", datetime(2022, 12, 31), "Since_2023"),
-        ("Past_since_this_year", datetime(2024, 12, 31), "Since_this_year")
+        ("Past_since_2016", datetime(2015, 12, 31), "Since 2016"),
+        ("Since_2020", datetime(2019, 12, 31), "Since 2020"),
+        ("Since_2023", datetime(2022, 12, 31), "Since 2023"),
+        ("Past_since_this_year", datetime(2024, 12, 31), "Since this year")
     ]
     
     for _, start_date, title_suffix in combined_periods:
         data = df.loc[start_date:current_date]
         title = f"All Funds {title_suffix} to {current_date_str}"
         fig = create_l_chart(data, ['Fund_A', 'Fund_B', 'Fund_C', 'Fund_D'], title, start_date, current_date, is_combined=True)
-        filename = os.path.join(OUTPUT_FOLDER, f"Combined_All_Funds_{title_suffix}_to_{current_date_str}.html")
+        filename = os.path.join(OUTPUT_FOLDER, f"Combined_All_Funds_{title_suffix.replace(' ', '_')}_to_{current_date_str}.html")
         fig.write_html(filename, include_plotlyjs='cdn', auto_open=False)
         print(f"Chart saved to {filename}")
     
@@ -272,9 +287,9 @@ def illustrate_return():
         for fund in funds:
             fund_col = fund_map[fund]
             pct_changes[short_names[fund_col]] = calculate_pct_change(data[fund_col].iloc[0], data[fund_col].iloc[-1])
-        title = f"Bar Chart % Change All Funds {title_suffix} to {current_date_str}"
+        title = f"Percentage Change All Funds {title_suffix} to {current_date_str}"
         fig = create_b_chart(pct_changes, title)
-        filename = os.path.join(OUTPUT_FOLDER, f"Bar_All_Funds_{title_suffix}_to_{current_date_str}.html")
+        filename = os.path.join(OUTPUT_FOLDER, f"Bar_All_Funds_{title_suffix.replace(' ', '_')}_to_{current_date_str}.html")
         fig.write_html(filename, include_plotlyjs='cdn', auto_open=False)
         print(f"Chart saved to {filename}")
 
@@ -418,14 +433,14 @@ def your_portfolio_return():
             xaxis_title="Date",
             yaxis_title="Portfolio Value (USD)",
             yaxis=dict(range=[y_min, max(portfolio_values) * 1.05]),
-            legend=dict(x=0.0, y=1.05, orientation='h', xanchor='left'),  # Lowered y, anchored left
-            margin=dict(l=250, r=200, t=150, b=50),  # Increased top margin for breathing room
+            legend=dict(x=0.0, y=1.05, orientation='h', xanchor='left'),
+            margin=dict(l=250, r=200, t=150, b=50),
             updatemenus=[
                 dict(
                     type="buttons",
                     direction="left",
-                    x=1.0,  # Moved to right
-                    xanchor='right',  # Anchor to right edge
+                    x=1.0,
+                    xanchor='right',
                     y=1.25,
                     pad=dict(t=50),
                     showactive=True,
@@ -474,7 +489,7 @@ def your_portfolio_return():
         fig_pie = px.pie(
             names=pie_labels,
             values=pie_values,
-            title="Current Portfolio Holdings by Value"
+            title="Current Portfolio Holdings Value"
         )
         fig_pie.update_traces(
             textinfo='label+percent',

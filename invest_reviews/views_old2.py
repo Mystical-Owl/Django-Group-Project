@@ -5,16 +5,13 @@ from datetime import datetime, timedelta
 import pandas as pd
 import plotly.graph_objects as go
 import plotly.express as px
+import os
+from django.conf import settings
 
-# Import fund briefs
+# Import fund briefs (fundbriefing.py is in the same app folder)
 from .fundbriefing import fund_briefs
 
-# Load data (CSV in app folder)
-df = pd.read_csv("funds_daily_2015_to_2036.csv")
-df['Date'] = pd.to_datetime(df['Date'])
-df = df.set_index('Date').sort_index()
-
-# Fund mappings
+# Fund mappings (global, no data dependency)
 short_names = {
     'Fund_A': 'Fund A',
     'Fund_B': 'Fund B',
@@ -31,25 +28,17 @@ long_names = {
 
 fund_map = {'A': 'Fund_A', 'B': 'Fund_B', 'C': 'Fund_C', 'D': 'Fund_D'}
 
-# Helper functions
+# Lazy load function for fund data (called only when needed to avoid import errors)
+def get_fund_data():
+    csv_path = os.path.join(settings.BASE_DIR, 'default_data', 'funds_daily_2015_to_2036.csv')
+    df = pd.read_csv(csv_path)
+    df['Date'] = pd.to_datetime(df['Date'])
+    df = df.set_index('Date').sort_index()
+    return df
+
+# Helper functions (updated to take df as param where needed)
 def calculate_pct_change(start_val, end_val):
     return ((end_val - start_val) / start_val) * 100 if start_val != 0 else 0
-
-def get_start_date(current_date, choice):
-    if choice == "Past_3_months":
-        return current_date - timedelta(days=91)
-    elif choice == "Past_12_months":
-        return current_date - timedelta(days=365)
-    elif choice == "Past_36_months":
-        return current_date - timedelta(days=1095)
-    elif choice == "Past_60_months":
-        return current_date - timedelta(days=1826)
-    elif choice == "Past_since_2016":
-        return datetime(2015, 12, 31)
-    elif choice == "Past_since_this_year":
-        return datetime(current_date.year - 1, 12, 31)
-    else:
-        raise ValueError("Invalid choice for start_date")
 
 def create_l_chart(data, fund_cols, title, start_date, current_date, is_combined=False):
     fig = go.Figure()
@@ -133,7 +122,7 @@ def create_l_chart(data, fund_cols, title, start_date, current_date, is_combined
     
     return fig
 
-def calculate_portfolio_value(start_date, current_date, invested_amount, weights):
+def calculate_portfolio_value(df, start_date, current_date, invested_amount, weights):
     start_row = df.loc[start_date]
     current_row = df.loc[current_date]
     port_start = invested_amount
@@ -170,6 +159,7 @@ class PortfolioForm(forms.Form):
 # Views
 @login_required
 def invest_reviews_view(request):
+    # Main view uses only static charts—no df needed
     chart_folder = 'FundCharts_Store'
     main_chart = f"{chart_folder}/Combined_All_Funds_Since_this_year_to_2025-12-31.html"
     context = {
@@ -180,6 +170,9 @@ def invest_reviews_view(request):
 
 @login_required
 def portfolio_view(request):
+    # Load data lazily only here (no import-time error)
+    df = get_fund_data()
+    
     if request.method == 'POST':
         form = PortfolioForm(request.POST)
         if form.is_valid():
@@ -195,7 +188,7 @@ def portfolio_view(request):
             
             active_funds = [f for f, w in weights.items() if w > 0]
             port_start, port_current, gain, return_pct, current_holdings, current_alloc_pct = calculate_portfolio_value(
-                start_date, current_date, invested_amount, weights
+                df, start_date, current_date, invested_amount, weights
             )
             
             dates = df.loc[start_date:current_date].index
@@ -251,6 +244,13 @@ def portfolio_view(request):
     else:
         form = PortfolioForm()
     
-    return render(request, 'invest_reviews/portfolio.html', {'form': form})from django.shortcuts import render
+    return render(request, 'invest_reviews/portfolio.html', {'form': form})
 
-# Create your views here.
+
+'''   
+
+<title>WealthHub {% block title %}{% endblock %}</title> 
+
+
+
+'''
