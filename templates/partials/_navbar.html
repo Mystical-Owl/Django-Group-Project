@@ -38,15 +38,14 @@
         {% if 'questionaires' in request.path %}
         <li class="nav-item mr-3 active">
           <a class="nav-link" href="{% url 'questionaires:index' %}">
-            <i class="fas fa-light fa-question"></i>
-            <i class="fas fa-light fa-circle-question"></i>
+            <i class="fas fa-question"></i>
             Questionnaires</a
           >
         </li>
         {% else %}
         <li class="nav-item mr-3">
           <a class="nav-link" href="{% url 'questionaires:index' %}">
-            <i class="fas fa-regular fa-question"></i> Questionnaires</a
+            <i class="fas fa-question"></i> Questionnaires</a
           >
         </li>
         {% endif %}
