@@ -107,11 +107,11 @@ def import_default_users () :
     '''
 
     @vectorize(cache=True)
-    def create_one_user (username) :
+    def create_one_user (username, first_name, last_name) :
         password    = '0';
         email       = '';
-        first_name  = '';
-        last_name   = '';
+        # first_name  = '';
+        # last_name   = '';
 
         ### cannot directly create user
         # # create user
@@ -148,7 +148,21 @@ def import_default_users () :
         'george',
     ]
 
-    create_one_user(usernames)
+    first_names = [
+        'Andrew',
+        'Franco',
+        'Howard',
+        'George',
+    ]
+
+    last_names = [
+        'L',
+        'M',
+        'L',
+        'C',
+    ]
+
+    create_one_user(usernames, first_names, last_names)
 # end def import_default_users()
 
 def delete_investment_datas ():

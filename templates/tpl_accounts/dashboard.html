@@ -14,7 +14,14 @@
   <div class="container" style="height: 218px">
     <div class="row">
       <div class="col-md-12">
+        <!-- alert messages -->
+        {% include 'partials/_alert.html' %}
+        <!-- prettier-ignore -->
+        {% if display_name %}
+        <h2>Welcome {{ display_name }}</h2>
+        {% else %}
         <h2>Welcome {{ user.username | title }}</h2>
+        {% endif %}
         <br /><br />
         <div class="container text-center">
           <h2>

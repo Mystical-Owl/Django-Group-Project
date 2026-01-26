@@ -153,8 +153,18 @@ def func_dashboard (request):
     #     user_id__isnull=False
     # )
 
+    user = request.user
+
+    display_name = ''
+
+    if user.first_name:
+        display_name = user.first_name.capitalize() + ' '
+
+    if user.last_name:
+        display_name += user.last_name.capitalize()
+
     context = {
-        # 'contacts' : user_contacts,
+        'display_name' : display_name,
     }
 
     return render(request, 'tpl_accounts/dashboard.html', context=context)

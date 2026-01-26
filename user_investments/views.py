@@ -33,7 +33,9 @@ def index (request) :
     if not request.user.is_authenticated:
         return redirect('/')
 
-    user_investment_names = UserInvestment.objects.values_list(
+    user_investment_names = UserInvestment.objects.filter(
+        user = request.user
+    ).values_list(
         'user_investment_name', 
         flat=True
     ).distinct().order_by('user_investment_name')
