@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Investment System Flow Diagram</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: { useMaxWidth: true },
+            securityLevel: 'loose'
+        });
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+        .mermaid {
+            text-align: center;
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: #fff;
+            overflow: auto;
+        }
+        .note {
+            background: #f9f9f9;
+            padding: 15px;
+            border-left: 4px solid #4CAF50;
+            margin: 20px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .path {
+            padding: 5px 10px;
+            border-radius: 4px;
+            margin: 5px;
+            display: inline-block;
+        }
+        .direct-path {
+            background: #ffebee;
+            color: #c62828;
+            border-left: 4px solid #ff6b6b;
+        }
+        .questionnaire-path {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border-left: 4px solid #4caf50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Financial Investment System Flow Diagram</h1>
+        
+        <div class="note">
+            <p>This flowchart shows the exact workflow you described, with boxes representing entities and arrows showing the flow. The diagram highlights the two investment paths: <span class="path direct-path">Direct Path</span> and <span class="path questionnaire-path">Questionnaire Path</span>.</p>
+        </div>
+
+        <h2>Flowchart</h2>
+        <div class="mermaid">
+graph TD
+    %% Define nodes with numbered labels for easy referral
+    A1[Customer] --> B2[User Account]
+    B2 --> C3[Decision]
+    
+    %% Decision branching
+    C3 --> D4[Investment]  %% Direct path
+    C3 --> E5[Questionnaire]  %% Questionnaire path
+    
+    %% Questionnaire path
+    E5 --> F6[QuestionAnswer]
+    F6 --> G7[Risk Assessment]
+    G7 --> H8[Affordability Score]
+    H8 --> I9[Product]
+    I9 --> D4  %% Join back to Investment
+    
+    %% Post-investment flow
+    D4 --> J10[Portfolio]
+    J10 --> K11[Daily Report]
+    
+    %% Additional relationship
+    I9 --> J10  %% Portfolio sourced from Products
+    
+    %% Styling for clarity
+    style A1 fill:#e1f5fe
+    style B2 fill:#e1f5fe
+    style C3 fill:#fff3e0
+    style D4 fill:#f3e5f5
+    style E5 fill:#e8f5e8
+    style F6 fill:#e8f5e8
+    style G7 fill:#e8f5e8
+    style H8 fill:#e8f5e8
+    style I9 fill:#fce4ec
+    style J10 fill:#f3e5f5
+    style K11 fill:#e8f5e8
+    
+    %% Add labels for paths
+    linkStyle 2 stroke:#ff6b6b,stroke-width:2px,color:#ff6b6b;
+    linkStyle 3 stroke:#4caf50,stroke-width:2px,color:#4caf50;
+        </div>
+
+        <h2>Flow Description</h2>
+        <h3>Primary Sequence</h3>
+        <ol>
+            <li><strong>Customer</strong> → <strong>User Account</strong> (registration)</li>
+            <li><strong>User Account</strong> → <strong>Decision</strong> (choose investment path)</li>
+            <li><strong>Decision</strong> branches into two paths:</li>
+            <ul>
+                <li class="direct-path"><strong>Direct Path</strong>: Decision → Investment (red arrow)</li>
+                <li class="questionnaire-path"><strong>Questionnaire Path</strong>: Decision → Questionnaire → QuestionAnswer → Risk Assessment → Affordability Score → Product → Investment (green arrow)</li>
+            </ul>
+            <li><strong>Investment</strong> → <strong>Portfolio</strong> (investment added to portfolio)</li>
+            <li><strong>Portfolio</strong> → <strong>Daily Report</strong> (performance reporting)</li>
+            <li><strong>Product</strong> → <strong>Portfolio</strong> (products are included in portfolios)</li>
+        </ol>
+
+        <h2>Entity Definitions</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Entity</th>
+                    <th>Description</th>
+                    <th>Role in Flow</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Customer</td><td>Individual user of the system</td><td>Initiates the flow by creating account</td></tr>
+                <tr><td>User Account</td><td>Login credentials and basic profile</td><td>User identity for system access</td></tr>
+                <tr><td>Decision</td><td>User's choice of investment path</td><td>Branching point between direct and questionnaire paths</td></tr>
+                <tr><td>Questionnaire</td><td>Set of risk and demographic questions</td><td>Collects user data for assessment</td></tr>
+                <tr><td>QuestionAnswer</td><td>User's responses to questions</td><td>Raw input for risk and affordability calculations</td></tr>
+                <tr><td>Risk Assessment</td><td>Calculated risk tolerance level</td><td>Determines suitable risk level for investments</td></tr>
+                <tr><td>Affordability Score</td><td>Calculated affordable investment amount</td><td>Determines budget constraints</td></tr>
+                <tr><td>Product</td><td>Investment product (fund, insurance, etc.)</td><td>Available investment options</td></tr>
+                <tr><td>Investment</td><td>Actual investment made by user</td><td>Concrete financial commitment</td></tr>
+                <tr><td>Portfolio</td><td>Collection of user's investments</td><td>Organizes and tracks investments</td></tr>
+                <tr><td>Daily Report</td><td>Daily performance report for portfolio</td><td>Provides performance tracking</td></tr>
+            </tbody>
+        </table>
+
+        <div class="note">
+            <p><strong>Note:</strong> This flowchart matches exactly the flow you described: Customer → User Account → Decision (with two arrows) → Investment (direct) or Questionnaire → QuestionAnswer → Risk Assessment → Affordability Score → Product → Investment → Portfolio → Daily Report, with Portfolio sourced from Products.</p>
+            <p>You can compare this with the image <code>img/uml.png</code> to see how the flow elements have been added.</p>
+        </div>
+    </div>
+</body>
+</html>

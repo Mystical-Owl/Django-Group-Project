@@ -1,0 +1,23 @@
+question_id,question_text,answer,score,weight,weighted_score,area
+1,Annual Income (Before Tax),"< HKD 300,000",0.2,0.1,0.020000000000000004,Financial Capacity
+2,Income Stability,Employed >5 years,1.0,0.1,0.1,Financial Capacity
+3,Bonus/Investment Income (% of total),0-10%,0.9,0.1,0.09000000000000001,Financial Capacity
+4,MPF/Obligatory Contributions (% income),<5%,1.0,0.1,0.1,Financial Capacity
+5,Number of Dependents,0,1.0,0.0875,0.0875,Financial Capacity
+6,Age Group,<35,1.0,0.0875,0.0875,Financial Capacity
+7,Marital Status,Single/no deps,0.7,0.0875,0.06124999999999999,Financial Capacity
+8,Caregiving Responsibilities,None,1.0,0.0875,0.0875,Financial Capacity
+9,Monthly Fixed Expenses (% Income),<60%,1.0,0.0625,0.0625,Financial Capacity
+10,Liquid Assets (Cash/Deposits/Stocks),<HKD 300K,0.2,0.0625,0.0125,Financial Capacity
+11,Debt Servicing Ratio,<20% of income,1.0,0.0625,0.0625,Financial Capacity
+12,Existing Insurance Premiums (% Income),<5%,1.0,0.0625,0.0625,Financial Capacity
+1,In uncertain times I usually expect the best.,0,0.0,1.0,0.0,Preference
+2,It's easy for me to relax.,0,0.0,1.0,0.0,Preference
+3,If something can go wrong for me it will.,0,4.0,1.0,4.0,Preference
+4,I'm always optimistic about my future.,0,0.0,1.0,0.0,Preference
+5,I enjoy my friends a lot.,0,0.0,1.0,0.0,Preference
+6,It's important for me to keep busy.,0,0.0,1.0,0.0,Preference
+7,I hardly ever expect things to go my way.,0,4.0,1.0,4.0,Preference
+8,I don't get upset too easily.,0,0.0,1.0,0.0,Preference
+9,I rarely count on good things happening to me.,0,4.0,1.0,4.0,Preference
+10,Overall I expect more good things to happen to me than bad.,0,0.0,1.0,0.0,Preference

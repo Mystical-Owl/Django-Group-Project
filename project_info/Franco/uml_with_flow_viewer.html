@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Investment System UML with Workflow</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: { useMaxWidth: true },
+            sequence: { useMaxWidth: true },
+            securityLevel: 'loose'
+        });
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3 {
+            color: #333;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+        .mermaid {
+            text-align: center;
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: #fff;
+            overflow: auto;
+        }
+        .note {
+            background: #f9f9f9;
+            padding: 15px;
+            border-left: 4px solid #4CAF50;
+            margin: 20px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        .flow-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
+            gap: 20px;
+        }
+        .flow-item {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            background: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Financial Investment System UML Diagram with Workflow</h1>
+        
+        <div class="note">
+            <p>This integrated diagram combines static class structure with dynamic workflow sequences based on the UI/UX workflow document. It connects the UML diagram with the flow of work as requested.</p>
+        </div>
+
+        <div class="section">
+            <h2>Static Structure: Class Diagram</h2>
+            <div class="mermaid">
+classDiagram
+    %% Core Customer Entities
+    class Customer {
+        +int customer_id
+        +string name
+        +string email
+        +string telephone
+        +string address
+        +datetime registration_date
+        +string status
+        +register()
+        +updateProfile()
+        +makeDecision()
+        +viewBackground()
+    }
+    
+    class UserAccount {
+        +int account_id
+        +Customer customer
+        +string username
+        +string password_hash
+        +datetime created_at
+        +boolean is_active
+        +login()
+        +logout()
+        +changePassword()
+        +resetPassword()
+    }
+    
+    %% Decision Making
+    class Decision {
+        +int decision_id
+        +Customer customer
+        +string decision_type
+        +datetime decision_date
+        +boolean completed_questionnaire
+        +string chosen_path
+        +text notes
+        +recordDecision()
+        +getDecisionSummary()
+        +calculatePath()
+    }
+    
+    %% Questionnaire System
+    class Questionnaire {
+        +int questionnaire_id
+        +string questionnaire_type
+        +string description
+        +int total_questions
+        +datetime created_at
+        +getQuestions()
+        +calculateScore()
+        +generateReport()
+    }
+    
+    class Question {
+        +int question_id
+        +Questionnaire questionnaire
+        +string question_text
+        +string question_type
+        +int sort_order
+        +decimal weight
+        +getAnswerOptions()
+        +calculateWeight()
+    }
+    
+    class QuestionnaireAnswer {
+        +int answer_id
+        +Customer customer
+        +Question question
+        +string answer_value
+        +decimal score
+        +datetime answered_at
+        +saveAnswer()
+        +calculateScore()
+        +validateAnswer()
+    }
+    
+    %% Assessment System
+    class RiskAssessment {
+        +int assessment_id
+        +Customer customer
+        +QuestionnaireAnswer answer
+        +string risk_level
+        +decimal risk_score
+        +string recommendation
+        +datetime assessed_at
+        +calculateRisk()
+        +getRecommendation()
+        +updateAssessment()
+    }
+    
+    class AffordabilityScore {
+        +int score_id
+        +Customer customer
+        +QuestionnaireAnswer answer
+        +decimal income_percentage
+        +decimal affordable_amount
+        +string affordability_level
+        +datetime calculated_at
+        +calculateAffordability()
+        +getAffordableAmount()
+        +updateScore()
+    }
+    
+    %% Investment System
+    class Product {
+        +int product_id
+        +string product_name
+        +string product_type
+        +string risk_level
+        +decimal expected_return
+        +decimal min_investment
+        +decimal max_investment
+        +string description
+        +getProductDetails()
+        +calculateReturns()
+        +checkEligibility()
+    }
+    
+    class Investment {
+        +int investment_id
+        +Customer customer
+        +Product product
+        +Decision decision
+        +decimal investment_amount
+        +datetime start_date
+        +datetime end_date
+        +string status
+        +decimal current_value
+        +startInvestment()
+        +quitInvestment()
+        +calculateReturn()
+        +updateValue()
+    }
+    
+    class Portfolio {
+        +int portfolio_id
+        +Customer customer
+        +string portfolio_name
+        +string risk_level
+        +decimal total_value
+        +datetime created_at
+        +string status
+        +addInvestment()
+        +removeInvestment()
+        +calculatePerformance()
+        +generateReport()
+    }
+    
+    class DailyReport {
+        +int report_id
+        +Portfolio portfolio
+        +Investment investment
+        +datetime report_date
+        +decimal daily_return
+        +decimal total_return
+        +text performance_notes
+        +text recommendations
+        +generateReport()
+        +sendNotification()
+        +getPerformanceTrend()
+    }
+    
+    %% Relationships
+    Customer "1" --> "*" UserAccount : has
+    Customer "1" --> "*" Decision : makes
+    Customer "1" --> "*" QuestionnaireAnswer : provides
+    Customer "1" --> "*" Investment : makes
+    Customer "1" --> "*" Portfolio : owns
+    
+    Questionnaire "1" --> "*" Question : contains
+    Question "1" --> "*" QuestionnaireAnswer : answered by
+    QuestionnaireAnswer "1" --> "1" RiskAssessment : generates
+    QuestionnaireAnswer "1" --> "1" AffordabilityScore : calculates
+    
+    Product "1" --> "*" Investment : purchased as
+    Product "*" --> "*" Portfolio : included in
+    Portfolio "1" --> "*" DailyReport : generates
+    
+    Decision "1" --> "*" Investment : leads to
+    Decision "1" --> "0..1" QuestionnaireAnswer : may include
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Dynamic Behavior: Workflow Diagrams</h2>
+            <p>Based on the UI/UX workflow document, these sequence diagrams show how users interact with the system.</p>
+            
+            <div class="flow-grid">
+                <div class="flow-item">
+                    <h3>1. Visitor Registration Journey</h3>
+                    <div class="mermaid">
+sequenceDiagram
+    participant V as Visitor
+    participant S as System
+    participant DB as Database
+    
+    V->>S: Browse landing page
+    S->>V: Show company background
+    V->>S: Click "Register"
+    S->>V: Display registration form
+    V->>S: Submit registration details
+    S->>DB: Create Customer record
+    S->>DB: Create UserAccount record
+    DB-->>S: Success
+    S->>V: Show profile setup form
+    V->>S: Submit profile details
+    S->>DB: Update Profile
+    DB-->>S: Success
+    S->>V: Show investment approach choice
+    V->>S: Choose path (Questionnaire/Direct)
+    S->>DB: Create Decision record
+    DB-->>S: Success
+    S->>V: Redirect to dashboard
+                    </div>
+                </div>
+                
+                <div class="flow-item">
+                    <h3>2. Questionnaire Path</h3>
+                    <div class="mermaid">
+sequenceDiagram
+    participant U as User
+    participant S as System
+    participant Q as Questionnaire
+    participant RA as RiskAssessment
+    participant AS as AffordabilityScore
+    participant P as Product
+    participant I as Investment
+    
+    U->>S: Start questionnaire
+    S->>Q: Load questions
+    Q-->>S: Question list
+    S->>U: Display question 1
+    loop Each question
+        U->>S: Submit answer
+        S->>Q: Save answer
+        Q-->>S: Acknowledge
+        S->>U: Next question
+    end
+    U->>S: Complete questionnaire
+    S->>RA: Calculate risk assessment
+    RA-->>S: Risk level & score
+    S->>AS: Calculate affordability
+    AS-->>S: Affordable amount
+    S->>U: Show recommendations
+    U->>S: Select product
+    S->>P: Check eligibility
+    P-->>S: Eligible
+    S->>U: Show investment form
+    U->>S: Enter investment amount
+    S->>AS: Validate affordability
+    AS-->>S: Approved
+    S->>I: Create investment
+    I-->>S: Created
+    S->>U: Show confirmation
+                    </div>
+                </div>
+                
+                <div class="flow-item">
+                    <h3>3. Direct Purchase Path</h3>
+                    <div class="mermaid">
+sequenceDiagram
+    participant U as User
+    participant S as System
+    participant P as Product
+    participant I as Investment
+    
+    U->>S: Browse investment options
+    S->>P: Get product list
+    P-->>S: Product details
+    S->>U: Display products
+    U->>S: Select product directly
+    S->>P: Get product details
+    P-->>S: Details
+    S->>U: Show investment form
+    U->>S: Enter investment amount
+    S->>P: Validate min/max investment
+    P-->>S: Valid
+    S->>I: Create investment
+    I-->>S: Created
+    S->>U: Show confirmation
+                    </div>
+                </div>
+                
+                <div class="flow-item">
+                    <h3>4. Questionnaire Flow (Detailed)</h3>
+                    <div class="mermaid">
+sequenceDiagram
+    participant U as User
+    participant S as System
+    participant Q as Question
+    participant QA as QuestionnaireAnswer
+    
+    U->>S: Click "Start Questionnaire"
+    S->>U: Show first question with progress
+    U->>S: Select answer
+    S->>QA: Save answer
+    QA-->>S: Saved
+    S->>U: Enable "Next" button
+    U->>S: Click "Next"
+    S->>Q: Load next question
+    Q-->>S: Question data
+    S->>U: Display next question
+    Note over U,S: Repeat until all questions
+    U->>S: Complete all questions
+    S->>S: Calculate risk score
+    S->>U: Show results & recommendations
+                    </div>
+                </div>
+                
+                <div class="flow-item">
+                    <h3>5. Investment Process Flow</h3>
+                    <div class="mermaid">
+sequenceDiagram
+    participant U as User
+    participant S as System
+    participant P as Product
+    participant I as Investment
+    participant PMT as Payment
+    
+    U->>S: Select investment
+    S->>P: Get detailed information
+    P-->>S: Details + risk disclosure
+    S->>U: Show investment details
+    U->>S: Click "Invest"
+    S->>U: Show investment amount form
+    U->>S: Enter amount
+    S->>P: Validate min/max limits
+    P-->>S: Valid
+    S->>U: Show payment options
+    U->>S: Select payment method
+    S->>PMT: Process payment
+    PMT-->>S: Payment successful
+    S->>I: Create investment record
+    I-->>S: Record created
+    S->>U: Show confirmation
+                    </div>
+                </div>
+                
+                <div class="flow-item">
+                    <h3>6. Dashboard Interaction Flow</h3>
+                    <div class="mermaid">
+sequenceDiagram
+    participant U as User
+    participant S as System
+    participant I as Investment
+    participant R as Report
+    
+    U->>S: Login
+    S->>S: Load personalized data
+    S->>U: Display dashboard
+    U->>S: Hover over investment
+    S->>I: Get investment details
+    I-->>S: Details
+    S->>U: Show tooltip
+    U->>S: Click "Edit" on investment
+    S->>U: Open edit modal
+    U->>S: Adjust allocation
+    S->>S: Recalculate portfolio balance
+    S->>U: Update display
+    U->>S: Request report
+    S->>R: Generate PDF report
+    R-->>S: Report ready
+    S->>U: Download PDF
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Integrated View: Connecting Structure with Flow</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Workflow</th>
+                        <th>Key Participating Classes</th>
+                        <th>Interactions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Visitor Registration</td><td>Customer, UserAccount, Decision</td><td>Customer registers → UserAccount created → Decision recorded</td></tr>
+                    <tr><td>Questionnaire Path</td><td>Customer, Questionnaire, Question, QuestionnaireAnswer, RiskAssessment, AffordabilityScore</td><td>Customer answers questions → Answers stored → Risk & Affordability calculated</td></tr>
+                    <tr><td>Direct Purchase Path</td><td>Customer, Product, Investment, Decision</td><td>Customer selects product → Investment created → Decision recorded</td></tr>
+                    <tr><td>Investment Process</td><td>Customer, Product, Investment, Portfolio</td><td>Customer invests → Investment linked to Product → Added to Portfolio</td></tr>
+                    <tr><td>Dashboard</td><td>Customer, Investment, Portfolio, DailyReport</td><td>Customer views dashboard → Investments displayed → Reports generated</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="note">
+            <p><strong>Note:</strong> This integrated diagram connects the static UML structure with the dynamic workflow from the UI/UX document. It shows how the classes participate in each workflow, addressing the request to "connect all the diagram" using the workflow wording.</p>
+            <p>You can compare this with the original <code>financial_investment_uml.md</code> and the image <code>img/uml.png</code> to see the added flow elements.</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -4,50 +4,22 @@
 {% block title %} | About{% endblock %}
 
 <style>
-  /* FORCE LIGHT ORANGE THEME - OVERRIDES EVERYTHING */
+  /* Minimal overrides - base.css handles everything */
   body { 
     background-color: #FFF8F0 !important; 
     min-height: 100vh !important; 
   }
-  
-  .top-bar {
-    background-color: #FFA07A !important;  /* Light orange */
-    padding: 25px !important;
-    border-radius: 0 0 25px 25px !important;
-    box-shadow: 0 6px 20px rgba(255,160,122,0.4) !important;
-    margin-bottom: 2rem !important;
-  }
-  
-  .top-bar h1 { 
-    color: #fff !important; 
-    text-shadow: 2px 2px 6px rgba(0,0,0,0.4) !important;
-    font-weight: 700 !important;
-  }
-  
-  .top-bar h2 { 
-    color: #FF8C00 !important;  /* Darker orange */
-    text-shadow: 2px 2px 6px rgba(0,0,0,0.4) !important;
-    font-weight: 500 !important;
-  }
-
-  /* Orange overlays for sections */
-  #showcase .overlay,
-  #services::before,
-  #showcase-inner::before {
-    background: rgba(255, 160, 122, 0.85) !important;
-  }
-
-  /* Work section - Orange instead of dark */
-  #work {
-    background: linear-gradient(135deg, #FFA07A 0%, #FF8C00 100%) !important;
-    color: white !important;
+  /* ULTRA STRONG RED - BEATS EVERYTHING */
+  section.top-bar div.container div.row div.col-md-12 h1,
+  section.top-bar div.container div.row div.col-md-12 h2 { 
+    color: #dc3545 !important;  /* RED WINS NOW */
   }
 </style>
 
 {% block content %}
-<!-- ORANGE TOP BAR -->
+<!-- ORANGE TOP BAR WITH RED TEXT -->
 <section class="top-bar">
-  <div class="container" style="background-color: #FFA07A;">
+  <div class="container">
     <div class="row text-center">
       <div class="col-md-12">
         <h1 class="display-3">WealthHub</h1>
@@ -57,15 +29,14 @@
   </div>
 </section>
 
-
 <!-- MAIN CONTENT -->
-<section id="about" class="py-5" style="background-color: #FFF8F0;">
+<section id="about" class="py-5">
   <div class="container">
     <div class="row">
       <div class="col-md-8">
-        <h2 class="display-4 text-dark mb-4" style="font-size: 2.5rem;">WealthHub empowers you to build your financial future without expensive advisors.</h2> <!-- Main slogan -->
+        <h2 class="display-4 text-dark mb-4" style="font-size: 2.5rem;">WealthHub empowers you to build your financial future without expensive advisors.</h2>
         
-        <div class="text-center mb-5" style="font-size: 1.5rem;"> <!-- Smaller size for numbering -->
+        <div class="text-center mb-5" style="font-size: 1.5rem;">
           <ol class="list-unstyled">
             <li>1. Skip the fees.</li>
             <li>2. Master Your Wealth.</li>
@@ -73,63 +44,42 @@
           </ol>
         </div>
 
-        <div class="position-relative mb-5 shadow-lg rounded">
-          <img src="{% static 'img/money.png' %}" alt="About WealthHub" class="img-fluid rounded" style="height: 400px; object-fit: cover;" />
-          <div class="position-absolute top-50 start-50 translate-middle text-center p-5" 
-               style="color: white; text-shadow: 3px 3px 8px rgba(0,0,0,0.8); max-width: 80%;">
-            <h3 class="display-4 fw-bold mb-3">Skip the fees.</h3>
-            <h4 class="lead">Master your wealth. Take control.</h4>
-          </div>
+        <!-- FIRST PICTURE - BOAT -->
+        <div class="mb-4">
+          <img src="{% static 'img/boat.jpg' %}" alt="WealthHub Features" class="img-fluid w-100 rounded shadow" style="height: 400px; object-fit: cover;" />
         </div>
 
-        <h2 class="display-4 text-dark mb-4">The WealthHub Revolution</h2>
-        <p class="lead mb-5">
-          Tired of private bankers and insurance agents chasing commissions instead of your welfare? WealthHub changes everything.
-        </p>
-        
-        <p class="fs-4 mb-5">
-          You're smarter than you think. With our cutting-edge AI platform, you become your own financial planner - analyzing your unique profile to build the portfolio that fits you, not their sales quotas.
-        </p>
-        
-        <p class="fs-4">
-          Professional tools. Transparent pricing. Your financial independence.
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
+        <!-- TEXT NOW SEPARATES PICTURES -->
+        <div class="text-center mb-5 py-5 bg-white rounded shadow-lg">
+          <h2 class="display-4 text-dark mb-4">The WealthHub Revolution</h2>
+          <p class="lead mb-4 fs-4">
+            Tired of private bankers and insurance agents chasing commissions instead of your welfare? WealthHub changes everything.
+          </p>
+          <p class="fs-4 mb-4">
+            You're smarter than you think. With our cutting-edge AI platform, you become your own financial planner - analyzing your unique profile to build the portfolio that fits you, not their sales quotas.
+          </p>
+          <p class="fs-4 fw-bold text-primary">
+            Professional tools. Transparent pricing. Your financial independence.
+          </p>
+        </div>
 
-        <!-- HERO IMAGE WITH OVERLAY -->
+        <!-- SECOND PICTURE - MONEY -->
         <div class="position-relative mb-5 shadow-lg rounded overflow-hidden">
-          <img src="{% static 'img/money.png' %}" alt="About WealthHub" class="img-fluid w-100" style="height: 450px; object-fit: cover;" />
-          <div class="position-absolute top-50 start-50 translate-middle text-center px-4 py-5" 
-               style="color: white; text-shadow: 2px 2px 8px rgba(0,0,0,0.9); max-width: 90%;">
-            <h2 class="display-3 fw-bold mb-3 lh-sm">Skip the fees.</h2>
-            <h3 class="display-5 fw-normal">Master your wealth. Take control.</h3>
-          </div>
-        </div>
-
-        <!-- REVOLUTION SECTION -->
-        <div class="row mb-5">
-          <div class="col-lg-10">
-            <h2 class="display-4 fw-bold text-dark mb-4">The WealthHub Revolution</h2>
-            <p class="lead fs-2 mb-4 text-muted">
-              Tired of private bankers and insurance agents chasing commissions instead of your welfare?
-            </p>
-            <p class="fs-3 mb-4">
-              You're smarter than you think. With our cutting-edge AI platform, you become your own financial planner—analyzing your unique profile to build the portfolio that fits <em>you</em>, not their sales quotas.
-            </p>
-            <p class="fs-3 fw-semibold text-dark">
-              Professional tools. Transparent pricing. Your financial independence.
+          <img src="{% static 'img/money.png' %}" alt="WealthHub Features" class="img-fluid w-100" style="height: 400px; object-fit: cover;" />
+          
+          <div class="money-overlay-left">
+            <h2>What Makes WealthHub Different</h2>
+            <p>Powered by enterprise-grade IT infrastructure and research-backed financial theory, we deliver:</p>
+            <p class="checklist">
+              ✅ Psychological Profiling - Are you optimistic, pessimistic, risk-averse, or aggressive?<br>
+              ✅ Social Demographic Analysis - Age, life stage, family status matter<br>
+              ✅ True Investment Capacity - Real money after essential spending (not just income)<br>
+              ✅ Real-time Daily Insights - Know exactly where you …
             </p>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
 
-      
       <!-- MVP DOCTORS -->
       <div class="col-md-4">
         {% if mvp_doctors %}
@@ -149,7 +99,7 @@
   </div>
 </section>
 
-<!-- Team -->
+<!-- Team Section -->
 {% if doctors %}
 <section id="team" class="py-5">
   <div class="container">
