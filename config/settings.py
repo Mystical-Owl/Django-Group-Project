@@ -49,10 +49,10 @@ DJANGO_APPS = [
 ]
 
 APPLICATION_APPS_A = [
-    # line 52; Andrew
+    # line 52/53/54/55; Andrew
     'pages.apps.PagesConfig',
-
-
+    #'contacts.apps.ContactsConfig',  # Future Messge Boxes
+    'accounts.apps.AccountsConfig',  #Register/Login/Logout/Dashboard
 
 
 
@@ -252,7 +252,6 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-
 ## add a location for photos jpg files
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
@@ -260,6 +259,10 @@ MEDIA_URL = '/media/'
 
 ## add a location for default data files
 DEFAULT_DATA_ROOT = os.path.join(BASE_DIR, 'default_data')
+
+
+## set project level date string format
+DATE_STRING_FORMAT = '%Y-%m-%d'
 
 
 ### The Debug Toolbar is shown only if your IP address is listed in Django’s INTERNAL_IPS setting. This means that for local development, you must add "127.0.0.1" to INTERNAL_IPS. You’ll need to create this setting if it doesn’t already exist in your settings module:

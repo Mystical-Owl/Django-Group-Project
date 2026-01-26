@@ -13,6 +13,11 @@ urlpatterns = [
         name='djep_import_default_questionaire_data'
     ),
     path(
+        'urlep_update_questionaires_min_max_score/',
+        views.func_update_questionaires_min_max_score,
+        name='djep_update_questionaires_min_max_score'
+    ),
+    path(
         'urlep_delete_default_questionaire_data/',
         views.func_delete_default_questionaire_data,
         name='djep_delete_default_questionaire_data'

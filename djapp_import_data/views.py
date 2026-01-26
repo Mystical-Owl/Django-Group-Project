@@ -3,15 +3,17 @@ from django.shortcuts import redirect
 
 from .utils import import_default_users
 from .utils import import_questionaire_answers
-from .utils import clear_questionaire_answers
-from .utils import clear_questionaires
+from .utils import delete_questionaire_answers
+from .utils import delete_questionaires
 from .utils import import_investment_datas
-from .utils import clear_investment_datas
-from .utils import clear_investment_choices
-from .utils import clear_investment_types
+from .utils import delete_investment_datas
+from .utils import delete_investment_choices
+from .utils import delete_investment_types
 
 ### import to use django messages framework
 from django.contrib import messages
+
+from questionaires.utils import update_all_questionaires_min_max_score
 
 # Create your views here.
 
@@ -41,6 +43,19 @@ def func_import_default_questionaire_data (request):
     return redirect('app_import_data:djep_import_index')
 # end def func_import_default_questionaire_data()
 
+def func_update_questionaires_min_max_score (request) :
+    '''
+    '''
+    count = update_all_questionaires_min_max_score()
+    if count:
+        ## add alert message
+        messages.success(request, 'Questionaires min / max scores updated successfully.')
+    else:
+        messages.error(request, 'Questionaires min / max scores not updated.')
+
+    return redirect('app_import_data:djep_import_index')
+# end def func_update_questionaires_min_max_score()
+
 def func_delete_default_questionaire_data (request):
     if not request.user.is_authenticated:
         return redirect('/')
@@ -50,7 +65,7 @@ def func_delete_default_questionaire_data (request):
 
     if request.method == 'POST':
         # first delete answers
-        del_cnt = clear_questionaire_answers()
+        del_cnt = delete_questionaire_answers()
         if del_cnt > 0:
             ## add alert message
             messages.success(request, 'Default questionaire answers deleted successfully.')
@@ -58,7 +73,7 @@ def func_delete_default_questionaire_data (request):
             messages.info(request, 'No data deleted.')
 
         # then delete questions
-        del_cnt = clear_questionaires()
+        del_cnt = delete_questionaires()
         if del_cnt > 0:
             ## add alert message
             messages.success(request, 'Default questionaire questions deleted successfully.')
@@ -95,7 +110,7 @@ def func_delete_default_investment_datas (request):
 
     if request.method == 'POST':
         # first delete datas
-        del_cnt = clear_investment_datas()
+        del_cnt = delete_investment_datas()
         if del_cnt > 0:
             ## add alert message
             messages.success(request, 'Default investment datas deleted successfully.')
@@ -103,7 +118,7 @@ def func_delete_default_investment_datas (request):
             messages.info(request, 'No data deleted.')
 
         # then delete choices
-        del_cnt = clear_investment_choices()
+        del_cnt = delete_investment_choices()
         if del_cnt > 0:
             ## add alert message
             messages.success(request, 'Default investment choices deleted successfully.')
@@ -111,7 +126,7 @@ def func_delete_default_investment_datas (request):
             messages.info(request, 'No data deleted.')
 
         # then delete types
-        del_cnt = clear_investment_types()
+        del_cnt = delete_investment_types()
         if del_cnt > 0:
             ## add alert message
             messages.success(request, 'Default investment types deleted successfully.')

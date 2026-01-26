@@ -7,7 +7,7 @@
 {% load humanize %}
 
 <!-- webpage tab title -->
-{% block title %} | Import Data{% endblock %}
+{% block title %} | Investment{% endblock %}
 
 <!-- main content -->
 {% block content %}
@@ -44,63 +44,73 @@
 {% endif %}
 <!-- end display messages -->
 
-<br /><br />
 <div class="container">
+  <!-- prettier-ignore -->
   {% if user.is_authenticated %}
-  <!-- form for investment choices -->
-  <form
-    action="{% url 'app_import_data:djep_import_default_questionaire_data' %}"
-    method="post"
-  >
+
+  <!-- prettier-ignore -->
+  {% if user_investment_names %}
+  <br />
+  <!-- prettier-ignore -->
+  {% for user_investment_name in user_investment_names %}
+
+  <form action="{% url 'user_investments:show' %}" method="POST">
     {% csrf_token %}
-    <div class="text-center">
-      <button type="submit" class="btn btn-primary mb-3">
-        Import Default Questionaire Data
-      </button>
-    </div>
-  </form>
-  <!-- form moved to modal for delete data -->
-  <div class="text-center">
-    <button
-      class="btn btn-danger mb-3"
-      data-url="{% url 'app_import_data:djep_delete_default_questionaire_data' %}"
-      data-toggle="modal"
-      data-target="#confirmDeleteFormModal"
-      data-id="0"
-    >
-      Delete Default Questionaire Data
+    <input
+      type="hidden"
+      name="user_investment_name"
+      value="{{ user_investment_name }}"
+    />
+    <button type="submit" class="btn btn-info m-1">
+      {{ user_investment_name }}
     </button>
-  </div>
-  <!-- end form moved to modal for delete data -->
-  <!-- form for import data -->
-  <form
-    action="{% url 'app_import_data:djep_import_default_investment_datas' %}"
-    method="post"
-  >
+  </form>
+
+  <!-- prettier-ignore -->
+  {% endfor %}
+  <br /><br />&nbsp;
+
+  <!-- prettier-ignore -->
+  {% else %}
+  <br /><br />
+  <h4>There are no investments.</h4>
+  <br /><br />
+
+  <!-- prettier-ignore -->
+  {% endif %}
+  <!-- prettier-ignore -->
+  {% if is_user_finished_all_questionaires %}
+  <form action="{% url 'user_investments:ai_investment_choices' %}" method="POST">
     {% csrf_token %}
-    <div class="text-center">
-      <button type="submit" class="btn btn-primary mb-3">
-        Import Default Investment Data
-      </button>
-    </div>
-  </form>
-  <!-- form moved to modal for delete data -->
-  <div class="text-center">
-    <button
-      class="btn btn-danger mb-3"
-      data-url="{% url 'app_import_data:djep_delete_default_investment_datas' %}"
-      data-toggle="modal"
-      data-target="#confirmDeleteFormModal"
-      data-id="0"
-    >
-      Delete Default Investment Data
+    <button class="btn btn-primary" type="submit">
+      AI Suggested Investment Choices
     </button>
-  </div>
-  <!-- end form moved to modal for delete data -->
+  </form>
+  <br />
+  <!-- prettier-ignore -->
+  {% else %}
+  <form action="{% url 'questionaires:index' %}" method="get">
+    <button class="btn btn-dark">
+      Finish Questionnaires for AI Suggested Investment Choices
+    </button>
+  </form>
+  <br />
+
+  <!-- prettier-ignore -->
+  {% endif %}
+  <!-- present choice for self determined investment choices -->
+  <form action="{% url 'user_investments:choices' %}" method="get">
+    <button class="btn btn-warning">
+      Self Determined Investment Choices
+    </button>
+  </form>
+  <br>
+  <!-- prettier-ignore -->
   {% else %}
   <script>
     window.location.replace("/");
   </script>
+  <!-- prettier-ignore -->
   {% endif %}
 </div>
 <!-- end main content -->

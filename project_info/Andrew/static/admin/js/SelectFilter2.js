@@ -137,7 +137,7 @@ Requires core.js and SelectBox.js.
             const warning_footer = quickElement('div', selector_chosen, '', 'class', 'list-footer-display');
             quickElement('span', warning_footer, '', 'id', field_id + '_list-footer-display-text');
             quickElement('span', warning_footer, ' ' + gettext('(click to clear)'), 'class', 'list-footer-display__clear');
-            const clear_all = quickElement(
+            const delete_all = quickElement(
                 'button',
                 selector_chosen,
                 interpolate(gettext('Remove all %s'), [field_name]),
@@ -166,7 +166,7 @@ Requires core.js and SelectBox.js.
             remove_button.addEventListener('click', function(e) {
                 move_selection(e, this, SelectBox.move, field_id + '_to', field_id + '_from');
             });
-            clear_all.addEventListener('click', function(e) {
+            delete_all.addEventListener('click', function(e) {
                 move_selection(e, this, SelectBox.move_all, field_id + '_to', field_id + '_from');
             });
             warning_footer.addEventListener('click', function(e) {

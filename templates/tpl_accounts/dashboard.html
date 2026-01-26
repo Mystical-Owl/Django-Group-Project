@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+<!-- load humanize -->
+{% load humanize %}
+
+<!-- webpage tab title -->
+{% block title %} | {{ user.username | title }} Dashboard{% endblock %}
+
+<!-- main content -->
+{% block content %}
+
+<!-- dashboard -->
+<section id="dashboard" class="py-4">
+  <div class="container" style="height: 218px">
+    <div class="row">
+      <div class="col-md-12">
+        <!-- alert messages -->
+        {% include 'partials/_alert.html' %}
+        <!-- prettier-ignore -->
+        {% if display_name %}
+        <h2>Welcome {{ display_name }}</h2>
+        {% else %}
+        <h2>Welcome {{ user.username | title }}</h2>
+        {% endif %}
+        <br /><br />
+        <div class="container text-center">
+          <h2>
+            <a style="text-decoration: none" href="{% url 'profile_view' %}">
+              <i class="fas fa-regular fa-address-card"></i>&nbsp;Profile</a
+            >
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a
+              style="text-decoration: none"
+              href="{% url 'questionaires:index' %}"
+            >
+              <i class="fas fa-question"></i>&nbsp;Questionnaires</a
+            >
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a
+              style="text-decoration: none"
+              href="{% url 'user_investments:index' %}"
+            >
+              <i class="fas fa-dollar-sign"></i>&nbsp;Investments</a
+            >
+          </h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- end dashboard -->
+
+<!-- prettier-ignore -->
+{% endblock %}
+<!-- end main content -->

@@ -70,7 +70,7 @@
       <form action="{% url 'questionaires:save_uqa' %}" method="post">
         {% csrf_token %}
         <!-- prettier-ignore -->
-        {% for questionaire_and_answer in questionaire_and_answers %}
+        {% for questionaire_and_answer in questionaires_and_questionaire_answers %}
         <!-- prettier-ignore -->
         Q{{ forloop.counter }}.
         {{ questionaire_and_answer.questionaire.questionaire_statement }}

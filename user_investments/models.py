@@ -7,13 +7,15 @@ from investment_choices.models import InvestmentChoice
 # Create your models here.
 
 class UserInvestment (models.Model) :
-    # user_id = models.IntegerField(blank=True, null=True)
-    # user = models.OneToOneField (User, on_delete=models.DO_NOTHING, blank=True, null=True)
     user = models.ForeignKey (User, on_delete=models.CASCADE, blank=True, null=True)
-    investment_choice = models.ForeignKey (InvestmentChoice, on_delete=models.CASCADE)
+    investment_choice = models.ForeignKey (InvestmentChoice, on_delete=models.CASCADE, blank=True, null=True)
+    user_investment_name = models.CharField (max_length=50, blank=True, null=True)
     begin_date = models.DateTimeField(blank=True, null=True)
     end_date = models.DateTimeField(blank=True, null=True)
-    investment_amount = models.FloatField()
+    investment_amount = models.FloatField(blank=True, null=True)
+    investment_total_amount = models.FloatField(blank=True, null=True)
+    begin_date_str = models.CharField (max_length=50, blank=True, null=True)
+    end_date_str = models.CharField (max_length=50, blank=True, null=True)
 
     def __str__ (self) :
         return str(self.investment_amount)

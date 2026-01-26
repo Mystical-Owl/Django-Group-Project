@@ -6,6 +6,18 @@ git push -u origin master
 git switch george
 
 
+git switch andrew
+git pull origin andrew
+git switch franco
+git pull origin franco
+git switch howard
+git pull origin howard
+git switch master
+git pull origin master
+git switch george
+git pull origin george
+
+
 
 git switch master
 git pull origin andrew

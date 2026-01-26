@@ -19,7 +19,8 @@ from investment_datas.models import InvestmentData
 from datetime import datetime
 from django.utils import timezone
 
-def clear_questionaire_answers ():
+
+def delete_questionaire_answers ():
     '''
     Clear table questionaire_answers.
     Returns deleted record count.
@@ -30,9 +31,9 @@ def clear_questionaire_answers ():
     except Exception as e:
         print(e)
         return 0
-# end def clear_questionaire_answers()
+# end def delete_questionaire_answers()
 
-def clear_questionaires ():
+def delete_questionaires ():
     '''
     Clear table questionaires.
     Returns deleted record count.
@@ -43,7 +44,7 @@ def clear_questionaires ():
     except Exception as e:
         print(e)
         return 0
-# end def clear_questionaires()
+# end def delete_questionaires()
 
 def import_questionaire_answers ():
     '''
@@ -106,11 +107,11 @@ def import_default_users () :
     '''
 
     @vectorize(cache=True)
-    def create_one_user (username) :
+    def create_one_user (username, first_name, last_name) :
         password    = '0';
         email       = '';
-        first_name  = '';
-        last_name   = '';
+        # first_name  = '';
+        # last_name   = '';
 
         ### cannot directly create user
         # # create user
@@ -147,10 +148,24 @@ def import_default_users () :
         'george',
     ]
 
-    create_one_user(usernames)
+    first_names = [
+        'Andrew',
+        'Franco',
+        'Howard',
+        'George',
+    ]
+
+    last_names = [
+        'L',
+        'M',
+        'L',
+        'C',
+    ]
+
+    create_one_user(usernames, first_names, last_names)
 # end def import_default_users()
 
-def clear_investment_datas ():
+def delete_investment_datas ():
     '''
     Clear table investment_datas.
     Returns deleted record count.
@@ -161,9 +176,9 @@ def clear_investment_datas ():
     except Exception as e:
         print(e)
         return 0
-# end def clear_investment_datas()
+# end def delete_investment_datas()
 
-def clear_investment_choices ():
+def delete_investment_choices ():
     '''
     Clear table investment_choices.
     Returns deleted record count.
@@ -174,9 +189,9 @@ def clear_investment_choices ():
     except Exception as e:
         print(e)
         return 0
-# end def clear_investment_choices()
+# end def delete_investment_choices()
 
-def clear_investment_types ():
+def delete_investment_types ():
     '''
     Clear table investment_types.
     Returns deleted record count.
@@ -187,7 +202,7 @@ def clear_investment_types ():
     except Exception as e:
         print(e)
         return 0
-# end def clear_investment_types()
+# end def delete_investment_types()
 
 def import_investment_datas ():
     '''
@@ -208,7 +223,9 @@ def import_investment_datas ():
 
         for row in csv_reader:
             i_type, _ = InvestmentType.objects.get_or_create(
-                investment_type = row['type']
+                investment_type = row['type'],
+                investment_score_range_start = row['range_start'],
+                investment_score_range_end = row['range_end'],
             )
 
             i_choice, _ = InvestmentChoice.objects.get_or_create(

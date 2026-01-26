@@ -7,7 +7,7 @@
 {% load humanize %}
 
 <!-- webpage tab title -->
-{% block title %} | Import Data{% endblock %}
+{% block title %} | Investment{% endblock %}
 
 <!-- main content -->
 {% block content %}
@@ -44,41 +44,47 @@
 {% endif %}
 <!-- end display messages -->
 
-<br /><br />
+<br />
 <div class="container">
+  <!-- prettier-ignore -->
   {% if user.is_authenticated %}
-  <!-- form for investment choices -->
-  <form action="{% url 'user_investments:save' %}" method="post">
-    {% csrf_token %}
-    <!-- display investment choices -->
-    <!-- prettier-ignore -->
-    {% for investment_choice in investment_choices %}
-    <!-- prettier-ignore -->
-    {{ investment_choice.investment_name }} &nbsp; &nbsp;
-    <select name="{{ investment_choice.investment_name }}">
-      <option value="0">0%</option>
-      <option value="10">10%</option>
-      <option value="20">20%</option>
-      <option value="30">30%</option>
-      <option value="40">40%</option>
-      <option value="50">50%</option>
-      <option value="60">60%</option>
-      <option value="70">70%</option>
-      <option value="80">80%</option>
-      <option value="90">90%</option>
-      <option value="100">100%</option>
-    </select>
-    <br /><br />
-    <!-- prettier-ignore -->
-    {% endfor %}
-    <!-- end display investment choices -->
 
-    <button type="submit" class="btn btn-primary mb-3">Save</button>
-  </form>
+  <!-- prettier-ignore -->
+  {% for user_investment in user_investments %}
+
+  <table border="0">
+    <tr>
+      <td align="right">Investment Name:&nbsp;&nbsp;</td>
+      <td align="left">
+        {{ user_investment.investment_choice.investment_name }}
+      </td>
+    </tr>
+    <tr>
+      <td align="right">Begin Date:&nbsp;&nbsp;</td>
+      <td align="left">{{ user_investment.begin_date_str }}</td>
+    </tr>
+    <tr>
+      <td align="right">End Date:&nbsp;&nbsp;</td>
+      <td align="left">{{ user_investment.end_date_str }}&nbsp;</td>
+    </tr>
+    <tr>
+      <td align="right">Investment Amount:&nbsp;&nbsp;</td>
+      <td align="left">{{ user_investment.investment_amount }}</td>
+    </tr>
+  </table>
+  <br />
+
+  <!-- prettier-ignore -->
+  {% endfor %}
+  <br />
+  <br />
+  &nbsp;
+  <!-- prettier-ignore -->
   {% else %}
   <script>
     window.location.replace("/");
   </script>
+  <!-- prettier-ignore -->
   {% endif %}
 </div>
 <!-- end main content -->
