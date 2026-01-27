@@ -8,6 +8,7 @@ from .views import (
     fund_individual_since_founded_view,  # placeholder
     this_year_performance_view,  # placeholder
     more_to_see_view,  # placeholder
+    fund_individual_this_year_view,
 )
 
 app_name = 'invest_reviews'  # MUST have this
@@ -23,7 +24,7 @@ urlpatterns = [
     # Performance Since Founded
     path('performance-since-founded/', performance_since_founded_view, name='performance_since_founded'),
     path('fund-since-founded/<str:fund_key>/', fund_individual_since_founded_view, name='fund_since_founded'),
-    #path('fund-this-year/<str:fund_key>/', fund_individual_this_year_view, name='fund_this_year'),  # ←
+    path('fund-this-year/<str:fund_key>/', fund_individual_this_year_view, name='fund_this_year'),  # ←
     # This Year Performance
     path('this-year-performance/', this_year_performance_view, name='this_year_performance'),
     

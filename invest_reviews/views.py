@@ -322,7 +322,9 @@ def fund_individual_this_year_view(request, fund_key):
     }
     return render(request, 'invest_reviews/fund_individual_this_year.html', context)
 
-print("DEBUG: fund_individual_this_year_view is defined")  # add this line right after the function definition
+### what does this do? (George)
+# print("DEBUG: fund_individual_this_year_view is defined")  
+# # add this line right after the function definition
 
 
 
