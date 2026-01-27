@@ -15,7 +15,7 @@
 ### URL of this project:
 
 ```
-https://github.com/Mystical-Owl/Django-Group-Project?number1=(06)&number2=(11)&number3=(12)&number4=(21)
+https://github.com/Mystical-Owl/Django-Group-Project?members=__(06)__(11)__(12)__(21)__
 ```
 
 ---
