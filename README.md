@@ -4,7 +4,7 @@
 
 ## Programmers:
 
-## (06) Franco 馬文明
+## (09) Franco 馬文明
 
 ## (11) Howard 黎樂之
 
@@ -15,7 +15,7 @@
 ### URL of this project:
 
 ```
-https://github.com/Mystical-Owl/Django-Group-Project?members=__(06)__(11)__(12)__(21)__
+https://github.com/Mystical-Owl/Django-Group-Project?members=__(09)__(11)__(12)__(21)__
 ```
 
 ---
