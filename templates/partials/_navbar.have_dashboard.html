@@ -65,22 +65,6 @@
           >
         </li>
         {% endif %}
-        <!-- invest_reviews link -->
-        <!-- prettier-ignore -->
-        {% if 'invest_reviews' in request.path %}
-        <li class="nav-item mr-3 active">
-          <a class="nav-link" href="{% url 'invest_reviews:main' %}">
-            <i class="fas fa-flag"></i> Invest Review</a
-          >
-        </li>
-        {% else %}
-        <li class="nav-item mr-3">
-          <a class="nav-link" href="{% url 'invest_reviews:main' %}">
-            <i class="fas fa-flag"></i> Invest Review</a
-          >
-        </li>
-        {% endif %}
-        <!-- end invest_reviews link -->
         <!-- prettier-ignore -->
         {% endif %}
         <!-- endif user.is_authenticated -->
@@ -112,6 +96,21 @@
         </li>
         {% endif %}
         <!-- prettier-ignore -->
+        {% endif %}
+        <!-- dashboard link -->
+        <!-- prettier-ignore -->
+        {% if 'dashboard' in request.path %}
+        <li class="nav-item mr-3 active">
+          <a class="nav-link" href="{% url 'app_accounts:djep_dashboard' %}">
+            <i class="fas fa-user-plus"></i> Welcome {{ user.username }}</a
+          >
+        </li>
+        {% else %}
+        <li class="nav-item mr-3">
+          <a class="nav-link" href="{% url 'app_accounts:djep_dashboard' %}">
+            <i class="fas fa-user-plus"></i> Welcome {{ user.username }}</a
+          >
+        </li>
         {% endif %}
         <!-- logout link -->
         <li class="nav-item mr-3">
