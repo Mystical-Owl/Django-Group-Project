@@ -83,7 +83,7 @@ APPLICATION_APPS_H = [
     # line 83; Howard
 
     'profiles.apps.ProfilesConfig',  # Profile , i.e. users' profile
-
+    'invest_reviews.apps.InvestReviewsConfig',  # Invest_reviews, i.e to watch Funds performance, portfolio performance
 
 
 
@@ -239,6 +239,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'config/static'),
+    os.path.join(BASE_DIR, 'invest_reviews/static'),  # ← Add by Howard
 ]
 
 ## original line:

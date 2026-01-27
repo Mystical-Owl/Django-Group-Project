@@ -5,12 +5,12 @@ import plotly.graph_objects as go
 import os
 
 # ───────────────────────────────────────────────────────────────
-# CREATE OUTPUT FOLDER
+# CREATE OUTPUT FOLDER (now directly in static/)
 # ───────────────────────────────────────────────────────────────
 
-OUTPUT_FOLDER = "FundCharts_Store"
+OUTPUT_FOLDER = os.path.join("static", "FundCharts_Store")
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
-print(f"All charts will be saved to: ./{OUTPUT_FOLDER}/\n")
+print(f"All charts will be saved to: {OUTPUT_FOLDER}/\n")
 
 # ───────────────────────────────────────────────────────────────
 # IMPROVED DATA LOADING
@@ -19,7 +19,9 @@ print(f"All charts will be saved to: ./{OUTPUT_FOLDER}/\n")
 print("=== Loading and validating data ===")
 
 try:
-    df = pd.read_csv("funds_daily_2015_to_2036.csv")
+    # Updated path to load from default_data folder (assuming script runs from project root)
+    csv_path = os.path.join('default_data', 'funds_daily_2015_to_2036.csv')
+    df = pd.read_csv(csv_path)
     df['Date'] = pd.to_datetime(df['Date'], format='%Y-%m-%d', errors='coerce')
     df['Date'] = df['Date'].dt.tz_localize(None)
     df = df.dropna(subset=['Date'])

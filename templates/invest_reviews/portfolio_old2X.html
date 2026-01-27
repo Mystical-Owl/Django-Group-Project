@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Portfolio Calculator{% endblock %}
+
+{% block content %}
+  <!-- Back button -->
+  <div class="container mt-3 mb-4">
+    <a href="{{ back_url }}" class="btn btn-outline-secondary">
+      <i class="fas fa-arrow-left me-2"></i> Back
+    </a>
+  </div>
+
+  <!-- Your portfolio form + charts code here -->
+  <div class="container my-5">
+    <h1 class="mb-4 text-center fw-bold text-danger">Portfolio Calculator</h1>
+    <p class="lead text-center text-muted mb-5">
+      Administrator: Please (1) input the invested data below, or (2) set current_date in admin and retrieve customer data here to calculate.
+    </p>
+
+    <!-- form, charts, etc. -->
+    {% if messages %}
+      <div class="mb-4">
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <!-- Your form code here -->
+    <!-- ... -->
+
+    {% if port_div %}
+      <hr class="my-5">
+      <h3 class="text-center mb-4">Your Portfolio Value Change</h3>
+      <div class="bg-light p-3 rounded shadow-sm">
+        {{ port_div | safe }}
+      </div>
+
+      <div class="text-center mt-4">
+        <button class="btn btn-outline-primary btn-lg" type="button" data-bs-toggle="collapse" data-bs-target="#pieChartCollapse">
+          <i class="fas fa-chart-pie me-2"></i> Next: Current Portfolio Holdings Value
+        </button>
+      </div>
+
+      <div class="collapse mt-4" id="pieChartCollapse">
+        <h3 class="text-center mb-4">Current Portfolio Holdings Value</h3>
+        <div class="bg-light p-3 rounded shadow-sm">
+          {{ pie_div | safe }}
+        </div>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}

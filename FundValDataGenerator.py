@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 from datetime import datetime
+import os  # Added for path joining
 
 # ───────────────────────────────────────────────────────────────
 # CONFIGURATION - using original targets
@@ -151,8 +152,10 @@ df_daily = pd.DataFrame({
     'Fund_D': prices['D'].round(2)
 })
 
-df_daily.to_csv("funds_daily_2015_to_2036.csv", index=False)
-print("Full daily data exported to: funds_daily_2015_to_2036.csv\n")
+# Updated export path to default_data folder (assuming script runs from project root)
+export_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'default_data', 'funds_daily_2015_to_2036.csv')
+df_daily.to_csv(export_path, index=False)
+print(f"Full daily data exported to: {export_path}\n")
 
 # ───────────────────────────────────────────────────────────────
 # Print end values at year-end 2015, 2025, 2036
@@ -201,3 +204,4 @@ for fund in ['A', 'B', 'C', 'D']:
     end = prices[fund].iloc[-1]
     rate = cagr(start, end, 11)
     print(f"Fund {fund}: {rate:5.2f}% (End Value: {end:,.2f})")
+    
