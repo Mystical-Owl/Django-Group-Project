@@ -30,7 +30,7 @@
 
 <div class="container my-5 pt-5"> <!-- pt-5 to avoid overlap with fixed navbar -->
   <h2 class="mb-5 text-center">Funds Performance Overview</h2>
-    <button class="btn btn-success btn-lg">Test Green</button>
+    
   {% if messages %}
     <div class="mb-4">
       {% for message in messages %}
@@ -50,9 +50,9 @@
       </a>
     </div>
 
-    <!-- Performance Since Founded – green -->
+    <!-- Performance Since Founded – dark blue -->
     <div class="col-md-4 col-lg-3">
-      <a href="{% url 'invest_reviews:performance_since_founded' %}" class="btn btn-success btn-lg w-100 py-4">
+      <a href="{% url 'invest_reviews:performance_since_founded' %}" class="btn btn-primary btn-lg w-100 py-4">
         Performance Since Founded
       </a>
     </div>

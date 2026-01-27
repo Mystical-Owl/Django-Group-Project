@@ -8,9 +8,11 @@ import os
 # CREATE OUTPUT FOLDER
 # ───────────────────────────────────────────────────────────────
 
-OUTPUT_FOLDER = os.path.join("static", "FundCharts_Store")
+OUTPUT_FOLDER = os.path.join("config", "static", "FundCharts_Store")
+
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 print(f"All charts will be saved to: {OUTPUT_FOLDER}/\n")
+
 
 # ───────────────────────────────────────────────────────────────
 # IMPROVED DATA LOADING
@@ -222,20 +224,31 @@ def past_return(fund_input, current_date_str, choice):
     current_date = pd.to_datetime(current_date_str)
     start_date = get_start_date(current_date, choice)
     
-    choice_display = format_choice(choice)
+    # Clean choice for display and filename
+    choice_clean = choice.replace("Past_", "").replace("_", " ")
+    
+    # Special handling for "Past_since_this_year" → "Since this year"
+    if choice == "Past_since_this_year":
+        choice_clean = "Since this year"
+        choice_filename = "Since_this_year"
+    elif "since" in choice_clean.lower():
+        choice_clean = choice_clean.replace("since", "Since", 1)  # capitalize "Since"
+        choice_filename = choice_clean.replace(" ", "_")
+    else:
+        choice_filename = choice_clean.replace(" ", "_")
     
     if fund_input.upper() == "ALL":
         fund_cols = ['Fund_A', 'Fund_B', 'Fund_C', 'Fund_D']
-        title = f"All Funds {choice_display} to {current_date_str}"
+        title = f"All Funds {choice_clean} to {current_date_str}"
         fig = create_l_chart(df.loc[start_date:current_date], fund_cols, title, start_date, current_date, is_combined=True)
-        filename = os.path.join(OUTPUT_FOLDER, f"All_Funds_{choice}_to_{current_date_str}.html")
+        filename = os.path.join(OUTPUT_FOLDER, f"All_Funds_{choice_filename}_to_{current_date_str}.html")
     else:
         fund_col = fund_map[fund_input.upper()]
         short_name = short_names[fund_col]
-        title = f"{short_name} {choice_display} to {current_date_str}"
+        title = f"{short_name} {choice_clean} to {current_date_str}"
         data = df.loc[start_date:current_date, [fund_col]]
         fig = create_l_chart(data, [fund_col], title, start_date, current_date)
-        filename = os.path.join(OUTPUT_FOLDER, f"{fund_input.upper()}_{choice}_to_{current_date_str}.html")
+        filename = os.path.join(OUTPUT_FOLDER, f"{fund_input.upper()}_{choice_filename}_to_{current_date_str}.html")
     
     fig.write_html(filename, include_plotlyjs='cdn', auto_open=False)
     print(f"Chart saved to {filename}")
@@ -244,44 +257,57 @@ def past_return(fund_input, current_date_str, choice):
 # ACTION: ILLUSTRATE RETURN
 # ───────────────────────────────────────────────────────────────
 
-def illustrate_return():
+Yodef illustrate_return():
     current_date = datetime(2025, 12, 31)
     current_date_str = "2025-12-31"
     choices = ["Past_since_2016", "Past_since_this_year"]
     funds = ["A", "B", "C", "D"]
     
-    # Individual charts
+    # Individual charts - generate for both "Since 2016" and "Since this year"
+    
+    choices = ["Past_since_2016", "Past_since_this_year"]
     for choice in choices:
         start_date = get_start_date(current_date, choice)
         data = df.loc[start_date:current_date]
-        for fund in funds:
-            fund_col = fund_map[fund]
-            short_name = short_names[fund_col]
-            choice_display = format_choice(choice)
-            title = f"{short_name} {choice_display} to {current_date_str}"
-            fig = create_l_chart(data, [fund_col], title, start_date, current_date)
-            filename = os.path.join(OUTPUT_FOLDER, f"{fund}_{choice}_to_{current_date_str}.html")
-            fig.write_html(filename, include_plotlyjs='cdn', auto_open=False)
-            print(f"Chart saved to {filename}")
-    
-    # Combined L-charts and Bar charts - four fixed periods with Dec 31 start
+
+    # Clean choice for display and filename
+    choice_clean = choice.replace("Past_", "").replace("_", " ")
+    choice_filename = choice_clean.replace(" ", "_")
+
+    # Force "Since" prefix and remove "Past"
+    if "since" in choice_filename.lower():
+        choice_filename = choice_filename.replace("since", "Since", 1)
+        choice_clean = choice_filename.replace("_", " ")
+
+    for fund in funds:
+        fund_col = fund_map[fund]
+        short_name = short_names[fund_col]
+        title = f"{short_name} {choice_clean} to {current_date_str}"
+        fig = create_l_chart(data, [fund_col], title, start_date, current_date)
+        filename = os.path.join(OUTPUT_FOLDER, f"{fund}_{choice_filename}_to_{current_date_str}.html")
+        fig.write_html(filename, include_plotlyjs='cdn', auto_open=False)
+        print(f"Chart saved to {filename}")
+
+
+    # Combined L-charts and Bar charts - four fixed periods
     combined_periods = [
         ("Past_since_2016", datetime(2015, 12, 31), "Since 2016"),
         ("Since_2020", datetime(2019, 12, 31), "Since 2020"),
         ("Since_2023", datetime(2022, 12, 31), "Since 2023"),
         ("Past_since_this_year", datetime(2024, 12, 31), "Since this year")
     ]
-    
-    for _, start_date, title_suffix in combined_periods:
+
+    for choice, start_date, title_suffix in combined_periods:
         data = df.loc[start_date:current_date]
         title = f"All Funds {title_suffix} to {current_date_str}"
         fig = create_l_chart(data, ['Fund_A', 'Fund_B', 'Fund_C', 'Fund_D'], title, start_date, current_date, is_combined=True)
+        # Use title_suffix for filename (already clean: "Since_2016", etc.)
         filename = os.path.join(OUTPUT_FOLDER, f"Combined_All_Funds_{title_suffix.replace(' ', '_')}_to_{current_date_str}.html")
         fig.write_html(filename, include_plotlyjs='cdn', auto_open=False)
         print(f"Chart saved to {filename}")
-    
-    # Bar charts
-    for _, start_date, title_suffix in combined_periods:
+
+    # Bar charts (same logic)
+    for choice, start_date, title_suffix in combined_periods:
         data = df.loc[start_date:current_date]
         pct_changes = {}
         for fund in funds:

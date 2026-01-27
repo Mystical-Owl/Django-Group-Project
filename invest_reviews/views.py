@@ -119,7 +119,9 @@ def get_back_url(request):
         return referer
     return reverse('invest_reviews:main')  # This will now work after app_name is set
 
-# Main page (your existing one, with placeholders)
+
+# -- Main page of invest_reviews ---
+
 @login_required
 def invest_reviews_view(request):
     chart_folder = 'FundCharts_Store'
@@ -131,7 +133,8 @@ def invest_reviews_view(request):
     }
     return render(request, 'invest_reviews/invest_reviews.html', context)
 
-# Portfolio view (your existing one)
+# -- Your Portfolio Output View --
+
 @login_required
 def portfolio_view(request):
     df = get_fund_data()
@@ -243,43 +246,14 @@ def portfolio_view(request):
     
     return render(request, 'invest_reviews/portfolio.html', {'form': form})
 
-# Placeholder views (minimal to stop import errors)
+
+# -- Fund Description Views --
 @login_required
 def fund_descriptions_view(request):
     return render(request, 'invest_reviews/fund_descriptions.html', {
         'fund_briefs': fund_briefs,
-        'back_url': request.META.get('HTTP_REFERER', reverse('invest_reviews:main')),
+        'back_url': get_back_url(request),
     })
-
-@login_required
-def fund_detail_view(request, fund_key):
-    brief = fund_briefs.get(fund_key, {'short': 'Not found', 'long': 'No description'})
-    chart_file = f"{fund_key}_Since_2016_to_2025-12-31.html"
-    return render(request, 'invest_reviews/fund_detail.html', {
-        'fund_key': fund_key,
-        'short': brief['short'],
-        'long': brief['long'],
-        'chart_path': f"FundCharts_Store/{chart_file}",
-        'back_url': request.META.get('HTTP_REFERER', reverse('invest_reviews:main')),
-    })
-
-@login_required
-def performance_since_founded_view(request):
-    chart_file = "Combined_All_Funds_Since_2016_to_2025-12-31.html"
-    return render(request, 'invest_reviews/performance_since_founded.html', {
-        'chart_path': f"FundCharts_Store/{chart_file}",
-        'back_url': request.META.get('HTTP_REFERER', reverse('invest_reviews:main')),
-    })
-
-@login_required
-def fund_individual_since_founded_view(request, fund_key):
-    chart_file = f"{fund_key}_Since_2016_to_2025-12-31.html"
-    return render(request, 'invest_reviews/fund_individual.html', {
-        'fund_key': fund_key,
-        'chart_path': f"FundCharts_Store/{chart_file}",
-        'back_url': request.META.get('HTTP_REFERER', reverse('invest_reviews:main')),
-    })
-
 
 @login_required
 def fund_detail_view(request, fund_key):
@@ -287,37 +261,80 @@ def fund_detail_view(request, fund_key):
         return redirect('invest_reviews:fund_descriptions')
     
     brief = fund_briefs[fund_key]
-    chart_file = f"{fund_key}_Since_2016_to_2025-12-31.html"  # Adjust if your filenames differ
+    chart_file = f"{fund_key}_Since_2016_to_2025-12-31.html"  # correct filename
     
     context = {
         'fund_key': fund_key,
         'short': brief['short'],
         'long': brief['long'],
         'chart_path': f"FundCharts_Store/{chart_file}",
-        'back_url': get_back_url(request),  
+        'back_url': get_back_url(request),
     }
     return render(request, 'invest_reviews/fund_detail.html', context)
+
+# -- Performance Since Founded Views --
 @login_required
 def performance_since_founded_view(request):
-    return render(request, 'invest_reviews/performance_since_founded.html', {
-        'back_url': request.META.get('HTTP_REFERER', reverse('invest_reviews:main')),
-    })
+    combined_chart = "FundCharts_Store/Combined_All_Funds_Since_2016_to_2025-12-31.html"
+    
+    context = {
+        'combined_chart': combined_chart,
+        'back_url': get_back_url(request),
+    }
+    return render(request, 'invest_reviews/performance_since_founded.html', context)
 
 @login_required
 def fund_individual_since_founded_view(request, fund_key):
-    return render(request, 'invest_reviews/fund_individual.html', {
+    if fund_key not in ['A', 'B', 'C', 'D']:
+        return redirect('invest_reviews:performance_since_founded')
+    
+    chart_file = f"{fund_key}_Since_2016_to_2025-12-31.html"  # correct filename
+    
+    context = {
         'fund_key': fund_key,
-        'back_url': request.META.get('HTTP_REFERER', reverse('invest_reviews:main')),
-    })
+        'chart_path': f"FundCharts_Store/{chart_file}",
+        'back_url': get_back_url(request),
+    }
+    return render(request, 'invest_reviews/fund_individual.html', context)
 
+# -- This Year Performance Views --
 @login_required
 def this_year_performance_view(request):
-    return render(request, 'invest_reviews/this_year_performance.html', {
-        'back_url': request.META.get('HTTP_REFERER', reverse('invest_reviews:main')),
-    })
+    combined_chart = "FundCharts_Store/Combined_All_Funds_Since_this_year_to_2025-12-31.html"
+    
+    context = {
+        'combined_chart': combined_chart,
+        'back_url': get_back_url(request),
+    }
+    return render(request, 'invest_reviews/this_year_performance.html', context)
 
+@login_required
+def fund_individual_this_year_view(request, fund_key):
+    if fund_key not in ['A', 'B', 'C', 'D']:
+        return redirect('invest_reviews:this_year_performance')
+    
+    chart_file = f"{fund_key}_Since_this_year_to_2025-12-31.html"
+    
+    context = {
+        'fund_key': fund_key,
+        'chart_path': f"FundCharts_Store/{chart_file}",
+        'back_url': get_back_url(request),
+    }
+    return render(request, 'invest_reviews/fund_individual_this_year.html', context)
+
+print("DEBUG: fund_individual_this_year_view is defined")  # add this line right after the function definition
+
+
+
+#  -- More to See View --
 @login_required
 def more_to_see_view(request):
     return render(request, 'invest_reviews/more_to_see.html', {
-        'back_url': request.META.get('HTTP_REFERER', reverse('invest_reviews:main')),
+        'back_url': get_back_url(request),
     })
+
+
+
+@login_required
+def test_this_year_fund(request, fund_key):
+    return HttpResponse(f"Test OK! You clicked Fund {fund_key}")
