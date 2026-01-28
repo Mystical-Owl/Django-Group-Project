@@ -1,11 +1,13 @@
 
 
+### after george committed, merge with master and push
 git switch master
 git merge george
 git push -u origin master
 git switch george
 
 
+### pull all branches down to local computer
 git switch andrew
 git pull origin andrew
 git switch franco
@@ -18,7 +20,9 @@ git switch george
 git pull origin george
 
 
-
+### after master committed, push and merge all branches
+git switch master
+git push -u origin master
 git switch andrew
 git pull origin master
 git push -u origin andrew
@@ -30,10 +34,11 @@ git pull origin master
 git push -u origin howard
 git switch george
 git pull origin master
-git push -u origin andrew
+git push -u origin george
+git switch master
 
 
-
+### merge all branches into master and push
 git switch master
 git pull origin andrew
 git pull origin franco
