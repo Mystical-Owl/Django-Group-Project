@@ -19,6 +19,21 @@ git pull origin george
 
 
 
+git switch andrew
+git pull origin master
+git push -u origin andrew
+git switch franco
+git pull origin master
+git push -u origin franco
+git switch howard
+git pull origin master
+git push -u origin howard
+git switch george
+git pull origin master
+git push -u origin andrew
+
+
+
 git switch master
 git pull origin andrew
 git pull origin franco
